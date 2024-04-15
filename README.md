@@ -1,0 +1,2 @@
+# scfront
+SoundCrate frontend
