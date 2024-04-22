@@ -1,4 +1,4 @@
-# Sound Crate Front-End Design
+# SoundCrate Front-End Design
 
 ## Description
 
