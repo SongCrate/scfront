@@ -1,0 +1,47 @@
+#user-info-section {
+  background-color: var(--base-fg);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  gap: var(--spacing-base);
+}
+
+#user-img {
+  /* profile-info child */
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: var(--rounded-sm);
+}
+
+#username {
+  margin: 0;
+}
+
+#user-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+#user-stats {
+  /* profile-details child */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: var(--spacing-sm);
+}
+
+#user-stats .user-stats-child {
+  text-transform: uppercase;
+  font-size: var(--text-sm);
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+}
+
+#user-stats .user-stats-label {
+  color: var(--text-darkened);
+  letter-spacing: 0.11em;
+}
