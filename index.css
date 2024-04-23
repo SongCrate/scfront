@@ -1,8 +1,24 @@
 :root {
     /* theme colors */
     --base: #131c26;
-    --base-fg: #1f2937;
+    --base-fg: hsl(215, 28%, 17%);
     --text: #f9f6f4;
+    --text-darkened: #a6a5a9;
+
+    /* border radius */
+    --rounded-base: 10px;
+    --rounded-sm: 6px;
+
+    /* spacing */
+    --spacing-base: 15px;
+    --spacing-sm: 12px;
+    --spacing-xs: 8px;
+
+    /* font size */
+    --text-md: 1.2em;
+    --text-base: 1em;
+    --text-sm: 0.8em;
+    --text-xs: 0.7em;
 }
 
 body {
@@ -21,4 +37,9 @@ a:link, a:visited {
     width: 60vw;
     max-width: 1300px;
     margin: 100px auto;
+}
+
+.container-box {
+    border-radius: var(--rounded-base);
+    padding: var(--spacing-base);
 }
