@@ -7,6 +7,7 @@ SoundCrate is a web application that allows users to rate and review music inter
 ## Table of Contents
 - [Features](#features)
 - [Collaborators](#collaborators)
+- [Technology](#technology)
 
 ## Features
 
@@ -18,6 +19,13 @@ SoundCrate is a web application that allows users to rate and review music inter
 - Song Review Page
 - Album Page
 - Album Review Page
+
+## Technology
+
+- JavaScript
+- HTML
+- CSS
+- Spotify Web API
 
 ## Collaborators
 
