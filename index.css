@@ -1,14 +1,14 @@
 :root {
     /* theme colors */
-    --base: #1f2937;
-    --base-dark: #131c26;
+    --base: #131c26;
+    --base-fg: #1f2937;
     --text: #f9f6f4;
 }
 
 body {
     font: normal 1em "Work Sans", sans-serif;
     color: var(--text);
-    background-color: var(--base-dark);
+    background-color: var(--base);
 }
 
 a:link, a:visited {
