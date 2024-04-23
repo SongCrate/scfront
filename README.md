@@ -25,13 +25,11 @@ SoundCrate is a web application that allows users to rate and review music inter
 - JavaScript
 - HTML
 - CSS
-- Spotify Web API
+- Spotify Web API: https://developer.spotify.com/documentation/web-api
 
 ## Collaborators
 
-Ashley Anyanwu
-Jem Eduria
-Annesa Tran
-Sophia Tran
-
-Spotify Web API
+- Ashley Anyanwu
+- Jem Eduria
+- Annesa Tran
+- Sophia Tran
