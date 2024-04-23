@@ -14,7 +14,7 @@
     <!-- header content -->
   </header>
   
-  <main class="main-container">
+  <main id="profile-container" class="main-container">
     <!-- profile picture and profile details-->
     <section id="user-info-section" class="container-box">
       <img id="user-img" src="public/janedoe-img.jpg" alt="janedoe">
@@ -40,27 +40,26 @@
           </span>
         </div>
       </div> 
-    </section> 
-    
-    <div class="col-1">
-      <section id="profile-reviews" class="container-box">
-        <!-- song reviews -->
-        <h3>Song Reviews</h3>
-      </section>
-      <section id="profile-albums" class="container-box">
-        <!-- albums -->
-        <h3>Albums</h3>
-      </section>
-    </div>
-
-    <div class="col-2">
-      <section id="profile-lists" class="container-box">
-        <!-- lists -->
-        <h3>Lists</h3>
-      </section>
-    </div>
-
     </section>
+
+    <div id="profile-contents" class="container-box">
+    
+      <div class="col-1">
+        <section id="profile-reviews">
+          <h3>Song Reviews</h3>
+        </section>
+        <section id="profile-albums">
+          <h3>Albums</h3>
+        </section>
+      </div>
+
+      <div class="col-2">
+        <section id="profile-lists">
+          <h3>Lists</h3>
+        </section>
+      </div>
+
+    </div>
   </main>
 </body>
 

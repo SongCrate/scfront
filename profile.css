@@ -1,3 +1,8 @@
+#profile-container {
+  display: flex;
+  flex-direction: column;
+}
+
 #user-info-section {
   background-color: var(--base-fg);
   display: flex;
@@ -44,4 +49,22 @@
 #user-stats .user-stats-label {
   color: var(--text-darkened);
   letter-spacing: 0.11em;
+}
+
+#profile-contents {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--spacing-md)
+}
+
+#profile-contents .col-1 {
+  flex-grow: 3;
+}
+#profile-contents .col-2 {
+  flex-grow: 2;
+}
+
+#profile-contents section {
+  background-color: var(--base-fg);
 }
