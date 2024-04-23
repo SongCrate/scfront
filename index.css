@@ -1,0 +1,24 @@
+:root {
+    /* theme colors */
+    --base: #131c26;
+    --base-fg: #1f2937;
+    --text: #f9f6f4;
+}
+
+body {
+    font: normal 1em "Work Sans", sans-serif;
+    color: var(--text);
+    background-color: var(--base);
+}
+
+a:link, a:visited {
+    color: var(--text)
+}
+
+.main-container {
+    /* main body content */
+    min-width: 650px;
+    width: 60vw;
+    max-width: 1300px;
+    margin: 100px auto;
+}
