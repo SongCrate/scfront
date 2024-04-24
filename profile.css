@@ -47,7 +47,7 @@
   gap: 5px;
 }
 
-#user-stats .user-stats-label {
+.label-sm {
   color: var(--text-darkened);
   letter-spacing: 0.11em;
 }
@@ -56,7 +56,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: var(--spacing-md)
+  gap: var(--spacing-lg);
 }
 
 #profile-contents .col-1 {
@@ -85,4 +85,44 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xs);
+}
+
+#lists-contents hr {
+  opacity: 0.3;
+  margin: var(--spacing-sm) 0;
+}
+
+.list-card {
+  width: 100%;
+  max-height: fit-content;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.list-card .list-body {
+  /* album art + review details */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+
+.list-card p {
+  font-size: var(--text-sm);
+  word-wrap: break-word;
+}
+
+.list-card img {
+  height: 50px;
+  width: auto;
+  border-radius: var(--rounded-sm);
+}
+
+.list-card .list-details {
+  /* song title/artist + rating + review text */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xxs);
 }

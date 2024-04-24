@@ -57,7 +57,6 @@ a:link, a:visited {
 /* REVIEW CARD COMPONENT */
 .review-card {
     background-color: var(--base-fg);
-    width: 100%;
     max-height: fit-content;
 
     display: flex;
@@ -65,7 +64,6 @@ a:link, a:visited {
     align-items: center;
     justify-content: space-between;
     gap: var(--spacing-sm);
-    padding: var(--spacing-sm);
 }
   
 .review-card .review-body {
