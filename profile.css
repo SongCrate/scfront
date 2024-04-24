@@ -102,13 +102,6 @@
   gap: var(--spacing-sm);
 }
 
-.list-card .list-body {
-  /* album art + review details */
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
 .list-card p {
   font-size: var(--text-sm);
   word-wrap: break-word;
@@ -121,7 +114,7 @@
 }
 
 .list-card .list-details {
-  /* song title/artist + rating + review text */
+  /* playlist name + song count */
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xxs);
