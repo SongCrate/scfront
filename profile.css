@@ -95,6 +95,7 @@
 .list-card {
   width: 100%;
   max-height: fit-content;
+  padding: 0 var(--spacing-sm);
 
   display: flex;
   flex-direction: row;
