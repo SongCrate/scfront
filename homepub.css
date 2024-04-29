@@ -84,7 +84,7 @@
 
 .intro p {
     text-align: center;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 30px;
 }
 
@@ -116,5 +116,5 @@
 }
 
 .intro span button a:hover {
-    color: gray;
+    color: #adadad;
 }
