@@ -1,6 +1,9 @@
 import '../styles/global.css';
 import { Work_Sans} from 'next/font/google';
-import { NavBar } from '@/components';
+import { 
+  NavBar,
+  PrelineScript 
+} from '@/components';
 
 const work_sans = Work_Sans({ subsets: ['latin'] });
 
@@ -14,10 +17,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={work_sans.className}>
         <NavBar />
-        <main class="main-container">
+        <main className="main-container">
           {children}
         </main>
       </body>
+      <PrelineScript />
     </html>
   );
 }

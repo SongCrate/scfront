@@ -1,9 +1,8 @@
+import { redirect } from 'next/navigation';
+
 export default function UserPage({ params }) {
   const { username } = params;
+  redirect(`${username}/profile`);
 
-  return (
-    <>
-      <h1>UserPage for {username}</h1>
-    </>
-  );
+  return null;
 }

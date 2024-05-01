@@ -2,12 +2,14 @@
 module.exports = {
   content: [
     './src/**/*.{js,ts,jsx,tsx,mdx}',
+    'node_modules/preline/dist/*.js',
   ],
   theme: {
     colors: {
       'dark': '#131c26',
       'dark-100': '#1f2937',
       'light': '#f9f6f4',
+      'accent': '#9ad4d6',
 
       'blue': '#1fb6ff',
       'purple': '#7e5bef',
@@ -21,5 +23,7 @@ module.exports = {
     },
     extend: { },
   },
-  plugins: [],
+  plugins: [
+    require('preline/plugin'),
+  ],
 }
