@@ -86,13 +86,47 @@
   flex-direction: column;
   gap: var(--spacing-xs);
 }
-#reviews-section .review-text-container{
+.profile-section-text-container{
+  display: flex;
+  justify-content: flex-start;
+
+}
+.profile-section-text-container .profile-section-subtitle{
+  font-weight: normal;
+  font-size: medium;
+  padding-right: 5px;
+  padding-left: 51%;
+  cursor: pointer;
+}
+
+profile-section-text-container i{
+  font-size: medium;
+  cursor: pointer;
+
+}
+
+#albums-contents{
   display: flex;
   justify-content: space-between;
 }
-#reviews-section .review-text-container .all-reviews{
-  font-weight: normal;
+
+.album-card img{
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
 }
+
+.album-card h2{
+  font-size: medium;
+  font-weight: bold;
+}
+
+.album-card p{
+  font-size: small;
+  font-weight: normal;
+  color: var(--text-darkened);
+}
+
 
 #lists-contents hr {
   opacity: 0.3;
