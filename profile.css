@@ -86,12 +86,32 @@
   flex-direction: column;
   gap: var(--spacing-xs);
 }
-#reviews-section .review-text-container{
+
+.section-header {
   display: flex;
   justify-content: space-between;
 }
-#reviews-section .review-text-container .all-reviews{
+
+#all-reviews-label {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.section-header-label-sm {
   font-weight: normal;
+  font-size: var(--text-base);
+}
+
+#new-list-btn {
+  font-family: inherit;
+  font-size: var(--text-sm);
+  color: var(--text);
+  background-color: var(--base-fg);
+  padding: var(--spacing-xs);
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: var(--rounded-sm);
 }
 
 #lists-contents hr {
@@ -128,31 +148,29 @@
   gap: var(--spacing-xxs);
 }
 
-/* HEADER COMPONENT */
 
+/* ALBUM COMPONENT */
 
-.header-container{
+#albums-contents {
   display: flex;
-  height: 55px;
-  background-color: white;
-  color: black;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px 20px;
+  gap: var(--spacing-sm);
+  margin-bottom: 10px;
 }
 
-
-.header-container h1{
-  font-weight: bold;
-  margin-right: 50%;
+#albums-contents img {
+  height: 125px; /* Set the height of the images */
+  width: auto; /* Allow the width to adjust proportionally */
+  border-radius: var(--rounded-sm);
 }
 
-
-.header-container a:link, a:visited {
-  color: black;
-  text-decoration: none;
+#albums-contents h4 {
+  margin-top: 5px;
 }
 
+.artist-labels {
+  font-size: var(--text-sm);;
+  font-weight: 300;
+  color: rgb(180, 180, 180);
+}
 
-/* END HEADER COMPONENT */
-
+/* END ALBUM COMPONENT */
