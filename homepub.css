@@ -95,28 +95,28 @@
     justify-content: center;
 }
 
-.intro span button {
+.intro span a{
     font-size: 15px;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    padding: 15px 10px 15px 10px;
+    transition: transform 0.3s;
+}
+
+.intro span a:hover{
     padding: 10px 10px;
     background: black;
     border: none;
-    cursor: pointer;
-    font-weight: bold;
-    letter-spacing: 0.5px;
+    color: white;
     border-radius: var(--rounded-sm);
-    margin-left: 2.5px
 }
 
-.intro span button:first-child {
-    margin-right: 10px;
+.register-link:hover ~ .login-link {
+    transform: translateX(10px);
 }
 
-.intro span button a {
-    text-decoration: none;
-}
-
-.intro span button a:hover {
-    color: #adadad;
+.login-link:hover ~ .register-link {
+    transform: translateX(-10px);
 }
 
 /* HEADER COMPONENT */
