@@ -120,7 +120,7 @@ profile-section-text-container i{
   font-size: var(--text-base);
 }
 
-#new-list-btn {
+#create-list-btn {
   font-family: inherit;
   font-size: var(--text-sm);
   color: var(--text);

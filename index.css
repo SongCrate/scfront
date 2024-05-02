@@ -133,3 +133,41 @@ a:link, a:visited {
 
 
 /* END HEADER COMPONENT */
+
+
+/* MODAL COMPONENT */
+
+.modal {
+    /* modal background overlay */
+    z-index: 9;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+  }
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.modal-content {
+    background-color: var(--base-fg);
+    margin: 20% auto;
+    padding: var(--spacing-md);
+    border-radius: var(--rounded-base);
+    width: 40%;
+}
+
+.close {
+    color: var(--text-darkened);
+    float: right;
+}
+
+/* END MODAL COMPONENT */
