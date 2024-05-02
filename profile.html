@@ -186,13 +186,33 @@
 
     </div>
 
+    <!-- modal to create a new list -->
     <div id="create-list-modal" class="modal">
       <div class="modal-content">
         <div class="modal-header">
-          <h3>Header</h3>
+          <h3>Create New List</h3>
           <i class="fa fa-times close" id="create-list-modal-close" aria-hidden="true"></i>
         </div>
-        <p>Some text in the Modal..</p>
+
+        <form class="form">
+          <div class="form-input">
+            <label htmlFor="list-name-input">Name</label>
+            <input type="email" id="list-name-input"/>
+          </div>
+  
+          <div class="form-input">
+            <label htmlFor="list-desc-textarea"">
+              Description (Optional)
+            </label>
+            <textarea id="list-desc-textarea" rows="3"></textarea>
+          </div>
+
+          <div class="button-group">
+            <button id="create-list-modal-cancel-btn" class="ghost-btn" type="button">Cancel</button>
+            <button type="submit">Create New List</button>
+          </div>
+        </form>
+
       </div>
     </div>
 

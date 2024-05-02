@@ -41,6 +41,16 @@ a:link, a:visited {
     color: var(--text)
 }
 
+button {
+    font-family: inherit;
+    padding: var(--spacing-xs);
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: var(--rounded-sm);
+}
+
+
 .main-container {
     /* main body content */
     min-width: 650px;
@@ -53,6 +63,40 @@ a:link, a:visited {
     border-radius: var(--rounded-base);
     padding: var(--spacing-base);
 }
+
+/* CUSTOM FORM STYLING */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.form-input {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.form-input label {
+    color: var(--text-darkened);
+    font-size: var(--text-sm);
+}
+
+.form-input input,textarea {
+    font: inherit;
+    padding: var(--spacing-sm);
+    border: none;
+    border-radius: var(--rounded-sm);
+}
+
+.form > .button-group {
+    display: flex;
+    align-self: flex-end;
+    gap: var(--spacing-sm);
+}
+
+/* END CUSTOM FORM STYLING */
 
 /* REVIEW CARD COMPONENT */
 .review-card {
@@ -107,7 +151,6 @@ a:link, a:visited {
 /* END REVIEW CARD COMPONENT */
 
 /* HEADER COMPONENT */
-
 
 .header-container{
     display: flex;
