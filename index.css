@@ -54,8 +54,7 @@ a:link, a:visited {
     padding: var(--spacing-base);
 }
 
-/* REVIEW CARD COMPONENT */
-.review-card {
+.saved-card {
     background-color: var(--base-fg);
     max-height: fit-content;
 
@@ -65,43 +64,26 @@ a:link, a:visited {
     justify-content: space-between;
     gap: var(--spacing-sm);
 }
-  
-.review-card .review-body {
-    /* album art + review details */
+
+.saved-card .saved-details {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: var(--spacing-sm);
 }
-  
-.review-card .review-body p {
-    font-size: var(--text-sm);
-    word-wrap: break-word;
-}
 
-.review-card .artist-label {
-    color: var(--text-darkened);
-    font-weight: lighter;
-}
+.other-card {
+    background-color: var(--base-fg);
+    max-height: fit-content;
 
-.review-card img {
-    height: 60px;
-    width: auto;
-    border-radius: var(--rounded-sm);
-}
-  
-.review-card .review-details {
-    /* song title/artist + rating + review text */
     display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xxs);
-}
-
-.review-card .review-likes {
-    /* heart icon + like count */
-    display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: var(--spacing-xxs);
-    width: 50px;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
 }
-/* END REVIEW CARD COMPONENT */
+
+.other-card .other-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
