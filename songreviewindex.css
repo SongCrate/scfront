@@ -52,6 +52,7 @@ a:link, a:visited {
 .container-box {
     border-radius: var(--rounded-base);
     padding: var(--spacing-base);
+    min-width: 300px;
 }
 
 .saved-card {
@@ -61,7 +62,7 @@ a:link, a:visited {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: left;
     gap: var(--spacing-sm);
 }
 
@@ -78,7 +79,7 @@ a:link, a:visited {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: left;
     gap: var(--spacing-sm);
 }
 

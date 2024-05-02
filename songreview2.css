@@ -76,11 +76,12 @@
 
   #album-and-arrow {
     background-color: var(--base-fg);
+    min-width: 500px;
     max-height: 200px;
 
     display: flex;
     flex-direction: row;
-    align-items: right;
+    align-items: center;
     justify-content: space-between;
     gap: var(--spacing-sm);
 
@@ -108,6 +109,7 @@
     gap: var(--spacing-xxs);
     width: 50px;
     font-weight: bold;
+    font-size: larger;
     
   }
 
