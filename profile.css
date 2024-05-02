@@ -86,6 +86,13 @@
   flex-direction: column;
   gap: var(--spacing-xs);
 }
+#reviews-section .review-text-container{
+  display: flex;
+  justify-content: space-between;
+}
+#reviews-section .review-text-container .all-reviews{
+  font-weight: normal;
+}
 
 #lists-contents hr {
   opacity: 0.3;
