@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.5",
+    "@preline/overlay": "^2.1.0",
     "next": "latest",
     "preline": "^2.1.0",
     "react": "18.2.0",

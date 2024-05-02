@@ -30,24 +30,26 @@ export default function UserProfileLayout({ children, params }) {
         <div className="flex flex-col gap-1">
           <h1>{username}</h1>
           {/* stats container: reviews, albums, followers, following */}
-          <div className="flex flex-nowrap gap-3">
+          <div className="flex flex-nowrap gap-2 items-end">
             <UserProfileStatistic
               number={user_data.review_count}
               label={"Reviews"}
+              href={`/user/${username}/profile/`}
             />
             <UserProfileStatistic
               number={user_data.album_count}
               label={"Albums"}
+              href={`/user/${username}/profile/`}
             />
             <UserProfileStatistic
               number={user_data.follower_count}
               label={"Followers"}
-              href={"/profile/followers"}
+              href={`/user/${username}/profile/followers`}
             />
             <UserProfileStatistic
               number={user_data.following_count}
               label={"Following"}
-              href={"/profile/following"}
+              href={`/user/${username}/profile/following`}
             />
           </div>
 

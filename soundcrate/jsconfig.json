@@ -1,7 +1,19 @@
 {
   "compilerOptions": {
+    "module": "commonjs",
     "paths": {
       "@/*": ["./src/*"]
     }
   }
 }
+
+// {
+//   "compilerOptions": {
+//       "lib": ["ES2017"],
+//       "module": "commonjs",
+//       "strict": true,
+//       "target": "es5",
+//       "baseUrl": "./types"
+//   },
+//   "files": ["tests.ts"]
+// }

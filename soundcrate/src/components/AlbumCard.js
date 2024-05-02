@@ -7,7 +7,7 @@ export default function AlbumCard({ album_data={} }) {
   return (
     <Link href="">
       {/* 1 - album card*/}
-      <div className="max-h-fit flex flex-col gap-1 w-[100px]">
+      <div className="w-full flex flex-col gap-1">
 
         {/* 1.1 - album art */}
         <Image
@@ -15,16 +15,16 @@ export default function AlbumCard({ album_data={} }) {
           alt={`${album_data.album_name} by ${album_data.artist_name}`}
           width={100}
           height={100}
-          className="rounded-md"
+          className="rounded-md w-full"
         />
         
         {/* 1.2 album name */}
-        <h4>
+        <h4 className="truncate">
           {album_data.album_name}
         </h4>
 
         {/* 1.2 artist name */}
-        <p className="text-sm opacity-60 truncate leading-none">
+        <p className="text-sm opacity-60 leading-none truncate">
           {album_data.artist_name}
         </p>
         
