@@ -47,7 +47,7 @@ export default function CreateListModal() {
 
   return (
     <>
-      <button type="button" className="btn p-2 bg-dark-100 text-white rounded-md hover:bg-blue" data-hs-overlay={"#"+modal_id}>
+      <button type="button" className="btn p-2 bg-dark-light text-white rounded-md hover:bg-blue" data-hs-overlay={"#"+modal_id}>
         <Plus weight="bold" className="mr-1" /> New
       </button>
 

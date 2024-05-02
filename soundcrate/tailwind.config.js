@@ -6,8 +6,12 @@ export const content = [
 
 export const theme = {
   colors: {
-    'dark': '#131c26',
-    'dark-100': '#1f2937',
+    'dark': {
+      light: '#1f2937',
+      DEFAULT: '#131c26',
+      dark: '#0d141b'
+    },
+    
     'light': '#f9f6f4',
     'accent': '#9ad4d6',
 

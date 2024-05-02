@@ -41,7 +41,7 @@
   }
 
   .box-container {
-    @apply bg-dark-100 rounded-lg p-4
+    @apply bg-dark-light rounded-lg p-4
   }
 
   .btn { 
