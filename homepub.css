@@ -1,0 +1,148 @@
+#reviews-contents {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+  
+#lists-contents hr {
+    opacity: 0.3;
+    margin: var(--spacing-sm) 0;
+}
+
+.list-card {
+    width: 100%;
+    max-height: fit-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.list-card .list-body {
+    /* album art + review details */
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.list-card p {
+    font-size: var(--text-sm);
+    word-wrap: break-word;
+}
+
+.list-card img {
+    height: 50px;
+    width: auto;
+    border-radius: var(--rounded-sm);
+}
+
+.list-card .list-details {
+    /* song title/artist + rating + review text */
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xxs);
+}
+  
+.reviews h3 {
+    margin-bottom: 10px;
+}
+
+.new-releases {
+    margin-bottom: 50px;
+}
+
+.new-releases h3 {
+    margin-bottom: 10px;
+}
+.new-releases-song {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: 10px;
+}
+
+.new-releases-song img {
+    height: 125px; /* Set the height of the images */
+    width: auto; /* Allow the width to adjust proportionally */
+    border-radius: var(--rounded-sm);
+    border: solid black;
+    margin-right: 34px;
+}
+
+.new-releases-song h4 {
+    margin-top: 5px;
+}
+
+.artist-label {
+    font-size: var(--text-sm);;
+    font-weight: 300;
+    color: rgb(180, 180, 180);
+}
+
+.intro {
+    margin-bottom: 50px;
+}
+
+.intro p {
+    text-align: center;
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.intro span {
+    margin-top: 20px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.intro span a{
+    font-size: 15px;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    padding: 15px 10px 15px 10px;
+    transition: transform 0.3s;
+}
+
+.intro span a:hover{
+    padding: 10px 10px;
+    background: black;
+    border: none;
+    color: white;
+    border-radius: var(--rounded-sm);
+}
+
+.register-link:hover ~ .login-link {
+    transform: translateX(10px);
+}
+
+.login-link:hover ~ .register-link {
+    transform: translateX(-10px);
+}
+
+/* HEADER COMPONENT */
+
+
+.header-container{
+    display: flex;
+    height: 55px;
+    background-color: white;
+    color: black;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+
+.header-container h1{
+    font-weight: bold;
+    margin-right: 50%;
+}
+
+
+.header-container a:link, a:visited {
+    color: black;
+    text-decoration: none;
+}
+
+
+/* END HEADER COMPONENT */
