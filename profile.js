@@ -1,6 +1,6 @@
 var modal = document.getElementById("create-list-modal");
 var btn = document.getElementById("create-list-btn");
-var close_btn = document.getElementsByClassName("close")[0];
+var close_btn = document.getElementById("create-list-modal-close");
 
 // open modal by clicking button
 btn.onclick = function() {
