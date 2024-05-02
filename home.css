@@ -118,3 +118,31 @@
 .intro span button a:hover {
     color: #adadad;
 }
+
+/* HEADER COMPONENT */
+
+
+.header-container{
+    display: flex;
+    height: 55px;
+    background-color: white;
+    color: black;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+
+.header-container h1{
+    font-weight: bold;
+    margin-right: 50%;
+}
+
+
+.header-container a:link, a:visited {
+    color: black;
+    text-decoration: none;
+}
+
+
+/* END HEADER COMPONENT */
