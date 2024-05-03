@@ -17,9 +17,10 @@
 <body>
   <header class="header-container">
     <h1>SoundCrate</h1>
-    <a href="login.html">EXPLORE</a>
-    <a href="login.html">JANEDOE</a>
+    <a href="home.html">EXPLORE</a>
+    <div id="account_btn">JANEDOE</div>
   </header>
+
 
 
 <main id="profile-container" class="main-container">
@@ -40,11 +41,11 @@
           </span>
           <span class="user-stats-child">
             <span>10</span>
-            <span class="label-sm">Followers</span>
+            <span id="followers" class="label-sm">Followers</span>
           </span>
           <span class="user-stats-child">
             <span>3</span>
-            <span class="label-sm">Following</span>
+            <span id="following" class="label-sm">Following</span>
           </span>
         </div>
       </div> 
@@ -201,7 +202,7 @@
           </div>
   
           <div class="form-input">
-            <label htmlFor="list-desc-textarea"">
+            <label htmlFor="list-desc-textarea">
               Description (Optional)
             </label>
             <textarea id="list-desc-textarea" rows="3"></textarea>
@@ -215,6 +216,74 @@
 
       </div>
     </div>
+
+  <!-- modal for account settings/logout -->
+    <div id="account-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Account Settings</h3>
+          <i class="fa fa-times close" id="account-modal-close"
+             aria-hidden="true"></i>
+        </div>
+        <div class="settings">
+          <div>
+            <p>Email</p>
+            <label class="label-sm">janedoe@email.com</label>
+          </div>
+        </div>
+        <hr>
+        <div class="settings">
+          <div>
+            <p>Username</p>
+            <label class="label-sm">janedoe</label>
+          </div>
+        </div>
+        <hr>
+        <div class="settings">
+          <div>
+            <p>Password</p>
+            <label class="label-sm">••••••••••••</label>
+          </div>
+        </div>
+        <button type="submit" id="update">Update</button>
+      </div>
+    </div>
+  <!-- modal for update account -->
+  <div id="update-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Update Profile</h3>
+        <i class="fa fa-times close" id="update-modal-close"
+           aria-hidden="true"></i>
+      </div>
+      <div class="update-contents">
+        <img id="user-img" src="public/janedoe-img.jpg" alt="janedoe">
+        <form class="form">
+          <div class="form-input">
+            <label htmlFor="list-name-input">Username</label>
+            <input type="email" placeholder="janedoe"/>
+          </div>
+          <div class="form-input">
+            <label htmlFor="list-name-input">Email</label>
+            <input type="email" placeholder="janedoe@email.com"/>
+          </div>
+          <div class="form-input">
+            <label htmlFor="list-name-input">Password</label>
+            <input type="password" placeholder="••••••••••••"/>
+          </div>
+          <div class="form-input">
+            <label htmlFor="list-name-input">Photo URL (Optional)</label>
+            <input type="email"/>
+          </div>
+
+          <div class="button-group">
+            <button id="create-list-modal-cancel-btn" class="ghost-btn" type="button">Cancel</button>
+            <button type="submit">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   </main>
 </body>
