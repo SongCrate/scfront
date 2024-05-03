@@ -1,0 +1,90 @@
+:root {
+    /* theme colors */
+    --base: #131c26;
+    --base-fg: hsl(215, 28%, 17%);
+    --text: #f9f6f4;
+    --text-darkened: #a6a5a9;
+    --text-darkened-2: #585759;
+
+    /* border radius */
+    --rounded-base: 10px;
+    --rounded-sm: 6px;
+
+    /* spacing */
+    --spacing-lg: 22px;
+    --spacing-md: 18px;
+    --spacing-base: 15px;
+    --spacing-sm: 12px;
+    --spacing-xs: 8px;
+    --spacing-xxs: 4px;
+
+    /* font size */
+    --text-md: 1.2em;
+    --text-base: 1em;
+    --text-sm: 0.8em;
+    --text-xs: 0.7em;
+}
+
+body {
+    font: normal 1em "Work Sans", sans-serif;
+    color: var(--text);
+    background-color: var(--base);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    line-height: 1.15;
+}
+
+a:link, a:visited {
+    color: var(--text)
+}
+
+.main-container {
+    /* main body content */
+    min-width: 650px;
+    width: 60vw;
+    max-width: 1300px;
+    margin: 100px auto;
+}
+
+.container-box {
+    border-radius: var(--rounded-base);
+    padding: var(--spacing-base);
+    min-width: 300px;
+}
+
+.saved-card {
+    background-color: var(--base-fg);
+    max-height: fit-content;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    gap: var(--spacing-sm);
+}
+
+.saved-card .saved-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.other-card {
+    background-color: var(--base-fg);
+    max-height: fit-content;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    gap: var(--spacing-sm);
+}
+
+.other-card .other-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
