@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="profile.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <title>@janedoe</title>
@@ -53,10 +54,12 @@
     
       <div class="col-1">
         <section id="reviews-section">
-          <div class="profile-section-text-container">
-            <h3 class="profile-section-title">Reviews</h3>
-            <h3 class="profile-section-subtitle">All Reviews</h3>
-            <i class="fa-solid fa-angle-right"></i>
+          <div class="section-header">
+            <h3 class="review-title">Reviews</h3>
+            <div id="all-reviews-label">
+              <h3 class="section-header-label-sm">All Reviews</h3>
+              <i class="fa-solid fa-angle-right"></i>
+            </div>
           </div>
 
           <div id="reviews-contents">
@@ -104,10 +107,12 @@
           </div>
         </section>
         <section id="albums-section">
-          <div class="profile-section-text-container">
-            <h3 class="profile-section-title">Albums</h3>
-            <h3 class="profile-section-subtitle">All Albums</h3>
-            <i class="fa-solid fa-angle-right"></i>
+          <div class="section-header">
+            <h3>Albums</h3>
+            <div id="all-reviews-label">
+              <h3 class="section-header-label-sm">All Albums</h3>
+              <i class="fa-solid fa-angle-right"></i>
+            </div>
           </div>
 
           <div id="albums-contents">
@@ -128,13 +133,20 @@
               <h2>Lucid</h2>
               <p>Raveena</p>
             </div>
+
           </div>
+          </span>
         </section>
       </div>
 
       <div class="col-2">
         <section id="lists-section">
-          <h3>Lists</h3>
+          <div class="section-header">
+            <h3 class="review-title">Lists</h3>
+            <!-- <h3 class="section-header-label-sm">+ New</h3> -->
+            <button type="button" id="create-list-btn">+ New</button>
+          </div>
+
           <div id="lists-contents">
 
             <!-- list card 1 -->
@@ -173,7 +185,38 @@
       </div>
 
     </div>
+
+    <!-- modal to create a new list -->
+    <div id="create-list-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Create New List</h3>
+          <i class="fa fa-times close" id="create-list-modal-close" aria-hidden="true"></i>
+        </div>
+
+        <form class="form">
+          <div class="form-input">
+            <label htmlFor="list-name-input">Name</label>
+            <input type="email" id="list-name-input"/>
+          </div>
+  
+          <div class="form-input">
+            <label htmlFor="list-desc-textarea"">
+              Description (Optional)
+            </label>
+            <textarea id="list-desc-textarea" rows="3"></textarea>
+          </div>
+
+          <div class="button-group">
+            <button id="create-list-modal-cancel-btn" class="ghost-btn" type="button">Cancel</button>
+            <button type="submit">Create New List</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
   </main>
 </body>
-
+<script src="profile.js"></script>
 </html>

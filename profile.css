@@ -105,14 +105,41 @@ profile-section-text-container i{
 
 }
 
-#albums-contents{
+.section-header {
   display: flex;
   justify-content: space-between;
 }
 
+#all-reviews-label {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.section-header-label-sm {
+  font-weight: normal;
+  font-size: var(--text-base);
+}
+
+#create-list-btn {
+  font-family: inherit;
+  font-size: var(--text-sm);
+  color: var(--text);
+  background-color: var(--base-fg);
+  padding: var(--spacing-xs);
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: var(--rounded-sm);
+}
+
+#create-list-modal-cancel-btn {
+  background: none;
+  color: var(--text-darkened);
+}
+
 .album-card img{
-  width: 180px;
-  height: auto;
+  width: 120px;
+  height: 120px;
   border-radius: 10px;
 }
 
@@ -136,17 +163,11 @@ profile-section-text-container i{
 .list-card {
   width: 100%;
   max-height: fit-content;
+  padding: 0 var(--spacing-sm);
 
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.list-card .list-body {
-  /* album art + review details */
-  display: flex;
-  flex-direction: column;
   gap: var(--spacing-sm);
 }
 
@@ -162,64 +183,35 @@ profile-section-text-container i{
 }
 
 .list-card .list-details {
-  /* song title/artist + rating + review text */
+  /* playlist name + song count */
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xxs);
 }
 
-/* HEADER COMPONENT */
 
+/* ALBUM COMPONENT */
 
-.header-container{
+#albums-contents {
   display: flex;
-  height: 55px;
-  width: auto;
-  background-color: white;
-  color: black;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px 20px;
+  gap: var(--spacing-sm);
+  margin-bottom: 10px;
 }
 
-
-.header-container h1{
-  font-weight: bold;
+#albums-contents img {
+  height: 125px; /* Set the height of the images */
+  width: auto; /* Allow the width to adjust proportionally */
+  border-radius: var(--rounded-sm);
 }
 
-
-.header-container a:link, a:visited {
-  color: black;
-  text-decoration: none;
+#albums-contents h4 {
+  margin-top: 5px;
 }
 
-
-/* END HEADER COMPONENT */
-
-
-/*SMALLER SCREEN */
-
-@media all and (max-width: 750px) {
-  /*body{*/
-  /*  margin: 100px;*/
-  /*}*/
-
-  .album-card img{
-    width: 100px;
-    height: auto;
-    border-radius: 10px;
-  }
-
-  .album-card h2{
-    font-size: medium;
-    font-weight: bold;
-  }
-
-  .album-card p{
-    font-size: small;
-    font-weight: normal;
-    color: var(--text-darkened);
-  }
+.artist-labels {
+  font-size: var(--text-sm);;
+  font-weight: 300;
+  color: rgb(180, 180, 180);
 }
 
-/*END SMALLER SCREEN*/
+/* END ALBUM COMPONENT */
