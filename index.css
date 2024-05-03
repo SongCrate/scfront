@@ -211,6 +211,7 @@ button {
 .close {
     color: var(--text-darkened);
     float: right;
+    cursor: pointer;
 }
 
 /* END MODAL COMPONENT */

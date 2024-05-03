@@ -120,6 +120,16 @@ profile-section-text-container i{
   font-size: var(--text-base);
 }
 
+#account-modal .settings{
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0px 15px 0;
+}
+
+#account-modal button{
+  cursor: pointer;
+}
+
 #create-list-btn {
   font-family: inherit;
   font-size: var(--text-sm);
@@ -130,6 +140,11 @@ profile-section-text-container i{
   text-decoration: none;
   display: inline-block;
   border-radius: var(--rounded-sm);
+  cursor: pointer;
+}
+
+.button-group button{
+  cursor: pointer;
 }
 
 #create-list-modal-cancel-btn {
