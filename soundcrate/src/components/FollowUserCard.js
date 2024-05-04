@@ -10,7 +10,7 @@ export default function FollowUserCard({ user_data }) {
 
   return (
     <div>
-        <div className="max-h-fit flex flex-row justify-between items-center box-container p-3">
+        <div className="max-h-fit flex flex-row justify-between items-center">
           
           {/* 1 - profile img, username, watch details */}
           <div className="flex items-start gap-3">

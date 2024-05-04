@@ -27,8 +27,8 @@ export default function UserFollowersPage({ params }) {
 
   return (
     <main className="flex flex-col gap-4">
-      <h1>Followers</h1>
-      <div className="flex flex-col gap-2">
+      <h2>Followers</h2>
+      <div className="box-container flex flex-col gap-4">
         {follow_user_cards}
       </div>
     </main>
