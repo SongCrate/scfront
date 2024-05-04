@@ -230,3 +230,10 @@ profile-section-text-container i{
 }
 
 /* END ALBUM COMPONENT */
+
+.follow-container{
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0px 15px 0px;
+  align-items: center;
+}

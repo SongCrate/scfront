@@ -48,7 +48,10 @@ button {
     text-decoration: none;
     display: inline-block;
     border-radius: var(--rounded-sm);
+    cursor: pointer;
 }
+
+
 
 
 .main-container {
@@ -205,7 +208,7 @@ button {
     margin: 20% auto;
     padding: var(--spacing-md);
     border-radius: var(--rounded-base);
-    width: 40%;
+    width: 30%;
 }
 
 .close {
