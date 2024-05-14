@@ -1,7 +1,10 @@
 import Link from 'next/link';
 
-export default function ListCard({ list_data={} }) {
-  const username = "janedoe";
+export default function ListCard({ 
+  username,
+  name="List Name",
+  song_count=0
+ }) {
 
   return (
     <Link href="">
@@ -10,12 +13,12 @@ export default function ListCard({ list_data={} }) {
         
         {/* 1.1 list name */}
         <h4>
-          {list_data.list_name}
+          {name}
         </h4>
 
         {/* 1.2 song count */}
         <p className="text-sm uppercase opacity-70">
-          {list_data.song_count} {list_data.song_count == 1 ? "song" : "songs"}
+          {song_count} {song_count == 1 ? "song" : "songs"}
         </p>
         
       </div>

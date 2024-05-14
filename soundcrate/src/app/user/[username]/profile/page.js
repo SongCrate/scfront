@@ -1,36 +1,61 @@
+'use client';
+
+import db from '/data/db.js';
+import { get_songs } from '@/lib/spotify';
+import { get_review_likes, get_user_id, get_list_length } from '/utils';
+import { useState, useEffect } from 'react';
 import {
   AlbumCard,
   CreateListModal,
   ListCard,
   SongReviewCard,
-} from "@/components";;
+} from "@/components";
 
 export default function UserProfilePage({ params }) {
   const { username } = params;
+  const user_id = get_user_id(username);
 
-  // mock data
-  const review_data = [
-    {
-      username: "janedoe",
-      song_id: 1,
-      album_img: null,
-      song_name: "Petal",
-      artist_name: "Raveena",
-      rating: 4,
-      review_text: "best song from the album imo!",
-      like_count: 12,
-    },
-    {
-      username: "janedoe",
-      song_id: 2,
-      album_img: null,
-      song_name: "Hypnosis",
-      artist_name: "Raveena",
-      rating: 2,
-      review_text: "disappointing! definitely not her best work :((",
-      like_count: 1,
-    },  
-  ]
+  const [ songData, setSongData ] = useState(null);
+
+  useEffect(() => {
+    // get song data from spotify api for review cards
+    const get_song_data = async () => {
+      if (review_data) {
+        const song_ids = review_data.map((obj) => {
+          return obj.song_id;
+        })
+
+        const response = await get_songs(song_ids);
+        setSongData(response);
+      }
+    };
+    
+    get_song_data();
+  }, [review_data]);
+
+  // ============ GETTING DATA FOR REVIEW CARDS ============
+  // get data for first 2 reviews using user_id
+  var review_data = db['review'].filter(record => {
+    return record.user_id = user_id;
+  }).slice(0, 2)
+
+  // add in like count
+  review_data = review_data.map((_, i) => (
+    {...review_data[i], 
+      "like_count": get_review_likes(review_data[i].id)
+    }
+  ))
+
+  // ============ GETTING DATA FOR LISTS ============
+  var list_data = db['list'].filter(record => {
+    return record.user_id = user_id;
+  })
+
+  var list_data = list_data.map((_, i) => (
+    {...list_data[i],
+      "song_count": get_list_length(list_data[i].id)
+    } 
+  ))
 
   const album_data = [
     {
@@ -56,28 +81,17 @@ export default function UserProfilePage({ params }) {
     },
   ]
 
-  const list_data = [
-    {
-      username: "janedoe",
-      list_name: "my favorites <3",
-      song_count: 2,
-    },
-    {
-      username: "janedoe",
-      list_name: "2010",
-      song_count: 18,
-    },
-    {
-      username: "janedoe",
-      list_name: "greatest hits",
-      song_count: 20,
-    },
-  ]
-
   const review_cards = review_data.map((review, i) =>
     <SongReviewCard 
-      key={`review-card-${i}`} 
-      review_data={review} />
+      key={`review-card-${i}`}
+      username={username}
+      song_id={review.song_id}
+      rating={review.rating}
+      review_text={review.review_text}
+      song_name={songData?.tracks[i]?.name}
+      song_artist={songData?.tracks[i]?.artists[0]?.name}
+      album_art={songData?.tracks[i]?.album?.images[1]?.url}
+      like_count={review.like_count} />
   )
 
   const album_cards = album_data.map((album, i) =>
@@ -89,7 +103,9 @@ export default function UserProfilePage({ params }) {
   const list_cards = list_data.map((list, i) => 
     <div key={`list-card-${i}`}>
       <ListCard 
-        list_data={list} />
+        username={username}
+        name={list.name}
+        song_count={list.song_count} />
       <hr className="opacity-30"></hr>
     </div >
   )
