@@ -5,7 +5,7 @@ import {
   Plus,
   X } from '@phosphor-icons/react';
 
-export default function CreateListModal() {
+export default function CreateListModal(user_id=1) {
 
   const modal_id = "create-modal-id";
   const [ name, setName ] = useState("");
@@ -15,11 +15,37 @@ export default function CreateListModal() {
 
   const db = get_db();
 
-  const handleSubmit = () => {
-    var list_data = db['list'].filter(record => {
-      return record.user_id = user_id;
-    })
-    return <></>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const last_id = db['list'].slice(-1)[0].id
+    var new_db = db
+    new_db['list'][last_id] = 
+      {
+        "id": last_id + 1,
+        "user_id": user_id,
+        "name": name.trim(),
+        "description": description.trim()
+      }
+
+    try {
+      console.log(new_db);
+      const response = await fetch('/api/update_db', {
+        method: 'POST',
+        body: JSON.stringify(new_db)
+      });
+
+      // const response_data = await response.json();
+
+      // if (response.status === 200) {
+      //   console.log('yay');
+      // } else {
+      //   console.log('no')
+      // }
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   const renderForm = () => {

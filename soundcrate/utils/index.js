@@ -5,7 +5,6 @@ const get_db = () => {
 
 const get_list_length = (list_id) => {
   // get number of songs given a list_id
-  // const db = require('/data/db.json');
   const db = get_db();
   return db['list_song'].filter(record => {
     return record.list_id == list_id;

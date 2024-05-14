@@ -13,7 +13,6 @@
             "password": "annesapass"
         }
     ],
-
     "review": [
         {
             "id": 1,
@@ -32,14 +31,12 @@
             "review_text": "soo amazing! her best work tbh!"
         }
     ],
-
     "review_like": [
         {
             "user_id": 2,
             "review_id": 1
         }
     ],
-
     "list": [
         {
             "id": 1,
@@ -52,9 +49,14 @@
             "user_id": 1,
             "name": "2000s",
             "description": "hits from the 2000's"
+        },
+        {
+            "id": 3,
+            "user_id": {},
+            "name": "My Test List",
+            "description": "Appended!"
         }
     ],
-
     "list_song": [
         {
             "list_id": 1,
