@@ -37,7 +37,7 @@ export default function UserProfilePage({ params }) {
   // ============ GETTING DATA FOR REVIEW CARDS ============
   // get data for first 2 reviews using user_id
   var review_data = db['review'].filter(record => {
-    return record.user_id = user_id;
+    return record['user_id'] == user_id;
   }).slice(0, 2)
 
   // add in like count
@@ -49,7 +49,7 @@ export default function UserProfilePage({ params }) {
 
   // ============ GETTING DATA FOR LISTS ============
   var list_data = db['list'].filter(record => {
-    return record.user_id = user_id;
+    return record['user_id'] == 1;
   })
 
   var list_data = list_data.map((_, i) => (

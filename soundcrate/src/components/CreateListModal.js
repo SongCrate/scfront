@@ -5,7 +5,10 @@ import {
   Plus,
   X } from '@phosphor-icons/react';
 
-export default function CreateListModal(user_id=1) {
+export default function CreateListModal() {
+
+  // mock data, would be grabbing this from header
+  const user_id = 1;
 
   const modal_id = "create-modal-id";
   const [ name, setName ] = useState("");
@@ -18,15 +21,15 @@ export default function CreateListModal(user_id=1) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // create new database object
     const last_id = db['list'].slice(-1)[0].id
     var new_db = db
-    new_db['list'][last_id] = 
-      {
-        "id": last_id + 1,
-        "user_id": user_id,
-        "name": name.trim(),
-        "description": description.trim()
-      }
+    new_db['list'][last_id] = {
+      "id": last_id + 1,
+      "user_id": user_id,
+      "name": name.trim(),
+      "description": description.trim()
+    }
 
     try {
       console.log(new_db);
@@ -35,13 +38,13 @@ export default function CreateListModal(user_id=1) {
         body: JSON.stringify(new_db)
       });
 
-      // const response_data = await response.json();
+      const response_data = await response.json();
 
-      // if (response.status === 200) {
-      //   console.log('yay');
-      // } else {
-      //   console.log('no')
-      // }
+      if (response.status === 200) {
+        console.log('success');
+      } else {
+        console.log(response.status)
+      }
     } catch (error) {
       console.log(error);
     }
