@@ -108,7 +108,7 @@ export default function UserProfilePage({ params }) {
     <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
       <div className="flex flex-col grow shrink gap-6 w-2/3">
         <section className="flex flex-col gap-3">
-          <Link href="/"><h3>Reviews</h3></Link>
+          <Link href="profile/reviews"><h3>Reviews</h3></Link>
           {review_cards}
         </section>
         <section>
@@ -120,7 +120,7 @@ export default function UserProfilePage({ params }) {
       </div>
       <section className="flex flex-col grow shrink min-w-52 w-1/3">
         <div className="flex justify-between items-baseline">
-          <Link href="lists"><h3>Lists</h3></Link>
+          <Link href="profile/lists"><h3>Lists</h3></Link>
           <CreateListModal />
         </div>
         <hr className="opacity-30"></hr>

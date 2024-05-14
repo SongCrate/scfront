@@ -30,11 +30,11 @@ export default function ListsPage({ params }) {
   )
     
   return (
-    <>
-      <h1>{username}'s lists</h1>
-      <main>
+    <main className="flex flex-col gap-4">
+      <h2>Lists</h2>
+      <div className="flex flex-col gap-4">
         {list_cards}
-      </main>
-    </>
+      </div>
+    </main>
   );
 }

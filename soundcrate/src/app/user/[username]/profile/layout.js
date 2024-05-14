@@ -34,7 +34,7 @@ export default function UserProfileLayout({ children, params }) {
             <UserProfileStatistic
               number={user_data.review_count}
               label={"Reviews"}
-              href={`/user/${username}/profile/`}
+              href={`/user/${username}/profile/reviews`}
             />
             <UserProfileStatistic
               number={user_data.album_count}
