@@ -1,8 +1,7 @@
 'use client';
 
-import db from '/data/db.js';
 import { get_songs } from '@/lib/spotify';
-import { get_review_likes, get_user_id, get_list_length } from '/utils';
+import { get_db, get_review_likes, get_user_id, get_list_length } from '/utils';
 import { useState, useEffect } from 'react';
 import {
   AlbumCard,
@@ -10,10 +9,12 @@ import {
   ListCard,
   SongReviewCard,
 } from "@/components";
+import Link from 'next/link';
 
 export default function UserProfilePage({ params }) {
   const { username } = params;
   const user_id = get_user_id(username);
+  const db = get_db();
 
   const [ songData, setSongData ] = useState(null);
 
@@ -114,7 +115,7 @@ export default function UserProfilePage({ params }) {
     <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
       <div className="flex flex-col grow shrink gap-6 w-2/3">
         <section className="flex flex-col gap-3">
-          <h3>Reviews</h3>
+          <Link href="/"><h3>Reviews</h3></Link>
           {review_cards}
         </section>
         <section>
@@ -126,7 +127,7 @@ export default function UserProfilePage({ params }) {
       </div>
       <section className="flex flex-col grow shrink min-w-52 w-1/3">
         <div className="flex justify-between items-baseline">
-          <h3 className="mb-3">Lists</h3>
+          <Link href="lists"><h3>Lists</h3></Link>
           <CreateListModal />
         </div>
         <hr className="opacity-30"></hr>

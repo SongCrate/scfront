@@ -1,4 +1,5 @@
 'use client';
+import { get_db } from '/utils';
 import { useState } from 'react';
 import { 
   Plus,
@@ -7,17 +8,43 @@ import {
 export default function CreateListModal() {
 
   const modal_id = "create-modal-id";
+  const [ name, setName ] = useState("");
   const [ description, setDescription ] = useState("");
   const description_char_limit = 150;
+  const name_char_limit = 30;
+
+  const db = get_db();
+
+  const handleSubmit = () => {
+    var list_data = db['list'].filter(record => {
+      return record.user_id = user_id;
+    })
+    return <></>
+  }
 
   const renderForm = () => {
     return (
-      <form className="flex flex-col gap-3">
+      <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
 
         {/* list name */}
         <div className="w-full">
-          <label htmlFor="list-name-input" className="block text-sm font-medium mb-1 text-light">Name</label>
-          <input type="email" id="list-name-input"/>
+          {/* <label htmlFor="list-name-input" className="block text-sm font-medium mb-1 text-light">Name</label> */}
+
+          <div className="flex justify-between items-center">
+            <label htmlFor="list-name-input" className="block text-sm font-medium mb-1 text-light">
+                Name
+            </label>
+            <span className={`block mb-2 text-sm opacity-60" ${name.length < name_char_limit - 10 ? 'invisible' : 'visible'}`}>
+              {name.length} / {name_char_limit}
+            </span>
+          </div>
+
+          <input 
+            id="list-name-input"
+            maxLength={name_char_limit}
+            value={name}
+            onChange={(e) => { setName(e.target.value) }}
+          />
         </div>
 
         {/* list description */}
@@ -36,9 +63,24 @@ export default function CreateListModal() {
             rows="3"
             maxLength={description_char_limit}
             value={description}
-            onChange={(e) => { setDescription(e.target.value.trim()) }}
+            onChange={(e) => { setDescription(e.target.value) }}
           >
           </textarea>
+        </div>
+
+        {/* cancel and action buttons */}
+        <div className="flex justify-end items-center gap-x-2 p-3">
+          <button type="button" className="btn hs-dropup-toggle gap-x-2 text-sm font-medium rounded-md text-gray hover:bg-dark hover:bg-opacity-40" data-hs-overlay={"#"+modal_id}>
+            Cancel
+          </button>
+          <button 
+            // type="submit"
+            disabled={!name}
+            onClick={handleSubmit} 
+            className="btn gap-x-2 text-sm rounded-md bg-blue hover:bg-opacity-80 text-light disabled:opacity-50"
+          >
+            Create
+          </button>
         </div>
 
       </form>
@@ -71,15 +113,6 @@ export default function CreateListModal() {
               {renderForm()}
             </div>
 
-            {/* cancel and action buttons */}
-            <div className="flex justify-end items-center gap-x-2 p-3">
-              <button type="button" className="btn hs-dropup-toggle gap-x-2 text-sm font-medium rounded-md text-gray hover:bg-dark hover:bg-opacity-40" data-hs-overlay={"#"+modal_id}>
-                Cancel
-              </button>
-              <button type="button" className="btn gap-x-2 text-sm rounded-md bg-blue hover:bg-opacity-80 text-light disabled:opacity-50">
-                Create
-              </button>
-            </div>
           </div>
         </div>
       </div>
