@@ -31,8 +31,27 @@ const get_reviews = (username) => {
   // get all reviews given username
   const db = get_db();
   const user_id = get_user_id(username);
-  return db['review'].find(record => {
+  return db['review'].filter(record => {
     return record.user_id === user_id;
+  })
+}
+
+const get_album_ids = (username) => {
+  // get all album_ids from the reviews of a user given username
+  const db = get_db();
+  var reviews = get_reviews(username);
+  var albums = reviews.map((review) => (
+    review['album_id']
+  ))
+
+  return _.uniq(albums, false);
+}
+
+const get_lists = (username) => {
+  const db = get_db();
+  const user_id = get_user_id(username);
+  return db['list'].filter(record => {
+    return record['user_id'] == user_id;
   })
 }
 
@@ -41,5 +60,7 @@ export {
   get_list_length,
   get_review_likes,
   get_user_id,
-  get_reviews
+  get_reviews,
+  get_album_ids,
+  get_lists,
 };

@@ -1,7 +1,7 @@
 'use client';
 
 import { get_songs } from '@/lib/spotify';
-import { get_db, get_review_likes, get_user_id, get_list_length } from '/utils';
+import { get_db, get_review_likes, get_user_id, get_list_length, get_reviews, get_lists } from '/utils';
 import { useState, useEffect } from 'react';
 import {
   AlbumCard,
@@ -35,26 +35,19 @@ export default function UserProfilePage({ params }) {
   }, [review_data]);
 
   // ============ GETTING DATA FOR REVIEW CARDS ============
-  // get data for first 2 reviews using user_id
-  var review_data = db['review'].filter(record => {
-    return record['user_id'] == user_id;
-  }).slice(0, 2)
-
-  // add in like count
-  review_data = review_data.map((_, i) => (
-    {...review_data[i], 
-      "like_count": get_review_likes(review_data[i].id)
+  // get data for first 2 reviews
+  var reviews = get_reviews(username);
+  var review_data = reviews.map((_, i) => ( // add in like count
+    {...reviews[i], 
+      "like_count": get_review_likes(reviews[i].id)
     }
   ))
 
   // ============ GETTING DATA FOR LISTS ============
-  var list_data = db['list'].filter(record => {
-    return record['user_id'] == 1;
-  })
-
-  var list_data = list_data.map((_, i) => (
-    {...list_data[i],
-      "song_count": get_list_length(list_data[i].id)
+  var lists = get_lists(username);
+  var list_data = lists.map((_, i) => ( // add in list length
+    {...lists[i],
+      "song_count": get_list_length(lists[i].id)
     } 
   ))
 
