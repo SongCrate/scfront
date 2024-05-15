@@ -4,14 +4,30 @@ import { search_spotify } from '@/lib/spotify.js';
 import {
   AlbumCard
 } from '@/components';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MagnifyingGlass } from '@phosphor-icons/react';
-import { render } from 'react-dom';
 
 export default function SearchPage() {
 
   const [ query, setQuery ] = useState('');
   const [ searchResults, setSearchResults ] = useState(null);
+
+  useEffect(() => {
+    // set search results from session storage every time page mounts
+    try {
+      const search_results = window.sessionStorage.getItem('search-results');
+      if (search_results && search_results != null) {
+        setSearchResults(JSON.parse(search_results));
+      }
+    } catch { }
+  }, []);
+
+  useEffect(() => {
+    // set search results to session storage whenever searchResults updates
+    if (searchResults != null) {
+      window.sessionStorage.setItem('search-results', JSON.stringify(searchResults));
+    }
+  }, [searchResults]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +36,7 @@ export default function SearchPage() {
     if (query && query != '') {
       const response = await search_spotify(query);
       setSearchResults(response);
-      console.log(searchResults);
+      window.sessionStorage.setItem('search-results', searchResults);
     }
   }
 
@@ -48,23 +64,6 @@ export default function SearchPage() {
     )
   }
 
-  const render_album_cards = () => {
-    const albums_array = (searchResults?.albums?.items).slice(0, 10)
-    if (albums_array) {
-      return (albums_array).map((album) =>
-        <AlbumCard 
-          key={`album-card-${album.id}`} 
-          username={""}
-          album_id={album.id}
-          name={album.name}
-          artist_name={album.artists[0]?.name}
-          size={20}
-          album_art={album.images[1]?.url} />
-      );
-    }
-    return null;
-  }
-
   const render_song_cards = () => {
     const songs_array = searchResults?.tracks?.items
     if (songs_array) {
@@ -76,7 +75,26 @@ export default function SearchPage() {
           name={song.name}
           artist_name={song.album.artists[0]?.name}
           size={20}
-          album_art={song.album.images[1]?.url} />
+          album_art={song.album.images[1]?.url}
+          href={'/song/'+song.id} />
+      );
+    }
+    return null;
+  }
+
+  const render_album_cards = () => {
+    const albums_array = (searchResults?.albums?.items)?.slice(0, 10)
+    if (albums_array) {
+      return (albums_array).map((album) =>
+        <AlbumCard 
+          key={`album-card-${album.id}`} 
+          username={""}
+          album_id={album.id}
+          name={album.name}
+          artist_name={album.artists[0]?.name}
+          size={20}
+          album_art={album.images[1]?.url} 
+          href={'/album/'+album.id} />
       );
     }
     return null;
