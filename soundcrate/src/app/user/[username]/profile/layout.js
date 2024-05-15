@@ -1,16 +1,23 @@
+import { 
+  get_album_ids,
+  get_followers,
+  get_following,
+  get_lists,
+  get_reviews 
+} from '/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default function UserProfileLayout({ children, params }) {
   const { username } = params;
 
-  // mock user data
   const user_data = {
     profile_img: "/images/janedoe-user.jpg",
-    review_count: 19,
-    album_count: 3,
-    follower_count: 89,
-    following_count: 6
+    review_count: get_reviews(username).length,
+    album_count: get_album_ids(username).length,
+    list_count: get_lists(username).length,
+    follower_count: get_followers(username).length,
+    following_count: get_following(username).length
   }
 
   return (
@@ -42,6 +49,11 @@ export default function UserProfileLayout({ children, params }) {
               number={user_data.album_count}
               label={"Albums"}
               href={`/user/${username}/profile/albums`}
+            />
+            <UserProfileStatistic
+              number={user_data.list_count}
+              label={"Lists"}
+              href={`/user/${username}/profile/lists`}
             />
             <UserProfileStatistic
               number={user_data.follower_count}

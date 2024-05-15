@@ -55,6 +55,30 @@ const get_lists = (username) => {
   })
 }
 
+const get_followers = (username) => {
+  // get array of all user ids that follow a given username
+  const db = get_db();
+  const user_id = get_user_id(username);
+  var followers = db['follow'].filter(record => {
+    return record['following'] === user_id;
+  })
+  return followers.map((record) => (
+    record['follower']
+  ))
+}
+
+const get_following = (username) => {
+  // get array of all user ids that a user follows given a username
+  const db = get_db();
+  const user_id = get_user_id(username);
+  var followers = db['follow'].filter(record => {
+    return record['follower'] === user_id;
+  })
+  return followers.map((record) => (
+    record['following']
+  ))
+}
+
 export {
   get_db,
   get_list_length,
@@ -63,4 +87,6 @@ export {
   get_reviews,
   get_album_ids,
   get_lists,
+  get_followers,
+  get_following
 };

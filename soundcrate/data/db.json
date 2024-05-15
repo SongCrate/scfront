@@ -66,5 +66,11 @@
             "list_id": 1,
             "song_id": "4VD0uDvoaqXu0t706SA4hB"
         }
+    ],
+    "follow": [
+        {
+            "follower": 1,
+            "following": 2 
+        }
     ]
 }
