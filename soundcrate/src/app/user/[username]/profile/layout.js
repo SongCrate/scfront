@@ -3,16 +3,17 @@ import {
   get_followers,
   get_following,
   get_lists,
-  get_reviews 
+  get_reviews,
+  get_user 
 } from '/utils';
-import Image from 'next/image';
 import Link from 'next/link';
 
 export default function UserProfileLayout({ children, params }) {
   const { username } = params;
+  const user = get_user(username)
 
   const user_data = {
-    profile_img: "/images/janedoe-user.jpg",
+    profile_img: user.image_url,
     review_count: get_reviews(username).length,
     album_count: get_album_ids(username).length,
     list_count: get_lists(username).length,
@@ -26,12 +27,10 @@ export default function UserProfileLayout({ children, params }) {
       <section className="flex flex-end gap-5 items-end">
 
         {/* user profile picture */}
-        <Image
+        <img
           src={user_data.profile_img ?? "/images/default-user.png"} 
           alt={username}
-          width={70}
-          height={70}
-          className="rounded-md"
+          className="rounded-md object-cover w-[70px] h-[70px]"
         />
 
         <div className="flex flex-col gap-1">

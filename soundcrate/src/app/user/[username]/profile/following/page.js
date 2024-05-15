@@ -1,4 +1,5 @@
 import { 
+  get_user,
   get_following,
   get_album_ids,
   get_username,
@@ -15,7 +16,7 @@ export default function UserFollowingPage({ params }) {
     return (
       {
         username: username,
-        profile_img: null,
+        profile_img: get_user(username).image_url,
         review_count: get_reviews(username).length,
         album_count: get_album_ids(username).length,
       }
@@ -26,6 +27,7 @@ export default function UserFollowingPage({ params }) {
     <FollowUserCard
       key={`follow-user-card-${i}`} 
       username={user.username}
+      profile_img={user.profile_img}
       review_count={user.review_count}
       album_count={user.album_count} />
   );

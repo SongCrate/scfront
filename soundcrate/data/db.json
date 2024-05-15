@@ -4,13 +4,15 @@
             "id": 1,
             "username": "janedoe",
             "email": "jane@email.com",
-            "password": "janepass"
+            "password": "janepass",
+            "image_url": "https://i.pinimg.com/564x/8a/2f/e3/8a2fe3a4cdd2ed7ad9068b14e916b2c6.jpg"
         },
         {
             "id": 2,
             "username": "annesa",
             "email": "annesa@email.com",
-            "password": "annesapass"
+            "password": "annesapass",
+            "image_url": "https://i.pinimg.com/564x/3b/f0/5a/3bf05a1bd795849635e999548ba4b763.jpg"
         }
     ],
     "review": [

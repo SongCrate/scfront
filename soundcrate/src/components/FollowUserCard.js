@@ -1,11 +1,10 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
 import { FollowBtn } from '@/components';
+import Link from 'next/link';
 
 export default function FollowUserCard({ 
-  username='user',
+  username,
   profile_img=null,
   review_count=0,
   album_count=0
@@ -21,12 +20,10 @@ export default function FollowUserCard({
 
 
             {/* 1.2 - profile img */}
-            <Image
+            <img
               src={profile_img ?? "/images/default-user.png"} 
               alt={username}
-              width={45}
-              height={45}
-              className="rounded-md"
+              className="rounded-md object-cover w-[45px] h-[45px]"
             />
 
             <div className="flex flex-col">

@@ -3,6 +3,14 @@ const get_db = () => {
   return db;
 }
 
+const get_user = (username) => {
+  // get user data given username
+  const db = get_db();
+  return db['user'].find(record => {
+    return record.username === username;
+  })
+}
+
 const get_list_length = (list_id) => {
   // get number of songs given a list_id
   const db = get_db();
@@ -89,6 +97,7 @@ const get_following = (username) => {
 
 export {
   get_db,
+  get_user,
   get_list_length,
   get_review_likes,
   get_user_id,
