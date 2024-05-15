@@ -49,7 +49,7 @@ export default function SearchPage() {
   }
 
   const render_album_cards = () => {
-    const albums_array = searchResults?.albums?.items
+    const albums_array = (searchResults?.albums?.items).slice(0, 10)
     if (albums_array) {
       return (albums_array).map((album) =>
         <AlbumCard 
@@ -87,12 +87,12 @@ export default function SearchPage() {
       <h1 className="sr-only">Search</h1>
       {render_searchbar()}
       <CardGridSection title={"Songs"} body={render_song_cards()} />
-      <CardGridSection title={"Albums"} body={render_album_cards()} />
+      <CardGridSection title={"Albums"} body={render_album_cards()} cols={5} />
     </main>
   );
 }
 
-function CardGridSection({ title, body }) {
+function CardGridSection({ title, body, cols=6 }) {
   if (!body) {
     return null;
   }
@@ -100,7 +100,7 @@ function CardGridSection({ title, body }) {
   return (
     <section className="flex flex-col gap-3 mb-6">
       <h2>{title}</h2>
-      <div className="gap-x-4 gap-y-6 grid grid-cols-6">
+      <div className={`gap-x-4 gap-y-6 grid grid-cols-${cols}`}>
         {body}
       </div>
     </section>
