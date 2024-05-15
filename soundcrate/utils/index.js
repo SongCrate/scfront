@@ -38,13 +38,13 @@ const get_reviews = (username) => {
 
 const get_album_ids = (username) => {
   // get all album_ids from the reviews of a user given username
-  const db = get_db();
   var reviews = get_reviews(username);
-  var albums = reviews.map((review) => (
+  var album_ids = reviews.map((review) => (
     review['album_id']
   ))
 
-  return _.uniq(albums, false);
+  // only return one of each album_ids
+  return album_ids.filter((item, i, arr) => arr.indexOf(item) === i);
 }
 
 const get_lists = (username) => {

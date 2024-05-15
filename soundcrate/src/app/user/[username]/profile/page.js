@@ -1,7 +1,18 @@
 'use client';
 
-import { get_songs } from '@/lib/spotify';
-import { get_db, get_review_likes, get_user_id, get_list_length, get_reviews, get_lists } from '/utils';
+import { 
+  get_albums, 
+  get_songs 
+} from '@/lib/spotify';
+import {
+  get_album_ids,
+  get_db, 
+  get_lists, 
+  get_list_length, 
+  get_reviews,
+  get_review_likes,
+  get_user_id
+} from '/utils';
 import { useState, useEffect } from 'react';
 import {
   AlbumCard,
@@ -13,10 +24,9 @@ import Link from 'next/link';
 
 export default function UserProfilePage({ params }) {
   const { username } = params;
-  const user_id = get_user_id(username);
-  const db = get_db();
 
   const [ songData, setSongData ] = useState(null);
+  const [ albumData, setAlbumData ] = useState(null);
 
   useEffect(() => {
     // get song data from spotify api for review cards
@@ -34,14 +44,30 @@ export default function UserProfilePage({ params }) {
     get_song_data();
   }, [review_data]);
 
+  useEffect(() => {
+    // get album data from spotify api for album cards
+    const get_album_data = async () => {
+      if (album_ids) {
+        const response = await get_albums(album_ids);
+        setAlbumData(response);
+      }
+    };
+    
+    get_album_data();
+  }, [album_ids]);
+
   // ============ GETTING DATA FOR REVIEW CARDS ============
   // get data for first 2 reviews
-  var reviews = get_reviews(username);
+  var reviews = get_reviews(username).slice(0, 2);
   var review_data = reviews.map((_, i) => ( // add in like count
     {...reviews[i], 
       "like_count": get_review_likes(reviews[i].id)
     }
   ))
+
+  // ============ GETTING DATA FOR ALBUMS ============
+  // get data for first 8 albums
+  var album_ids = get_album_ids(username).slice(0, 8);
 
   // ============ GETTING DATA FOR LISTS ============
   var lists = get_lists(username);
@@ -77,7 +103,7 @@ export default function UserProfilePage({ params }) {
 
   const review_cards = review_data.map((review, i) =>
     <SongReviewCard 
-      key={`review-card-${i}`}
+      key={`review-card-${review.song_id}`}
       username={username}
       song_id={review.song_id}
       rating={review.rating}
@@ -88,14 +114,18 @@ export default function UserProfilePage({ params }) {
       like_count={review.like_count} />
   )
 
-  const album_cards = album_data.map((album, i) =>
+  const album_cards = album_ids.map((album_id, i) =>
     <AlbumCard 
-      key={`album-card-${i}`} 
-      album_data={album} />
+      key={`album-card-${album_id}`} 
+      username={username}
+      album_id={album_id}
+      name={albumData?.albums[i]?.name}
+      artist_name={albumData?.albums[i]?.artists[0]?.name}
+      album_art={albumData?.albums[i]?.images[1]?.url} />
   )
 
-  const list_cards = list_data.map((list, i) => 
-    <div key={`list-card-${i}`}>
+  const list_cards = list_data.map((list) => 
+    <div key={`list-card-${list.id}`}>
       <ListCard 
         username={username}
         name={list.name}

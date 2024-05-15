@@ -74,7 +74,7 @@ export const get_songs = async (song_id_array) => {
   } 
 };
 
-export const get_album = async (album_id_array) => {
+export const get_albums = async (album_id_array) => {
   const access_token = await authorize();
 
   const album_ids = album_id_array.join('%2C'); // ex. 'albumid1%2Calbumid%2Calbumid3'
