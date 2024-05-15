@@ -8,8 +8,11 @@ import {
   get_username, 
   get_review_likes 
 } from '/utils';
-import { get_songs } from '@/lib/spotify';
-import { SongReviewCard, ListCard } from '@/components';
+import { get_song } from '@/lib/spotify';
+import { SongReviewCard, 
+  ListCard, 
+  Rating 
+} from '@/components';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
@@ -23,17 +26,13 @@ export default function SongPage({ params }) {
     // get song data from spotify api for review cards
     const get_song_data = async () => {
       if (review_data) {
-        const song_ids = review_data.map((obj) => {
-          return obj.song_id;
-        })
-
-        const response = await get_songs(song_ids);
+        const response = await get_song(song_id);
         setSongData(response);
       }
     };
     
     get_song_data();
-  }, [review_data]);
+  }, []);
 
   // ============ GETTING DATA FOR REVIEW CARDS ============
   const reviews = get_reviews_by_song_id(song_id);
@@ -58,29 +57,68 @@ export default function SongPage({ params }) {
     } 
   ))
 
-  const review_cards = review_data.map((review, i) =>
+
+  const song_data = {
+    name: songData?.name,
+    artist: songData?.artists[0]?.name,
+    album: songData?.album?.name,
+    album_art: songData?.album?.images[0]?.url,
+    year: songData?.album?.release_date.slice(0, 4),
+    average_rating: review_data.reduce((total, next) => total + next.rating, 0) / review_data.length
+  }
+
+  const render_header = () => {
+    return (
+      <section className="flex flex-row gap-6 items-end">
+        {/* album art */}
+        <img
+          src={song_data.album_art ?? "/images/default-user.png"}
+          alt={`${songData?.name} by ${song_data.artist}`}
+          className="rounded-md w-[120px] h-[120px]"
+          onError={e => {
+            e.currentTarget.src = "/images/default-user.png"
+          }}
+        />
+        {/* song details */}
+        <div className="flex flex-col pb-1">
+          <p className="uppercase opacity-50 text-xs mb-0.5">Song</p>
+          <h1>{song_data.name}</h1>
+          <p className="text-med opacity-70 mb-1.5">
+            <span>{song_data.artist}</span>
+            <span className="mx-2">∙</span>
+            <span>{song_data.album} ({song_data.year})</span>
+          </p>
+          <span>
+            <Rating rating={song_data.average_rating}/>
+          </span>
+        </div>
+      </section>
+    )
+  }
+
+  const review_cards = review_data.map((review) =>
     <SongReviewCard 
       key={`review-card-${review.song_id}-${review.user_id}`}
       username={get_username(review.user_id)}
-      song_id={review.song_id}
+      song_id={song_id}
       rating={review.rating}
       review_text={review.review_text}
-      song_name={songData?.tracks[i]?.name}
-      song_artist={songData?.tracks[i]?.artists[0]?.name}
-      album_art={songData?.tracks[i]?.album?.images[1]?.url}
+      song_name={song_data.name}
+      song_artist={song_data.artist}
+      album_art={song_data.album_art}
       like_count={review.like_count} />
   )
 
-  const following_review_cards = following_review_data.map((review, i) =>
+  const following_review_cards = following_review_data.map((review) =>
     <SongReviewCard 
       key={`following-review-card-${review.song_id}-${review.user_id}`}
       username={get_username(review.user_id)}
-      song_id={review.song_id}
+      song_id={song_id}
       rating={review.rating}
       review_text={review.review_text}
-      song_name={songData?.tracks[i]?.name}
-      song_artist={songData?.tracks[i]?.artists[0]?.name}
-      album_art={songData?.tracks[i]?.album?.images[1]?.url}
+      song_name={song_data.name}
+      song_artist={song_data.artist}
+      album_art={song_data.album_art}
       like_count={review.like_count} />
   )
 
@@ -98,6 +136,7 @@ export default function SongPage({ params }) {
   return (
     <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
       <div className="flex flex-col grow shrink gap-6 w-2/3">
+        {render_header()}
         <section className="flex flex-col gap-3">
           <h3>From Your Following</h3>
           {following_review_cards}
