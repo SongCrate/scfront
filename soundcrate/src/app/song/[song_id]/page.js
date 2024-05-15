@@ -109,7 +109,8 @@ export default function SongPage({ params }) {
       song_name={song_data.name}
       song_artist={song_data.artist}
       album_art={song_data.album_art}
-      like_count={review.like_count} />
+      like_count={review.like_count}
+      detail_type={'user'} />
   )
 
   const following_review_cards = following_review_data.map((review) =>
@@ -122,7 +123,8 @@ export default function SongPage({ params }) {
       song_name={song_data.name}
       song_artist={song_data.artist}
       album_art={song_data.album_art}
-      like_count={review.like_count} />
+      like_count={review.like_count}
+      detail_type={'user'} />
   )
 
   const list_cards = list_data.map((list) => 
