@@ -10,7 +10,7 @@ export default function AlbumCard({
  }) {
 
   return (
-    <Link href="">
+    <Link href={`/user/${username}/album/${album_id}`}>
       {/* 1 - album card*/}
       <div className="w-full flex flex-col gap-1">
 
