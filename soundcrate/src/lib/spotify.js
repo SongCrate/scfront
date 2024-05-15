@@ -1,5 +1,3 @@
-import { Goudy_Bookletter_1911 } from 'next/font/google';
-
 const axios = require('axios');
 const request = require('request');
 

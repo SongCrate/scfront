@@ -11,7 +11,6 @@ import {
   get_list_length, 
   get_reviews,
   get_review_likes,
-  get_user_id
 } from '/utils';
 import { useState, useEffect } from 'react';
 import {

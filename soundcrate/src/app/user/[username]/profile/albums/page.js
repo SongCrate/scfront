@@ -3,7 +3,6 @@
 import { get_albums } from '@/lib/spotify';
 import { get_album_ids } from '/utils';
 import { AlbumCard } from "@/components";
-
 import { useState, useEffect } from 'react';
 
 export default function ListsPage({ params }) {
