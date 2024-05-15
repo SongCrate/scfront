@@ -6,11 +6,12 @@ export default function AlbumCard({
   name="Album",
   artist_name="Artist",
   album_art=null,
-  size=100
+  size=100,
+  href
  }) {
 
   return (
-    <Link href={`/user/${username}/album/${album_id}`}>
+    <Link href={href ?? `/user/${username}/album/${album_id}`}>
       {/* 1 - album card*/}
       <div className="w-full flex flex-col gap-1">
 
@@ -18,9 +19,7 @@ export default function AlbumCard({
         <img
           src={album_art ?? "/images/default-user.png"} 
           alt={`${name} by ${artist_name}`}
-          width={size}
-          height={size}
-          className="rounded-md w-full"
+          className={`rounded-md w-[${size}px] h-[${size}px]`}
         />
         
         {/* 1.2 album name */}

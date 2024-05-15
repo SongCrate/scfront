@@ -34,7 +34,7 @@ export default function NavBar() {
     return (
       <>
         <button type="button" className="btn">
-          <Link href="/">Explore</Link>
+          <Link href="/search">Search</Link>
         </button>
 
         <div className="hs-dropdown relative inline-flex [--placement:bottom-right] z-[80]">

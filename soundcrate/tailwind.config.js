@@ -13,7 +13,7 @@ export const theme = {
     },
     
     'light': '#f9f6f4',
-    'accent': '#9ad4d6',
+    'accent': '#51b5bb',
 
     'blue': '#1fb6ff',
     'purple': '#7e5bef',
