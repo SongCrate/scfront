@@ -6,13 +6,11 @@ import {
 } from '@/lib/spotify';
 import {
   get_album_ids,
-  get_db, 
   get_lists, 
   get_list_length, 
   get_reviews,
   get_review_likes,
 } from '/utils';
-import { useState, useEffect } from 'react';
 import {
   AlbumCard,
   CreateListModal,
@@ -20,6 +18,7 @@ import {
   SongReviewCard,
 } from "@/components";
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function UserProfilePage({ params }) {
   const { username } = params;
