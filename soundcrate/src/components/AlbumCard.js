@@ -18,9 +18,7 @@ export default function AlbumCard({
         <img
           src={album_art ?? "/images/default-user.png"} 
           alt={`${name} by ${artist_name}`}
-          width={size}
-          height={size}
-          className="rounded-md w-full"
+          className={`rounded-md w-[${size}px] h-[${size}px]`}
         />
         
         {/* 1.2 album name */}

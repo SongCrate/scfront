@@ -21,7 +21,6 @@ const authorize = async () => {
 
   // if none in storage, generate and save a new access token
   if ((!access_token) || access_token == null || access_token == undefined) {
-    
     try {
       request.post(auth_options, function(error, response, body) {
         if (!error && response.statusCode === 200) {
@@ -59,7 +58,6 @@ export const get_songs = async (song_id_array) => {
   const access_token = await authorize();
 
   const song_ids = song_id_array.join('%2C'); // ex. 'songid1%2Csongid%2Csongid3'
-
   try {
     const response = await axios.get(`https://api.spotify.com/v1/tracks?ids=${song_ids}`, {
       headers: {
@@ -76,9 +74,24 @@ export const get_albums = async (album_id_array) => {
   const access_token = await authorize();
 
   const album_ids = album_id_array.join('%2C'); // ex. 'albumid1%2Calbumid%2Calbumid3'
-
   try {
     const response = await axios.get(`https://api.spotify.com/v1/albums?ids=${album_ids}`, {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    });
+    return response.data;
+  } catch(error) {
+    console.log(error);
+  } 
+};
+
+export const search_spotify = async (query) => {
+  const access_token = await authorize();
+
+  const query_string = new URLSearchParams(query).toString() // encode to a string that can be used in query
+  try {
+    const response = await axios.get(`https://api.spotify.com/v1/search?q=${query_string}&type=album%2Ctrack&limit=12`, {
       headers: {
         'Authorization': `Bearer ${access_token}`
       }
