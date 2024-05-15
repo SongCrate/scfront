@@ -63,6 +63,7 @@ export default function SongPage({ params }) {
     artist: songData?.artists[0]?.name,
     album: songData?.album?.name,
     album_art: songData?.album?.images[0]?.url,
+    album_id: songData?.album?.id,
     year: songData?.album?.release_date.slice(0, 4),
     average_rating: review_data.reduce((total, next) => total + next.rating, 0) / review_data.length
   }
@@ -86,7 +87,9 @@ export default function SongPage({ params }) {
           <p className="text-med opacity-70 mb-1.5">
             <span>{song_data.artist}</span>
             <span className="mx-2">∙</span>
-            <span>{song_data.album} ({song_data.year})</span>
+            <Link href={`/album/${song_data.album_id}`}>
+              <span className="hover:underline underline-offset-4 decoration-accent">{song_data.album} ({song_data.year})</span>
+            </Link>
           </p>
           <span>
             <Rating rating={song_data.average_rating}/>
