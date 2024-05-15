@@ -57,7 +57,9 @@ export default function SearchPage() {
               className="block p-4 pl-12 r-10 w-full text-xl font-semibold bg-dark-dark rounded-lg outline-none ring-none"
             />
 
-            <button type="submit" className="text-light absolute right-3.5 bottom-2.5 bg-accent hover:bg-blue font-medium rounded-lg text-sm px-4 py-2">Search</button>
+            {/* <button type="submit" className="text-light absolute right-3.5 bottom-2.5 bg-accent hover:bg-blue font-medium rounded-lg text-sm px-4 py-2">Search</button> */}
+            {/* <button className="text-light absolute right-3.5 bottom-2.5 hover:bg-blue font-medium rounded-lg text-sm px-4 py-2">X</button> */}
+
           </div>
         </div>
       </form>
