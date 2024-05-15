@@ -83,7 +83,7 @@ export default function SearchPage() {
   }
 
   const render_album_cards = () => {
-    const albums_array = (searchResults?.albums?.items)
+    const albums_array = (searchResults?.albums?.items)?.slice(0, 10)
     if (albums_array) {
       return (albums_array).map((album) =>
         <AlbumCard 
