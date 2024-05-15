@@ -77,30 +77,6 @@ export default function UserProfilePage({ params }) {
     } 
   ))
 
-  const album_data = [
-    {
-      album_id: 1,
-      album_img: null,
-      album_name: "The Rise and Fall of a Midwest Princess",
-      year: 2022,
-      artist_name: "Chappell Roan",
-    },
-    {
-      album_id: 2,
-      album_img: null,
-      album_name: "Lucid",
-      year: 2020,
-      artist_name: "Raveena",
-    },
-    {
-      album_id: 3,
-      album_img: null,
-      album_name: "Call For Help",
-      year: 2020,
-      artist_name: "Pearly Drops",
-    },
-  ]
-
   const review_cards = review_data.map((review, i) =>
     <SongReviewCard 
       key={`review-card-${review.song_id}`}
@@ -142,7 +118,7 @@ export default function UserProfilePage({ params }) {
           {review_cards}
         </section>
         <section>
-          <h3 className="mb-3">Albums</h3>
+          <Link href="profile/albums"><h3 className="mb-3">Albums</h3></Link>
           <div className="gap-3 grid grid-cols-4">
             {album_cards}
           </div>
