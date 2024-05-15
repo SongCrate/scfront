@@ -12,7 +12,7 @@ export const theme = {
       dark: '#0d141b'
     },
     
-    'light': '#f9f6f4',
+    'light': '#fff',
     'accent': '#51b5bb',
 
     'blue': '#1fb6ff',
@@ -24,6 +24,7 @@ export const theme = {
     'gray-dark': '#273444',
     'gray': '#8492a6',
     'gray-light': '#d3dce6',
+    'red': '#ff0000'
   },
   extend: {},
 };

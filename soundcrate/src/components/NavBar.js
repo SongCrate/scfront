@@ -6,17 +6,34 @@ import {
   SignOut,
   User
 } from '@phosphor-icons/react';
+import {useEffect, useState} from "react";
 
 export default function NavBar() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [username, setUsername] = useState('');
+    const [profileImg, setProfileImg] = useState('/images/janedoe-user.jpg');
 
-  // mock data
-  const is_logged_in = true;
-  const username = "janedoe";
-  const profile_img = "/images/janedoe-user.jpg";
+    useEffect(() => {
+        const storedUsername = sessionStorage.getItem('username');
+        // const storedIsLoggedIn = sessionStorage.getItem('is_logged_in');
+        console.log(storedUsername)
+        if (storedUsername) {
+            setIsLoggedIn(true);
+            setUsername(storedUsername);
+            // setProfileImg(`/images/${storedUsername}-user.jpg`);
+        }
+    }, []);
 
+    const handleLogout = () => {
+        sessionStorage.removeItem("username");
+        window.location.reload();
+    }
   const renderPublicNav = () => {
     return (
       <>
+        <button type="button" className="btn">
+          <Link href="/">Explore</Link>
+        </button>
         <button type="button" className="btn">
           <Link href="/register">Register</Link>
         </button>
@@ -34,12 +51,15 @@ export default function NavBar() {
     return (
       <>
         <button type="button" className="btn">
+          <Link href="/">Explore</Link>
+        </button>
+        <button type="button" className="btn">
           <Link href="/search">Search</Link>
         </button>
 
         <div className="hs-dropdown relative inline-flex [--placement:bottom-right] z-[80]">
           <button id="hs-dropdown-with-header" type="button" className="hs-dropdown-toggle inline-flex items-center gap-x-2 text-sm font-medium">
-            <img className="inline-block size-8 rounded-full" src={profile_img} />
+            <img className="inline-block size-8 rounded-full" src={profileImg} />
             <CaretDown size={18} weight="bold" />
           </button>
 
@@ -48,7 +68,7 @@ export default function NavBar() {
             {/* username header */}
             <div className="py-3 px-5 -m-2 bg-dark-light rounded-t-lg">
               <p className="text-sm text-gray">Signed in as</p>
-              <p className="font-medium text-gray-light">janedoe</p>
+              <p className="font-medium text-gray-light">{username}</p>
             </div>
 
             {/* nav links */}
@@ -62,9 +82,8 @@ export default function NavBar() {
                 Settings
               </Link>
               <hr className="border-dark-light my-1"></hr>
-              <Link href="/" className={menu_nav_link_styling}>
-                <SignOut size={18} weight="bold" />
-                Logout
+              <Link href="/" className={menu_nav_link_styling} onClick={handleLogout}>
+                <SignOut size={18} weight="bold" />Logout
               </Link>
             </div>
           </div>
@@ -79,12 +98,12 @@ export default function NavBar() {
 
         {/* site title */}
         <h2 className="text-3xl font-bold truncate">
-          <Link href="/">soundcrate</Link>
+          <Link href="/">SoundCrate</Link>
         </h2>
 
         {/* navigation */}
         <div className="flex gap-2">
-            {is_logged_in 
+            {isLoggedIn
               ? renderUserNav() 
               : renderPublicNav()
             }
