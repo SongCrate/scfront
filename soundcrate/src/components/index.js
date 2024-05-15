@@ -7,8 +7,9 @@ import NavBar from './NavBar';
 import PrelineScript from './PrelineScript';
 import Rating from './Rating';
 import SongReviewCard from './SongReviewCard';
-import LoginForm from './LoginForm'
-import RegisterForm from './RegisterForm'
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
+import WriteReviewModal from './WriteReviewModal';
 
 export {
   AlbumCard,
@@ -21,6 +22,6 @@ export {
   Rating,
   SongReviewCard,
   LoginForm,
-  RegisterForm
-
+  RegisterForm,
+  WriteReviewModal
 };

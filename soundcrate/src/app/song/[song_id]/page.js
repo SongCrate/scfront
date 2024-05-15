@@ -11,7 +11,8 @@ import {
 import { get_song } from '@/lib/spotify';
 import { SongReviewCard, 
   ListCard, 
-  Rating 
+  Rating,
+  WriteReviewModal 
 } from '@/components';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -151,13 +152,16 @@ export default function SongPage({ params }) {
           {review_cards}
         </section>
       </div>
-      <section className="flex flex-col grow shrink min-w-52 w-1/3">
-        <div className="flex justify-between items-baseline">
-          <Link href="profile/lists"><h3>Lists</h3></Link>
-        </div>
-        <hr className="opacity-30"></hr>
-        {list_cards}
-      </section>
+      <div className="flex flex-col grow shrink min-w-52 w-1/3 gap-6">
+        <WriteReviewModal />
+        <section className="flex flex-col gap-3">
+          <h3>Lists</h3>
+          <div>
+            <hr className="opacity-30"></hr>
+            {list_cards}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }
