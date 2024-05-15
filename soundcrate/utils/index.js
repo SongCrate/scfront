@@ -27,6 +27,14 @@ const get_user_id = (username) => {
   }).id
 }
 
+const get_username = (user_id) => {
+  // get user_id given username
+  const db = get_db();
+  return db['user'].find(record => {
+      return record.id === user_id;
+  }).username
+}
+
 const get_reviews = (username) => {
   // get all reviews given username
   const db = get_db();
@@ -84,6 +92,7 @@ export {
   get_list_length,
   get_review_likes,
   get_user_id,
+  get_username,
   get_reviews,
   get_album_ids,
   get_lists,

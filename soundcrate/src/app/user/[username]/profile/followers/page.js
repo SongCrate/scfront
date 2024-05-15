@@ -1,35 +1,43 @@
+import { 
+  get_followers,
+  get_album_ids,
+  get_username,
+  get_reviews
+} from '/utils';
 import { FollowUserCard } from '@/components';
 
 export default function UserFollowersPage({ params }) {
   const { username } = params;
   
-  // mock data
-  const follower_data = [
-    { 
-      username: "johndoe",
-      profile_img: null,
-      review_count: 10,
-      album_count: 3
-    },
-    { 
-      username: "musicluvr9",
-      profile_img: null,
-      review_count: 29,
-      album_count: 7
-    },
-  ];
+  const follower_ids = get_followers(username);
+  const follower_data = follower_ids.map((user_id) => {
+    var username = get_username(user_id);
+    return (
+      {
+        username: username,
+        profile_img: null,
+        review_count: get_reviews(username).length,
+        album_count: get_album_ids(username).length,
+      }
+    )
+  });
 
   const follow_user_cards = follower_data.map((user, i) =>
     <FollowUserCard
       key={`follow-user-card-${i}`} 
-      user_data={user} />
+      username={user.username}
+      review_count={user.review_count}
+      album_count={user.album_count} />
   );
 
   return (
     <main className="flex flex-col gap-4">
       <h2>Followers</h2>
       <div className="box-container flex flex-col gap-4">
-        {follow_user_cards}
+        {follow_user_cards.length > 0 
+          ? follow_user_cards
+          : <p className="opacity-40 p-2">Nothing to see here!</p>
+        }
       </div>
     </main>
   );

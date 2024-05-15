@@ -4,8 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FollowBtn } from '@/components';
 
-export default function FollowUserCard({ user_data }) {
-  const { username, profile_img, review_count, album_count } = user_data;
+export default function FollowUserCard({ 
+  username='user',
+  profile_img=null,
+  review_count=0,
+  album_count=0
+ }) {
   const profile_url = `/user/${username}/profile`
 
   return (
@@ -17,7 +21,6 @@ export default function FollowUserCard({ user_data }) {
 
 
             {/* 1.2 - profile img */}
-            
             <Image
               src={profile_img ?? "/images/default-user.png"} 
               alt={username}
