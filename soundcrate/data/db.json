@@ -1,1 +1,86 @@
-{"user":[{"id":1,"username":"janedoe","email":"jane@email.com","password":"janepass","image_url":"https://i.pinimg.com/564x/8a/2f/e3/8a2fe3a4cdd2ed7ad9068b14e916b2c6.jpg"},{"id":2,"username":"annesa","email":"annesa@email.com","password":"annesapass","image_url":"https://i.pinimg.com/564x/3b/f0/5a/3bf05a1bd795849635e999548ba4b763.jpg"}],"review":[{"id":1,"user_id":1,"song_id":"4VD0uDvoaqXu0t706SA4hB","album_id":"7EMoYQ7QghVnHSsdNLWv5P","rating":4,"review_text":"on repeat woww"},{"id":2,"user_id":1,"song_id":"5Xhsf1DLA9j2pVyCbqjkLh","album_id":"71Q44PCgBGD6QyxI12jJNy","rating":5,"review_text":"soo amazing! her best work tbh!"},{"id":3,"user_id":2,"song_id":"5Xhsf1DLA9j2pVyCbqjkLh","album_id":"71Q44PCgBGD6QyxI12jJNy","rating":2,"review_text":"overrated..."},{"id":4,"user_id":1,"song_id":"5Xhsf1DLA9j2pVyCbqjkLh","album_id":"71Q44PCgBGD6QyxI12jJNy","rating":4,"review_text":"yes!!"},{"id":5,"user_id":1,"song_id":"5Xhsf1DLA9j2pVyCbqjkLh","album_id":"71Q44PCgBGD6QyxI12jJNy","rating":4,"review_text":"woohoo"}],"review_like":[{"user_id":2,"review_id":1}],"list":[{"id":1,"user_id":1,"name":"My Favorites","description":""},{"id":2,"user_id":1,"name":"2000s","description":"hits from the 2000's"},{"id":3,"user_id":1,"name":"2010s","description":""}],"list_song":[{"list_id":1,"song_id":"5Xhsf1DLA9j2pVyCbqjkLh"},{"list_id":1,"song_id":"4VD0uDvoaqXu0t706SA4hB"}],"follow":[{"follower":1,"following":2}]}
+{
+    "user": [
+        {
+            "id": 1,
+            "username": "janedoe",
+            "email": "jane@email.com",
+            "password": "janepass",
+            "image_url": "https://i.pinimg.com/564x/8a/2f/e3/8a2fe3a4cdd2ed7ad9068b14e916b2c6.jpg"
+        },
+        {
+            "id": 2,
+            "username": "annesa",
+            "email": "annesa@email.com",
+            "password": "annesapass",
+            "image_url": "https://i.pinimg.com/564x/3b/f0/5a/3bf05a1bd795849635e999548ba4b763.jpg"
+        }
+    ],
+    "review": [
+        {
+            "id": 1,
+            "user_id": 1,
+            "song_id": "4VD0uDvoaqXu0t706SA4hB",
+            "album_id": "7EMoYQ7QghVnHSsdNLWv5P",
+            "rating": 4,
+            "review_text": "on repeat woww"
+        },
+        {
+            "id": 2,
+            "user_id": 1,
+            "song_id": "5Xhsf1DLA9j2pVyCbqjkLh",
+            "album_id": "71Q44PCgBGD6QyxI12jJNy",
+            "rating": 5,
+            "review_text": "soo amazing! her best work tbh!"
+        },
+        {
+            "id": 3,
+            "user_id": 2,
+            "song_id": "5Xhsf1DLA9j2pVyCbqjkLh",
+            "album_id": "71Q44PCgBGD6QyxI12jJNy",
+            "rating": 2,
+            "review_text": "overrated..."
+        }
+    ],
+    "review_like": [
+        {
+            "user_id": 2,
+            "review_id": 1
+        }
+    ],
+    "list": [
+        {
+            "id": 1,
+            "user_id": 1,
+            "name": "My Favorites",
+            "description": ""
+        },
+        {
+            "id": 2,
+            "user_id": 1,
+            "name": "2000s",
+            "description": "hits from the 2000's"
+        },
+        {
+            "id": 3,
+            "user_id": 1,
+            "name": "2010s",
+            "description": ""
+        }
+    ],
+    "list_song": [
+        {
+            "list_id": 1,
+            "song_id": "5Xhsf1DLA9j2pVyCbqjkLh"
+        },
+        {
+            "list_id": 1,
+            "song_id": "4VD0uDvoaqXu0t706SA4hB"
+        }
+    ],
+    "follow": [
+        {
+            "follower": 1,
+            "following": 2
+        }
+    ]
+}
