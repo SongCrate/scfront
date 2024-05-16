@@ -52,6 +52,33 @@ const get_reviews = (username) => {
   })
 }
 
+const get_reviews_by_song_id = (song_id) => {
+  // get all song reviews given a song id
+  const db = get_db();
+  return db['review'].filter(record => {
+    return record.song_id === song_id;
+  })
+}
+
+const get_lists_by_song_id = (song_id) => {
+
+  // get all song reviews given a song id
+  const db = get_db();
+
+  // get list of song ids
+  var list_ids = db['list_song'].filter(record => {
+    return record.song_id === song_id;
+  })
+  list_ids = list_ids.map((record) => (
+    record['list_id']
+  ))
+  // get list records for the list_ids
+  return db['list'].filter(record => {
+    return list_ids.includes(record.id);
+  })
+
+}
+
 const get_album_ids = (username) => {
   // get all album_ids from the reviews of a user given username
   var reviews = get_reviews(username);
@@ -103,6 +130,8 @@ export {
   get_user_id,
   get_username,
   get_reviews,
+  get_reviews_by_song_id,
+  get_lists_by_song_id,
   get_album_ids,
   get_lists,
   get_followers,

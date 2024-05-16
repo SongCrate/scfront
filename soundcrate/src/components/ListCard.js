@@ -3,7 +3,8 @@ import Link from 'next/link';
 export default function ListCard({ 
   username,
   name="List Name",
-  song_count=0
+  song_count=0,
+  show_username=false
  }) {
 
   return (
@@ -18,7 +19,14 @@ export default function ListCard({
 
         {/* 1.2 song count */}
         <p className="text-sm uppercase opacity-70">
-          {song_count} {song_count == 1 ? "song" : "songs"}
+          <span>
+            {song_count} {song_count == 1 ? "song" : "songs"}
+          </span>
+          {show_username &&
+            <span className="ml-1">
+              ∙ by {username}
+            </span>
+          }
         </p>
         
       </div>

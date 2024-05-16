@@ -1,5 +1,6 @@
 'use client';
 
+import { get_user } from '/utils';
 import Link from 'next/link';
 import { Rating } from '@/components';
 import { Heart } from '@phosphor-icons/react';
@@ -15,7 +16,24 @@ export default function SongReviewCard({
   album_art='',
   track_number=null,
   show_album_art=true,
+  detail_type='album'
   }) {
+
+  // display either album art + song details OR profile image + username
+  // depending on detail_type
+  var src = '';
+  var header = null;
+  if (detail_type == 'album') {
+    src = album_art ?? "/images/default-user.png";
+    header = 
+      <>
+        {song_name}
+        <span className="opacity-60 ml-1.5">{song_artist}</span>
+      </>
+  } else if (detail_type == 'user') {
+    src =  get_user(username).image_url ?? "/images/default-user.png";
+    header = username;
+  }
 
   return (
     <Link href={`/user/${username}/song/${song_id}`}>
@@ -32,7 +50,7 @@ export default function SongReviewCard({
           {/* 1.2 - album art */}
           {show_album_art &&
             <img
-              src={album_art ?? "/images/default-user.png"}
+              src={src}
               alt={`${song_name} by ${song_artist}`}
               width={50}
               height={50}
@@ -45,10 +63,9 @@ export default function SongReviewCard({
 
           {/* 1.3 review details: song, artist, rating, review text */}
           <div className="flex flex-col gap-1">
-            {/* 1.3.1 song, artist */}
+            {/* 1.3.1 song, artist or user*/}
             <h4>
-              {song_name}
-              <span className="opacity-60 ml-1.5">{song_artist}</span>
+              {header}
             </h4>
 
             {/* 1.3.2 rating */}
