@@ -70,6 +70,13 @@ export default function WriteReviewModal({
       console.log(error);
     }
 
+    // close modal
+    const close_btn = document.getElementById("write-review-modal-close-btn");
+    close_btn.click();
+
+    // clear modal inputs
+    handleCancel();
+
   }
 
   const render_header = () => {
@@ -181,7 +188,7 @@ export default function WriteReviewModal({
             {/* header and close button */}
             <div className="flex justify-between items-center py-3 px-4">
               <h3 className="font-bold">Rate / Review</h3>
-              <button type="button" className="btn-round hs-dropup-toggle flex text-gray hover:bg-dark hover:bg-opacity-40" data-hs-overlay="#write-review-modal-id">
+              <button type="button" id="write-review-modal-close-btn" className="btn-round hs-dropup-toggle flex text-gray hover:bg-dark hover:bg-opacity-40" data-hs-overlay="#write-review-modal-id">
                 <span className="sr-only">Close</span>
                 <X size={18} />
               </button>
