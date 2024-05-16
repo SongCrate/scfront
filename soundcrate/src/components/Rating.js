@@ -3,6 +3,8 @@ import { Star } from '@phosphor-icons/react';
 
 export default function Rating({ rating=0, out_of=5 }) {
 
+  rating = Math.floor(rating);
+
   const filled_stars = Array.from({ length: rating }, (_, i) => (
     <Star weight="fill" key={"filled_star_"+i} />
   ));
