@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { useRouter } from 'next/navigation';
 export default function LoginForm() {
     const [email, setEmail] = useState("");
@@ -33,9 +33,6 @@ export default function LoginForm() {
                 sessionStorage.setItem("username", data.username);
                 setError("");
                 form.reset();
-
-                window.location.reload()
-                router.push('/');
 
             }
             else {
