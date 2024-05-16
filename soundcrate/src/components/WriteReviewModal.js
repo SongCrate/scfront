@@ -1,6 +1,6 @@
 'use client';
 import { get_db } from '/utils';
-import { Fragment, useState, useEffect } from 'react';
+import { Fragment, useState } from 'react';
 import { 
   Star,
   X 
@@ -25,6 +25,11 @@ export default function WriteReviewModal({
   const review_text_char_limit = 1000;
 
   const db = get_db();
+
+  const handleCancel = () => {
+    setRating(0);
+    setReviewText("")
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -98,7 +103,8 @@ export default function WriteReviewModal({
                   type="radio" 
                   name="hs-rating" 
                   value={num}
-                  onChange={e => setRating(5 - e.target.value + 1)}
+                  checked={rating != 0 && rating < (5 - num + 1)}
+                  onChange={e => setRating(5 - num + 1)}
                   className="peer -ms-5 size-5 bg-transparent border-0 text-transparent cursor-pointer appearance-none checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0" 
                 />
                 <label htmlFor={`star-rating-${num}`} className="text-gray pointer-events-none peer-checked:text-accent">
@@ -133,7 +139,11 @@ export default function WriteReviewModal({
 
         {/* cancel and action buttons */}
         <div className="flex justify-end items-center gap-x-2 p-3">
-          <button type="button" className="btn hs-dropup-toggle gap-x-2 text-sm font-medium rounded-md text-gray hover:bg-dark hover:bg-opacity-40" data-hs-overlay={"#write-review-modal-id"}>
+          <button 
+            type="button" 
+            onClick={handleCancel}
+            className="btn hs-dropup-toggle gap-x-2 text-sm font-medium rounded-md text-gray hover:bg-dark hover:bg-opacity-40" 
+            data-hs-overlay={"#write-review-modal-id"}>
             Cancel
           </button>
           <button 
