@@ -122,6 +122,13 @@ const get_following = (username) => {
   ))
 }
 
+const is_review_liked = (user_id, review_id) => {
+  const db = get_db();
+  return Boolean(db['review_like'].find(record => {
+    return record.user_id === user_id && record.review_id === review_id;
+  }))
+}
+
 export {
   get_db,
   get_user,
@@ -135,5 +142,6 @@ export {
   get_album_ids,
   get_lists,
   get_followers,
-  get_following
+  get_following,
+  is_review_liked,
 };

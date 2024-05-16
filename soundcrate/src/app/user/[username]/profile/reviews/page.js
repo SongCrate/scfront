@@ -43,6 +43,7 @@ export default function ListsPage({ params }) {
     <SongReviewCard 
       key={`review-card-${i}`}
       username={username}
+      review_id={review.id}
       song_id={review.song_id}
       rating={review.rating}
       review_text={review.review_text}

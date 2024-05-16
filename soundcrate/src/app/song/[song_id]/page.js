@@ -104,6 +104,7 @@ export default function SongPage({ params }) {
     <SongReviewCard 
       key={`review-card-${review.song_id}-${review.user_id}-${i}`}
       username={get_username(review.user_id)}
+      review_id={review.id}
       song_id={song_id}
       rating={review.rating}
       review_text={review.review_text}
@@ -118,6 +119,7 @@ export default function SongPage({ params }) {
     <SongReviewCard 
       key={`following-review-card-${review.song_id}-${review.user_id}-${i}`}
       username={get_username(review.user_id)}
+      review_id={review.id}
       song_id={song_id}
       rating={review.rating}
       review_text={review.review_text}

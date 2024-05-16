@@ -2,12 +2,12 @@
 
 import { get_user } from '/utils';
 import Link from 'next/link';
-import { Rating } from '@/components';
-import { Heart } from '@phosphor-icons/react';
+import { Rating, LikeButton } from '@/components';
 
 export default function SongReviewCard({ 
   username,
   song_id,
+  review_id,
   rating=0,
   review_text='',
   like_count=0,
@@ -77,11 +77,7 @@ export default function SongReviewCard({
         </div>
 
         {/* 2 - like count */}
-        <div className="flex flex-col items-center gap-1">
-          <Heart weight="fill" />
-          <p>{like_count}</p>
-        </div>
-        
+        <LikeButton review_id={review_id} />
       </div>
     </Link>
   );
