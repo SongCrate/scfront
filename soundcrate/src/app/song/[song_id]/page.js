@@ -58,7 +58,7 @@ export default function SongPage({ params }) {
     } 
   ))
 
-
+  // package songData for easy use
   const song_data = {
     name: songData?.name,
     artist: songData?.artists[0]?.name,
@@ -100,9 +100,9 @@ export default function SongPage({ params }) {
     )
   }
 
-  const review_cards = review_data.map((review) =>
+  const review_cards = review_data.map((review, i) =>
     <SongReviewCard 
-      key={`review-card-${review.song_id}-${review.user_id}`}
+      key={`review-card-${review.song_id}-${review.user_id}-${i}`}
       username={get_username(review.user_id)}
       song_id={song_id}
       rating={review.rating}
@@ -114,9 +114,9 @@ export default function SongPage({ params }) {
       detail_type={'user'} />
   )
 
-  const following_review_cards = following_review_data.map((review) =>
+  const following_review_cards = following_review_data.map((review, i) =>
     <SongReviewCard 
-      key={`following-review-card-${review.song_id}-${review.user_id}`}
+      key={`following-review-card-${review.song_id}-${review.user_id}-${i}`}
       username={get_username(review.user_id)}
       song_id={song_id}
       rating={review.rating}
@@ -153,7 +153,16 @@ export default function SongPage({ params }) {
         </section>
       </div>
       <div className="flex flex-col grow shrink min-w-52 w-1/3 gap-6">
-        <WriteReviewModal />
+        <WriteReviewModal 
+          key={`writereview-modal-${song_data.song_id}`}
+          song_id={song_id}
+          album_id={song_data.album_id}
+          song_name={song_data.name}
+          artist={song_data.artist}
+          album_name={song_data.album}
+          album_art={song_data.album_art}
+          year={song_data.year}
+        />
         <section className="flex flex-col gap-3">
           <h3>Lists</h3>
           <div>

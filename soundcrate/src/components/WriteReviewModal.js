@@ -1,16 +1,20 @@
 'use client';
 import { get_db } from '/utils';
-import { useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { 
   Star,
   X 
 } from '@phosphor-icons/react';
 
-export default function WriteReviewModal(
+export default function WriteReviewModal({
   song_id,
   album_id,
-  album_art
-) {
+  song_name,
+  artist,
+  album_name,
+  album_art,
+  year
+}) {
 
   // mock data, would be grabbing this from header
   const user_id = 1;
@@ -24,7 +28,7 @@ export default function WriteReviewModal(
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     // create new database object
     const last_id = db['review'].slice(-1)[0].id
     var new_db = db
@@ -38,7 +42,6 @@ export default function WriteReviewModal(
     }
 
     try {
-      console.log(new_db);
       const response = await fetch('/api/update_db', {
         method: 'POST',
         body: JSON.stringify(new_db)
@@ -57,11 +60,56 @@ export default function WriteReviewModal(
 
   }
 
+  const render_header = () => {
+    return (
+      <section className="flex flex-row gap-4 items-end">
+        {/* album art */}
+        <img
+          src={album_art ?? "/images/default-user.png"}
+          alt={`${song_name} by ${artist}`}
+          className="rounded-md w-[60px] h-[60px]"
+          onError={e => {
+            e.currentTarget.src = "/images/default-user.png"
+          }}
+        />
+        {/* song details */}
+        <div className="flex flex-col">
+          <h1>{song_name}</h1>
+          <p className="text-med opacity-70 text-sm">
+            <span>{artist}</span>
+            <span className="mx-1">∙</span>
+            <span>{album_name} ({year})</span>
+          </p>
+        </div>
+      </section>
+    )
+  }
+
   const renderForm = () => {
     return (
       <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+        
+        {/* star rating */}
+        <div className="flex flex-row-reverse justify-end items-center">
+          {[1, 2, 3, 4, 5].map((num) =>
+              <Fragment key={`star-rating-${num}`}>
+                <input 
+                  id={`star-rating-${num}`} 
+                  type="radio" 
+                  name="hs-rating" 
+                  value={num}
+                  onChange={e => setRating(5 - e.target.value + 1)}
+                  className="peer -ms-5 size-5 bg-transparent border-0 text-transparent cursor-pointer appearance-none checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0" 
+                />
+                <label htmlFor={`star-rating-${num}`} className="text-gray pointer-events-none peer-checked:text-accent">
+                  <Star size={32} weight="fill" />
+                </label>
+              </Fragment>
+            )
+          }
+        </div>
 
-        {/* list description */}
+        {/* review */}
         <div className="w-full">
           <div className="flex justify-between items-center">
             <label htmlFor="list-desc-textarea" className="block text-sm font-medium mb-1 text-light">
@@ -90,7 +138,7 @@ export default function WriteReviewModal(
           </button>
           <button 
             type="submit"
-            disabled={rating}
+            disabled={rating == null || rating == 0}
             onClick={handleSubmit} 
             className="btn gap-x-2 text-sm rounded-md bg-blue hover:bg-opacity-80 text-light disabled:opacity-50"
           >
@@ -104,8 +152,8 @@ export default function WriteReviewModal(
 
   return (
     <>
-      <button type="button" className="btn p-2 bg-accent text-white text-lg font-sembold rounded-md hover:bg-blue p-3" data-hs-overlay={"#"+modal_id}>
-        <Star size={24} weight="fill" className="mr-2" /> Rate / Review
+      <button type="button" className="btn bg-accent text-white text-lg font-sembold rounded-md hover:bg-blue p-3 w-full" data-hs-overlay={"#"+modal_id}>
+        <Star size={18} weight="fill" className="mr-2" /> Rate / Review
       </button>
 
       <div id="write-review-modal-id" className="hs-overlay hs-overlay-backdrop-open:bg-dark-dark/80 hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none">
@@ -124,7 +172,9 @@ export default function WriteReviewModal(
             </div>
 
             {/* modal body */}
-            <div className="px-4 py-1">
+            <div className="flex flex-col gap-3 px-4 py-1">
+              {render_header()}
+              <hr className="opacity-10" />
               {renderForm()}
             </div>
 
