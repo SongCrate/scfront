@@ -27,8 +27,15 @@ export default function WriteReviewModal({
   const db = get_db();
 
   const handleCancel = () => {
+    // deselect all ratings
+    var elements = document.getElementsByTagName("input");
+    for (var i = 0; i < elements.length; i++) {
+      if (elements[i].type == "radio") {
+          elements[i].checked = false;
+      }
+    }
     setRating(0);
-    setReviewText("")
+    setReviewText("");
   }
 
   const handleSubmit = async (e) => {
@@ -103,8 +110,7 @@ export default function WriteReviewModal({
                   type="radio" 
                   name="hs-rating" 
                   value={num}
-                  checked={rating != 0 && rating < (5 - num + 1)}
-                  onChange={e => setRating(5 - num + 1)}
+                  onChange={e => setRating(5 - e.target.value + 1)}
                   className="peer -ms-5 size-5 bg-transparent border-0 text-transparent cursor-pointer appearance-none checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0" 
                 />
                 <label htmlFor={`star-rating-${num}`} className="text-gray pointer-events-none peer-checked:text-accent">
