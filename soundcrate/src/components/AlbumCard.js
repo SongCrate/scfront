@@ -7,7 +7,7 @@ export default function AlbumCard({
   name="Album",
   artist_name="Artist",
   album_art=null,
-  size=100,
+  size,
   href
  }) {
 
@@ -32,14 +32,8 @@ export default function AlbumCard({
         <p className="text-sm opacity-60 leading-none truncate">
           {artist_name}
         </p>
-
+          ★★★★ 4.1
       </div>
-        <div>★★★★ 4.1
-            <h4>
-                <div></div>
-                <div></div>
-            </h4>
-        </div>
     </Link>
   );
 }
