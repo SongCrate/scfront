@@ -7,6 +7,7 @@ import ListCard from './ListCard';
 import NavBar from './NavBar';
 import PrelineScript from './PrelineScript';
 import Rating from './Rating';
+import SongCard from './SongCard';
 import SongReviewCard from './SongReviewCard';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
@@ -22,6 +23,7 @@ export {
   NavBar,
   PrelineScript,
   Rating,
+  SongCard,
   SongReviewCard,
   LoginForm,
   RegisterForm,

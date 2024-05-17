@@ -148,6 +148,24 @@ const is_review_liked = (user_id, review_id) => {
   }))
 }
 
+const get_list_by_id = (list_id) => {
+  const db = get_db();
+  return db['list'].find(record => {
+    return record.id == list_id;
+  })
+}
+
+const get_list_song_ids = (list_id) => {
+  const db = get_db();
+  return db['list_song']
+  .filter(record => {
+    return record.list_id == list_id
+  })
+  .map((record) => (
+    record['song_id']
+  ))
+}
+
 export {
   get_db,
   get_user,
@@ -166,4 +184,6 @@ export {
   get_followers,
   get_following,
   is_review_liked,
+  get_list_by_id,
+  get_list_song_ids
 };
