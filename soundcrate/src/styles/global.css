@@ -51,7 +51,7 @@
 @layer components {
 
   .main-container {
-    @apply min-w-[600px] w-[65vw] max-w-[1300px] mx-auto px-5
+    @apply min-w-[600px] w-[65vw] max-w-[1300px] mx-auto px-5 pb-10
   }
 
   .box-container {
