@@ -11,10 +11,18 @@ export default function Home() {
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ songs, setSongs ] = useState([]);
 
-  useEffect(() => {
-    const userLoggedIn = false;
-    setIsLoggedIn(userLoggedIn);
+  const [ username, setUsername ] = useState('')
 
+  useEffect(() => {
+
+    // get username to set logged-in status
+    const storedUsername = sessionStorage.getItem('username');
+    if (storedUsername && storedUsername != '') {
+        setIsLoggedIn(true);
+        setUsername(storedUsername);
+      }
+
+    // fetch songs to fill new releases section
     async function fetchSongs() {
       const randomSongs = await get_random_songs();
       setSongs(randomSongs);
