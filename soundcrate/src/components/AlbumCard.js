@@ -27,8 +27,8 @@ export default function AlbumCard({
         {/* 1.2 - rating, if provided */}
         {rating &&
           <span className="mt-2 mb-1 flex flex-row gap-1 items-center">
-            <Rating rating={rating}/> 
-            <detail className="text-sm opacity-60">{rating}</detail>
+            <Rating id='rating' rating={rating}/> 
+            <label htmlFor='rating' className="text-sm opacity-60">{rating}</label>
           </span>
         }
 
