@@ -7,7 +7,7 @@ export default function AlbumCard({
   name="Album",
   artist_name="Artist",
   album_art=null,
-  size,
+  size=100,
   href
  }) {
 
@@ -20,7 +20,7 @@ export default function AlbumCard({
         <img
           src={album_art ?? "/images/default-user.png"}
           alt={`${name} by ${artist_name}`}
-          className={`rounded-md w-[${size}px] h-auto`}
+          className={`rounded-md w-[200px] h-[200px]`}
         />
 
         {/* 1.2 album name */}

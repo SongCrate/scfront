@@ -16,7 +16,7 @@ export default function AlbumPage({ params }) {
   return (
       <div>
         <div className={"w-40 h-auto"}>
-            <img src={albumData.album_art}/>
+            {/*<img src={albumData.album_art}/>*/}
         </div>
       </div>
   );
