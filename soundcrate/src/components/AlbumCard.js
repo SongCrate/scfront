@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import React from "react";
 
 export default function AlbumCard({
   username,
@@ -17,11 +18,11 @@ export default function AlbumCard({
 
         {/* 1.1 - album art */}
         <img
-          src={album_art ?? "/images/default-user.png"} 
+          src={album_art ?? "/images/default-user.png"}
           alt={`${name} by ${artist_name}`}
-          className={`rounded-md w-[${size}px] h-[${size}px]`}
+          className={`rounded-md w-[${size}px] h-auto`}
         />
-        
+
         {/* 1.2 album name */}
         <h4 className="truncate">
           {name}
@@ -31,8 +32,14 @@ export default function AlbumCard({
         <p className="text-sm opacity-60 leading-none truncate">
           {artist_name}
         </p>
-        
+
       </div>
+        <div>★★★★ 4.1
+            <h4>
+                <div></div>
+                <div></div>
+            </h4>
+        </div>
     </Link>
   );
 }
