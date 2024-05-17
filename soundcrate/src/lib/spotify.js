@@ -102,3 +102,21 @@ export const search_spotify = async (query) => {
   } 
 };
 
+export const get_random_songs = async () => {
+  const access_token = await authorize();
+
+  try {
+    const response = await axios.get('https://api.spotify.com/v1/recommendations', {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      },
+      params: {
+        seed_genres: 'pop',
+        limit: 5
+      }
+    });
+    return response.data.tracks;
+  } catch (error) {
+    console.log(error);
+  }
+};
