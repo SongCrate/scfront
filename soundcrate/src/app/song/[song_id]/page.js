@@ -134,6 +134,7 @@ export default function SongPage({ params }) {
     <div key={`list-card-${list.id}`}>
       <ListCard 
         username={get_username(list.user_id)}
+        list_id={list.id}
         name={list.name}
         song_count={list.song_count} 
         show_username={true} />

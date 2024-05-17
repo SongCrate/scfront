@@ -2,13 +2,14 @@ import Link from 'next/link';
 
 export default function ListCard({ 
   username,
+  list_id,
   name="List Name",
   song_count=0,
   show_username=false
  }) {
 
   return (
-    <Link href="">
+    <Link href={`/user/${username}/list/${list_id}`}>
       {/* 1 - list details */}
       <div className="max-h-fit py-3 flex flex-col gap-1">
         
