@@ -35,7 +35,7 @@ export default function Home() {
           <div className="new-releases">
             <h3>New Releases</h3>
             <span className="new-releases-song">
-              {songs.map((song) => (
+              {songs?.map((song) => (
                 <div className="song1" key={song.id}>
                   <img src={song.album.images[0].url} alt={song.name} />
                   <div>★★★★ 4.1</div>
