@@ -1,7 +1,18 @@
 "use client"
-import {useEffect} from "react";
+import { get_albums } from '/utils';
+import {AlbumCard} from "@/components";
 export default function Home() {
+  const album_data = get_albums()
+
   return (
-    <h1>SoundCrate Home</h1>
+      <div>
+        {album_data.map((album, i) => <AlbumCard
+            key={i}
+            name={album.album_name}
+            artist_name={album.artist_name}
+            size={10}
+            album_id={album.album_id}
+          />)}
+      </div>
   );
 }

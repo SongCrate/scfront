@@ -11,6 +11,19 @@ const get_user = (username) => {
   })
 }
 
+const get_albums = () => {
+  // get all albums
+  const db = get_db();
+  return db.albums
+}
+
+const get_album = (album_id) =>{
+  const db = get_db();
+  return db.albums.find(album => {
+    return album.album_id === album_id;
+  })
+}
+
 const get_list_length = (list_id) => {
   // get number of songs given a list_id
   const db = get_db();
@@ -132,6 +145,8 @@ const is_review_liked = (user_id, review_id) => {
 export {
   get_db,
   get_user,
+  get_albums,
+  get_album,
   get_list_length,
   get_review_likes,
   get_user_id,
