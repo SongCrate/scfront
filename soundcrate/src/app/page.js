@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import { get_random_songs } from '../lib/spotify'; // Adjust the import path based on your directory structure
+import { get_random_songs } from '../lib/spotify';
 import './home.css';
 
 export default function Home() {
@@ -8,11 +8,9 @@ export default function Home() {
   const [songs, setSongs] = useState([]);
 
   useEffect(() => {
-    // Simulate fetching user authentication status
-    const userLoggedIn = false; // Change this to true to simulate a logged-in user
+    const userLoggedIn = false;
     setIsLoggedIn(userLoggedIn);
 
-    // Fetch random songs for the new releases section
     async function fetchSongs() {
       const randomSongs = await get_random_songs();
       setSongs(randomSongs);
