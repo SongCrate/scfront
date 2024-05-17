@@ -1,5 +1,6 @@
-"use client"
-import Link from 'next/link'
+'use client';
+
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { get_random_songs, get_songs } from '../lib/spotify';
 import { get_username, get_all_reviews, get_review_likes } from '/utils';
@@ -64,7 +65,8 @@ export default function Home() {
         artist_name={song.album.artists[0]?.name}
         size={20}
         album_art={song.album.images[1]?.url}
-        href={'/song/'+song.id} />
+        href={'/song/'+song.id} 
+        rating={4} /> // TODO: hardcoded
     );
   }
 
@@ -94,7 +96,7 @@ export default function Home() {
 
       {/* hero */}
       <section className="intro">
-        <p id="welcome-message">{isLoggedIn ? "Hi, janedoe!" : "SoundCrate"}</p>
+        <p id="welcome-message">{isLoggedIn ? `Hi, ${username}!` : "SoundCrate"}</p>
         {!isLoggedIn && <p id="intro-text">Rate and review music today!</p>}
         {!isLoggedIn && (
           <span>

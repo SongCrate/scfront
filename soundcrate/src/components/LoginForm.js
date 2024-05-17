@@ -33,6 +33,7 @@ export default function LoginForm() {
                 sessionStorage.setItem("username", data.username);
                 setError("");
                 form.reset();
+                window.location.reload();
 
             }
             else {

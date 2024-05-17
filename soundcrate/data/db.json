@@ -82,5 +82,63 @@
             "follower": 1,
             "following": 2
         }
+    ],
+    "albums": [
+        {
+            "album_name": "For Broken Ears",
+            "album_id": "7hxkf98gfcg4fc6",
+            "artist_name": "Tems",
+            "album_art": "/images/tems.jpg",
+            "artist_id": "82sdhdbjs92njwe97yzhbs",
+            "songs": [
+                {"title":"Interference", "song_id": "29738dn28gaub9h2n39qx"},
+                {"title": "Free Mind", "song_id": "9ns0kjsnd2skn8skjnd"},
+                {"title": "Higher", "song_id": "8ddbshjhb2309i30dj"},
+                {"title": "Damages", "song_id": "askuinks3092sndjk"},
+                {"title": "Ice T", "song_id": "9hwenj23njhne8dsu"}
+            ]
+        },
+        {
+            "album_name": "Fountain Baby",
+            "album_id": "7hxkf98g92g4fc6",
+            "artist_name": "Amaarae",
+            "album_art": "/images/fountain_baby.jpg",
+            "artist_id": "87csdhdb6wwhdbjs",
+            "songs": [
+                {"title": "Angels in Tibet", "song_id": "iudc0jq9jenij98"},
+                {"title": "Co-Star", "song_id": "093nk3jnd2039uajn"},
+                {"title": "Princess Going Digital", "song_id": "d4kcn9843kjnkkw2"},
+                {"title": "Reckless & Sweet", "song_id": "3ds8uewnksjnkan2"},
+                {"title": "All My Love", "song_id": "9encs7shhejnks02"}
+            ]
+        },
+        {
+            "album_name": "Snow Angel",
+            "album_id": "7sakf98g92g4fc6",
+            "artist_name": "Renee Rapp",
+            "album_art": "/images/snow-angel.jpg",
+            "artist_id": "87cs08tol6op7dbjs",
+            "songs": [
+                {"title": "Talk Too Much", "song_id": "i75dc0jq9jrij98"},
+                {"title": "Poison Poison", "song_id": "09wp93jnd2p31uajn"},
+                {"title": "So What Now", "song_id": "d4k9n9p4wk093hgw2"},
+                {"title": "Tummy Hurts", "song_id": "3ds8pko83sjn2an"},
+                {"title": "Pretty Girls", "song_id": "9er8s7s1h0lo2s02"}
+            ]
+        },
+        {
+            "album_name": "TYLA",
+            "album_id": "7sPk72g92g4fc6",
+            "artist_name": "Tyla",
+            "album_art": "/images/tyla.png",
+            "artist_id": "87cs08tui6op7dbjs",
+            "songs": [
+                {"title": "Water", "song_id": "i75dc0jq9jpkj98"},
+                {"title": "Safer", "song_id": "09wp93jrcp31uan"},
+                {"title": "Truth or Dare", "song_id": "d4k9n9f7k093hgw2"},
+                {"title": "Breathe Me", "song_id": "3ds8p8h83sjn2an"},
+                {"title": "Butterflies", "song_id": "9er89bs1h0lo2s02"}
+            ]
+        }
     ]
 }

@@ -31,7 +31,7 @@ export default function NavBar() {
   const renderPublicNav = () => {
     return (
       <>
-        <button type="button" className="btn">
+        <button type="button" className="btn text-white">
           <Link href="/search">Explore</Link>
         </button>
         <button type="button" className="btn">
@@ -97,7 +97,7 @@ export default function NavBar() {
       <div className="main-container flex justify-between items-center">
 
         {/* site title */}
-        <h2 className="text-3xl font-bold truncate">
+        <h2 className="text-3xl font-bold truncate text-white">
           <Link href="/">SoundCrate</Link>
         </h2>
 
