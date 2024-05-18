@@ -1,90 +1,131 @@
-"use client"
+'use client';
+
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { get_random_songs } from '../lib/spotify';
+import { get_random_songs, get_songs } from '../lib/spotify';
+import { get_username, get_all_reviews, get_review_likes } from '/utils';
+import { AlbumCard, SongReviewCard } from '@/components';
 import './home.css';
-import { get_albums } from '/utils';
-import {AlbumCard} from "@/components";
 
 export default function Home() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [songs, setSongs] = useState([]);
-  const album_data = get_albums();
+  const [ songData, setSongData ] = useState({});
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false);
+  const [ songs, setSongs ] = useState([]);
+
+  const [ username, setUsername ] = useState('')
 
   useEffect(() => {
-    const userLoggedIn = false;
-    setIsLoggedIn(userLoggedIn);
 
+    // get username to set logged-in status
+    const storedUsername = sessionStorage.getItem('username');
+    if (storedUsername && storedUsername != '') {
+        setIsLoggedIn(true);
+        setUsername(storedUsername);
+      }
+
+    // fetch songs to fill new releases section
     async function fetchSongs() {
       const randomSongs = await get_random_songs();
       setSongs(randomSongs);
-      console.log(randomSongs)
     }
     fetchSongs();
   }, []);
 
+  useEffect(() => {
+    // get song data from spotify api for review cards
+    const get_song_data = async () => {
+      if (review_data) {
+        const song_ids = review_data.map((obj) => {
+          return obj.song_id;
+        })
+
+        const response = await get_songs(song_ids);
+        setSongData(response);
+      }
+    };
+    
+    get_song_data();
+  }, [review_data]);
+
+  // ============ GETTING DATA FOR REVIEW CARDS ============
+  // get data for all reviews
+  var reviews = get_all_reviews();
+  var review_data = reviews.map((_, i) => ( // add in like count
+    {...reviews[i], 
+      "like_count": get_review_likes(reviews[i].id)
+    }
+  ))
+
+  const render_song_cards = () => {
+    return songs?.map((song) =>
+      <AlbumCard 
+        key={`song-card-${song.id}`}
+        album_id={song.id}
+        name={song.name}
+        artist_name={song.album.artists[0]?.name}
+        size={20}
+        album_art={song.album.images[1]?.url}
+        href={'/song/'+song.id} 
+        rating={4} /> // TODO: hardcoded
+    );
+  }
+
+  const render_review_cards = () => {
+    if (songData?.tracks) {
+      return review_data
+        .sort((a, b) => (a.like_count - b.like_count)) // sort by like count
+        .slice(0, 4) // only return the top 5
+        .map((review, i) =>
+          <SongReviewCard 
+            key={`review-card-${review.song_id}-${get_username(review.user_id)}-${i}`}
+            username={get_username(review.user_id)}
+            song_id={review.song_id}
+            rating={review.rating}
+            review_text={review.review_text}
+            song_name={songData?.tracks[i]?.name}
+            song_artist={songData?.tracks[i]?.artists[0]?.name}
+            album_art={songData?.tracks[i]?.album?.images[1]?.url}
+            like_count={review.like_count} />
+        )
+    }
+  };
+
+
   return (
-      <main className="main-container">
-        <section>
-          <div className="intro">
-            <p id="welcome-message">{isLoggedIn ? "Hi, janedoe!" : "SoundCrate"}</p>
-            {!isLoggedIn && <p id="intro-text">Rate and review music today!</p>}
-            {!isLoggedIn && (
-              <span>
-                <a id="register-link" className="register-link" href="/register">Get Started</a>
-                <a id="login-link" className="login-link" href="/login">Login</a>
-              </span>
-            )}
-          </div>
+    <main className="main-container">
 
-          <div className="new-releases">
-            <h3>New Releases</h3>
-            <span className="new-releases-song">
-              {album_data.map((album, i) => <AlbumCard
-                  key={i}
-                  name={album.album_name}
-                  artist_name={album.artist_name}
-                  size={200}
-                  album_id={album.album_id}
-                  album_art={album.album_art}
-              />)}
+      {/* hero */}
+      <section className="intro">
+        <p id="welcome-message">{isLoggedIn ? `Hi, ${username}!` : "SoundCrate"}</p>
+        {!isLoggedIn && <p id="intro-text">Rate and review music today!</p>}
+        {!isLoggedIn && (
+          <span>
+            <Link href="/register">
+              <button className="register-btn">Get Started</button>
+            </Link>
+            <Link href="/login">
+              <button className="login-btn">Login</button>
+            </Link>
+          </span>
+        )}
+      </section>
+      
+      {/* new releases */}
+      <section className="flex flex-col gap-3 mb-6 w-full">
+        <h2>New Releases</h2>
+        <div className="columns-5">
+          {render_song_cards()}
+        </div>
+      </section>
 
-              {/*{songs.map((song) => (*/}
-              {/*    <AlbumCard*/}
-              {/*        album_id={song.album.id}*/}
-              {/*        name={song.name}*/}
-              {/*        artist_name={song.artists[0].name}*/}
-              {/*        album_art={song.album.images[0].url}*/}
-              {/*        size={100}*/}
-              {/*    />*/}
-              {/*))}*/}
-            </span>
-          </div>
+      {/* popular reviews */}
+      <section className="flex flex-col gap-3 mb-6 w-full">
+        <h2>Popular Reviews</h2>
+        <div className="flex flex-col gap-2">
+          {render_review_cards()}
+        </div>
+      </section>
 
-          <div className="reviews">
-            <section id="reviews-section">
-              <h3>Popular Reviews</h3>
-              <div id="reviews-contents">
-                <div className="review-card container-box">
-                  <div className="review-body">
-                    <img src="../public/images/default-user.png" alt="Petal by Raveena" />
-                    <div className="review-details">
-                      <h4>
-                        <span>Petal  </span>
-                        <span className="artist-label">Raveena</span>
-                      </h4>
-                      ★★★★★
-                      <p>best song from the album imo!</p>
-                    </div>
-                  </div>
-                  <div className="review-likes">
-                    <div>♥</div>
-                    <p>1.2k</p>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
-        </section>
-      </main>
+    </main>
   );
 }

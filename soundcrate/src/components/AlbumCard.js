@@ -1,14 +1,15 @@
+import { Rating } from '@/components';
 import Link from 'next/link';
-import React from "react";
 
 export default function AlbumCard({
   username,
+  href,
   album_id,
   name="Album",
   artist_name="Artist",
   album_art=null,
   size=100,
-  href
+  rating=null
  }) {
 
   return (
@@ -20,19 +21,26 @@ export default function AlbumCard({
         <img
           src={album_art ?? "/images/default-user.png"}
           alt={`${name} by ${artist_name}`}
-          className={`rounded-md w-[200px] h-[200px]`}
+          className={`aspect-square rounded-md w-[${size}px] h-[${size}px]`}
         />
+        
+        {/* 1.2 - rating, if provided */}
+        {rating &&
+          <span className="mt-2 mb-1 flex flex-row gap-1 items-center">
+            <Rating id='rating' rating={rating}/> 
+            <label htmlFor='rating' className="text-sm opacity-60">{rating}</label>
+          </span>
+        }
 
-        {/* 1.2 album name */}
+        {/* 1.3 album name */}
         <h4 className="truncate">
           {name}
         </h4>
 
-        {/* 1.2 artist name */}
+        {/* 1.4 artist name */}
         <p className="text-sm opacity-60 leading-none truncate">
           {artist_name}
         </p>
-          ★★★★ 4.1
       </div>
     </Link>
   );

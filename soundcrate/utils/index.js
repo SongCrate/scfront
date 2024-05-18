@@ -65,6 +65,12 @@ const get_reviews = (username) => {
   })
 }
 
+const get_all_reviews = (username) => {
+  // get all reviews
+  const db = get_db();
+  return db['review'];
+}
+
 const get_reviews_by_song_id = (song_id) => {
   // get all song reviews given a song id
   const db = get_db();
@@ -152,6 +158,7 @@ export {
   get_user_id,
   get_username,
   get_reviews,
+  get_all_reviews,
   get_reviews_by_song_id,
   get_lists_by_song_id,
   get_album_ids,
