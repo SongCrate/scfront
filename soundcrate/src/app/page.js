@@ -18,6 +18,7 @@ export default function Home() {
 
     // get username to set logged-in status
     const storedUsername = sessionStorage.getItem('username');
+    const storedHomeData = sessionStorage.getItem('home-data');
     if (storedUsername && storedUsername != '') {
         setIsLoggedIn(true);
         setUsername(storedUsername);
@@ -25,8 +26,11 @@ export default function Home() {
 
     // fetch songs to fill new releases section
     async function fetchSongs() {
-      const randomSongs = await get_random_songs();
-      setSongs(randomSongs);
+      if (!storedHomeData) {
+        const randomSongs = await get_random_songs();
+        setSongs(randomSongs);
+        sessionStorage.setItem('home-data', randomSongs)
+      }
     }
     fetchSongs();
   }, []);

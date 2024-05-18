@@ -12,7 +12,8 @@ import { get_song } from '@/lib/spotify';
 import { SongReviewCard, 
   ListCard, 
   Rating,
-  WriteReviewModal 
+  WriteReviewModal,
+  AddToListModal
 } from '@/components';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -156,16 +157,29 @@ export default function SongPage({ params }) {
         </section>
       </div>
       <div className="flex flex-col grow shrink min-w-52 w-1/3 gap-6">
-        <WriteReviewModal 
-          key={`writereview-modal-${song_data.song_id}`}
-          song_id={song_id}
-          album_id={song_data.album_id}
-          song_name={song_data.name}
-          artist={song_data.artist}
-          album_name={song_data.album}
-          album_art={song_data.album_art}
-          year={song_data.year}
-        />
+        {/* button section */}
+        <section className="flex flex-col gap-3">
+          <WriteReviewModal 
+            key={`writereview-modal-${song_data.song_id}`}
+            song_id={song_id}
+            album_id={song_data.album_id}
+            song_name={song_data.name}
+            artist={song_data.artist}
+            album_name={song_data.album}
+            album_art={song_data.album_art}
+            year={song_data.year}
+          />
+          <AddToListModal 
+            key={`add-to-list-modal-${song_data.song_id}`}
+            song_id={song_id}
+            album_id={song_data.album_id}
+            song_name={song_data.name}
+            artist={song_data.artist}
+            album_name={song_data.album}
+            album_art={song_data.album_art}
+            year={song_data.year}
+          />
+        </section>
         <section className="flex flex-col gap-3">
           <h3>Lists</h3>
           <div>

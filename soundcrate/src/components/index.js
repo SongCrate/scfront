@@ -1,3 +1,4 @@
+import AddToListModal from './AddToListModal';
 import AlbumCard from './AlbumCard';
 import CreateListModal from './CreateListModal';
 import FollowBtn from './FollowBtn';
@@ -14,6 +15,7 @@ import RegisterForm from './RegisterForm';
 import WriteReviewModal from './WriteReviewModal';
 
 export {
+  AddToListModal,
   AlbumCard,
   CreateListModal,
   FollowBtn,
