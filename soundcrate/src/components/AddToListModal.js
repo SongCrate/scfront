@@ -69,7 +69,8 @@ export default function AddToListModal({
             list_id={list.id}
             name={list.name}
             song_count={list.song_count} 
-            is_link={false} />
+            is_link={false}
+            show_add_btn={true} />
           <hr className="opacity-10"></hr>
         </div >
   ))}

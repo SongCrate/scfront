@@ -11,7 +11,8 @@ export default function ListCard({
   name="List Name",
   song_count=0,
   show_username=false,
-  is_link=true
+  is_link=true,
+  show_add_btn=false
  }) {
 
   const [ isAdded, setIsAdded ] = useState(false);
@@ -49,15 +50,14 @@ export default function ListCard({
       </div>
       
       {/* 1 - add to song button */}
-      <div className="flex flex-col items-center gap-1">
+      {show_add_btn &&
         <button className="flex flex-col items-center gap-1 z-99 padding-3" onClick={handleClick}>
           {isAdded 
             ? <Check weight={'bold'} size={18}/>
             : <Plus weight={'bold'} size={18}/>
           }
         </button>
-      </div>
-        
+      }  
     </Link>
   );
 }
