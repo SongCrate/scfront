@@ -17,6 +17,7 @@ export default function Home() {
     async function fetchSongs() {
       const randomSongs = await get_random_songs();
       setSongs(randomSongs);
+      console.log(randomSongs)
     }
     fetchSongs();
   }, []);
@@ -38,24 +39,24 @@ export default function Home() {
           <div className="new-releases">
             <h3>New Releases</h3>
             <span className="new-releases-song">
-              {/*{album_data.map((album, i) => <AlbumCard*/}
-              {/*    key={i}*/}
-              {/*    name={album.album_name}*/}
-              {/*    artist_name={album.artist_name}*/}
-              {/*    size={200}*/}
-              {/*    album_id={album.album_id}*/}
-              {/*    album_art={album.album_art}*/}
-              {/*/>)}*/}
+              {album_data.map((album, i) => <AlbumCard
+                  key={i}
+                  name={album.album_name}
+                  artist_name={album.artist_name}
+                  size={200}
+                  album_id={album.album_id}
+                  album_art={album.album_art}
+              />)}
 
-              {songs.map((song) => (
-                  <AlbumCard
-                      album_id={song.album.id}
-                      name={song.name}
-                      artist_name={song.artists[0].name}
-                      album_art={song.album.images[0].url}
-                      size={100}
-                  />
-              ))}
+              {/*{songs.map((song) => (*/}
+              {/*    <AlbumCard*/}
+              {/*        album_id={song.album.id}*/}
+              {/*        name={song.name}*/}
+              {/*        artist_name={song.artists[0].name}*/}
+              {/*        album_art={song.album.images[0].url}*/}
+              {/*        size={100}*/}
+              {/*    />*/}
+              {/*))}*/}
             </span>
           </div>
 

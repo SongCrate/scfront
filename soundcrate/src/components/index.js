@@ -11,6 +11,7 @@ import SongReviewCard from './SongReviewCard';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import WriteReviewModal from './WriteReviewModal';
+import SongCard from "@/components/SongCard";
 
 export {
   AlbumCard,
@@ -25,5 +26,6 @@ export {
   SongReviewCard,
   LoginForm,
   RegisterForm,
-  WriteReviewModal
+  WriteReviewModal,
+  SongCard
 };
