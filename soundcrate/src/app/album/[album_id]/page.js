@@ -58,18 +58,21 @@ export default function AlbumPage({ params }) {
             <SongReviewCard 
               review_text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed."}
               like_count={90}
+              album_art={album_data.album_art}
               song_name={album_data?.songs[0]?.title}
               song_artist={album_data?.artist_name}
               rating={5} />
             <SongReviewCard
               review_text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed."}
               like_count={90}
+              album_art={album_data.album_art}
               song_name={album_data?.songs[3]?.title}
               song_artist={album_data?.artist_name}
               rating={2} />
             <SongReviewCard
               review_text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed."}
               like_count={90}
+              album_art={album_data.album_art}
               song_name={album_data?.songs[4]?.title}
               song_artist={album_data?.artist_name}
               rating={4} />
