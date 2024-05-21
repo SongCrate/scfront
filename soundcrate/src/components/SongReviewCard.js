@@ -37,7 +37,7 @@ export default function SongReviewCard({
 
   return (
     <Link href={`/user/${username}/song/${song_id}`}>
-      <div className="mb-4 max-h-fit flex flex-row justify-between items-start box-container p-3">
+      <div className="max-h-fit flex flex-row justify-between items-start box-container p-3">
         
         {/* 1 - track number, album art and review details */}
         <div className="flex items-start gap-3">
