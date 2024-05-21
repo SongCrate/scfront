@@ -16,18 +16,51 @@
     color:white;
 }
 
-.intro span button {
-    background: black;
-}
-
-.intro span button:first-child {
-    margin-right: 10px;
-}
-
-.intro span button a {
+.intro span button{
+    font-size: 15px;
+    letter-spacing: 0.5px;
     text-decoration: none;
+    padding: 15px 10px 15px 10px;
+    transition: transform 0.3s;
+    color: white;
 }
 
-.intro span button a:hover {
-    color: #adadad;
+.intro span button:hover{
+    padding: 10px 10px;
+    background: white;
+    border: none;
+    color: black;
+    border-radius: 10px;
 }
+
+.register-btn:hover ~ .login-btn {
+    transform: translateX(10px);
+}
+
+.login-btn:hover ~ .register-btn {
+    transform: translateX(-10px);
+}
+
+/*.intro span {*/
+/*    margin-top: 20px;*/
+/*    align-items: center;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    color:white;*/
+/*}*/
+
+/*.intro span button {*/
+/*    background: black;*/
+/*}*/
+
+/*.intro span button:first-child {*/
+/*    margin-right: 10px;*/
+/*}*/
+
+/*.intro span button a {*/
+/*    text-decoration: none;*/
+/*}*/
+
+/*.intro span button a:hover {*/
+/*    color: #adadad;*/
+/*}*/

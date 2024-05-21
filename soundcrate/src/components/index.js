@@ -29,5 +29,5 @@ export {
   SongReviewCard,
   LoginForm,
   RegisterForm,
-  WriteReviewModal
+  WriteReviewModal,
 };

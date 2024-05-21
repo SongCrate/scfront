@@ -26,12 +26,10 @@ export default function Home() {
 
     // fetch songs to fill new releases section
     async function fetchSongs() {
-      if (!storedHomeData) {
-        const randomSongs = await get_random_songs();
-        setSongs(randomSongs);
-        sessionStorage.setItem('home-data', randomSongs)
-      }
+      const randomSongs = await get_random_songs();
+      setSongs(randomSongs);
     }
+    
     fetchSongs();
   }, []);
 
@@ -105,10 +103,10 @@ export default function Home() {
         {!isLoggedIn && (
           <span>
             <Link href="/register">
-              <button className="btn">Get Started</button>
+              <button className="register-btn">Get Started</button>
             </Link>
             <Link href="/login">
-              <button className="btn">Login</button>
+              <button className="login-btn">Login</button>
             </Link>
           </span>
         )}
