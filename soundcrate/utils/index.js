@@ -56,6 +56,14 @@ const get_username = (user_id) => {
   }).username
 }
 
+const get_review = (username, song_id) => {
+  const db = get_db();
+  const user_id = get_user_id(username);
+  return db['review'].find(record => {
+    return record.user_id === user_id && record.song_id === song_id;
+  })
+}
+
 const get_reviews = (username) => {
   // get all reviews given username
   const db = get_db();
@@ -176,6 +184,7 @@ export {
   get_user_id,
   get_username,
   get_reviews,
+  get_review,
   get_all_reviews,
   get_reviews_by_song_id,
   get_lists_by_song_id,

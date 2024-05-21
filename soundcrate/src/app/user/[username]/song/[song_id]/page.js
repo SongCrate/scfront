@@ -1,54 +1,38 @@
 'use client';
 
 import {
-  get_reviews_by_song_id,
-  get_following,
+  get_review,
   get_lists_by_song_id,
   get_list_length,
   get_username,
   get_review_likes
 } from '/utils';
 import { get_song } from '@/lib/spotify';
-import { SongReviewCard,
+import {
   ListCard,
   Rating,
-  WriteReviewModal
+  LikeButton
 } from '@/components';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
-export default function SongPage({ params }) {
-  const { song_id } = params;
-  const username = 'janedoe'; // mock data, would be grabbing this from header
+export default function SongReviewPage({ params }) {
+  const { username, song_id } = params;
+
+  const review_data = get_review(username, song_id);
+  const like_count = get_review_likes(review_data.id);
 
   const [ songData, setSongData ] = useState(null);
 
   useEffect(() => {
-    // get song data from spotify api for review cards
+    // get song data from spotify api
     const get_song_data = async () => {
-      if (review_data) {
-        const response = await get_song(song_id);
-        setSongData(response);
-      }
+      const response = await get_song(song_id);
+      setSongData(response);
     };
 
     get_song_data();
   }, []);
-
-  // ============ GETTING DATA FOR REVIEW CARDS ============
-  const reviews = get_reviews_by_song_id(song_id);
-  var review_data = reviews.map((_, i) => ( // add in like count
-      {...reviews[i],
-        "like_count": get_review_likes(reviews[i].id)
-      }
-  ))
-  review_data.sort((a, b) => a.like_count - b.like_count) // sort by like count
-
-  // ============ GETTING DATA FOR FOLLWOING REVIEW CARDS ============
-  const following_ids = get_following(username);
-  var following_review_data = review_data.filter((review, i) => {
-    return following_ids.includes(review.user_id);
-  })
 
   // ============ GETTING DATA FOR LISTS ============
   var lists = get_lists_by_song_id(song_id);
@@ -66,7 +50,6 @@ export default function SongPage({ params }) {
     album_art: songData?.album?.images[0]?.url,
     album_id: songData?.album?.id,
     year: songData?.album?.release_date.slice(0, 4),
-    average_rating: review_data.reduce((total, next) => total + next.rating, 0) / review_data.length
   }
 
   const render_header = () => {
@@ -83,7 +66,7 @@ export default function SongPage({ params }) {
           />
           {/* song details */}
           <div className="flex flex-col pb-1">
-            <p className="uppercase opacity-50 text-xs mb-0.5">Song</p>
+            <p className="uppercase opacity-50 text-xs mb-0.5">By {username}</p>
             <h1>{song_data.name}</h1>
             <p className="text-med opacity-70 mb-1.5">
               <span>{song_data.artist}</span>
@@ -93,42 +76,12 @@ export default function SongPage({ params }) {
               </Link>
             </p>
             <span>
-            <Rating rating={song_data.average_rating}/>
+            <Rating rating={review_data.rating}/>
           </span>
           </div>
         </section>
     )
   }
-
-  const review_cards = review_data.map((review, i) =>
-      <SongReviewCard
-          key={`review-card-${review.song_id}-${review.user_id}-${i}`}
-          username={get_username(review.user_id)}
-          review_id={review.id}
-          song_id={song_id}
-          rating={review.rating}
-          review_text={review.review_text}
-          song_name={song_data.name}
-          song_artist={song_data.artist}
-          album_art={song_data.album_art}
-          like_count={review.like_count}
-          detail_type={'user'} />
-  )
-
-  const following_review_cards = following_review_data.map((review, i) =>
-      <SongReviewCard
-          key={`following-review-card-${review.song_id}-${review.user_id}-${i}`}
-          username={get_username(review.user_id)}
-          review_id={review.id}
-          song_id={song_id}
-          rating={review.rating}
-          review_text={review.review_text}
-          song_name={song_data.name}
-          song_artist={song_data.artist}
-          album_art={song_data.album_art}
-          like_count={review.like_count}
-          detail_type={'user'} />
-  )
 
   const list_cards = list_data.map((list) =>
       <div key={`list-card-${list.id}`}>
@@ -145,28 +98,26 @@ export default function SongPage({ params }) {
       <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
         <div className="flex flex-col grow shrink gap-6 w-2/3">
           {render_header()}
+          {/* review text */}
           <section className="flex flex-col gap-3">
-            <h3>From Your Following</h3>
-            {following_review_cards}
+            {review_data.review_text}
+            <div className="flex flex-row gap-2">
+              <LikeButton review_id={review_data.id} show_like_count={false} />
+              <p className="opacity-60 text-sm">{like_count} {like_count == 1 ? 'like' : 'likes' }</p>
+            </div>
           </section>
-          <section className="flex flex-col gap-3">
-            <h3>Popular Reviews</h3>
-            {review_cards}
-          </section>
+
+          {/* album link */}
+          {/* <Link href={`/user/${username}/album/${review_data.album_id}`}>
+            <div className="bg-dark-light box-container">
+              {song_data.album} 
+            </div>
+          </Link> */}
+
         </div>
         <div className="flex flex-col grow shrink min-w-52 w-1/3 gap-6">
-          <WriteReviewModal
-              key={`writereview-modal-${song_data.song_id}`}
-              song_id={song_id}
-              album_id={song_data.album_id}
-              song_name={song_data.name}
-              artist={song_data.artist}
-              album_name={song_data.album}
-              album_art={song_data.album_art}
-              year={song_data.year}
-          />
           <section className="flex flex-col gap-3">
-            <h3>Lists</h3>
+            <h3>Saved In</h3>
             <div>
               <hr className="opacity-30"></hr>
               {list_cards}
