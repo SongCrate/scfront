@@ -1,1 +1,229 @@
-{"user":[{"id":1,"username":"janedoe","email":"jane@email.com","password":"janepass","image_url":"https://i.pinimg.com/564x/8a/2f/e3/8a2fe3a4cdd2ed7ad9068b14e916b2c6.jpg"},{"id":2,"username":"annesa","email":"annesa@email.com","password":"annesapass","image_url":"https://i.pinimg.com/564x/3b/f0/5a/3bf05a1bd795849635e999548ba4b763.jpg"}],"review":[{"id":1,"user_id":1,"song_id":"4VD0uDvoaqXu0t706SA4hB","album_id":"7EMoYQ7QghVnHSsdNLWv5P","rating":4,"review_text":"on repeat woww"},{"id":2,"user_id":1,"song_id":"5Xhsf1DLA9j2pVyCbqjkLh","album_id":"71Q44PCgBGD6QyxI12jJNy","rating":5,"review_text":"soo amazing! her best work tbh!"},{"id":3,"user_id":2,"song_id":"5Xhsf1DLA9j2pVyCbqjkLh","album_id":"71Q44PCgBGD6QyxI12jJNy","rating":2,"review_text":"overrated..."},{"id":4,"user_id":1,"song_id":"iudc0jq9jenij98","rating":4,"review_text":"jbjhbbjn,mn"},{"id":5,"user_id":1,"song_id":"iudc0jq9jenij98","rating":4,"review_text":"jbjhbbjn,mn"},{"id":6,"user_id":1,"song_id":"iudc0jq9jenij98","rating":5,"review_text":"nbn"}],"review_like":[{"user_id":2,"review_id":1}],"list":[{"id":1,"user_id":1,"name":"My Favorites","description":""},{"id":2,"user_id":1,"name":"2000s","description":"hits from the 2000's"},{"id":3,"user_id":1,"name":"2010s","description":""}],"list_song":[{"list_id":1,"song_id":"5Xhsf1DLA9j2pVyCbqjkLh"},{"list_id":1,"song_id":"4VD0uDvoaqXu0t706SA4hB"}],"follow":[{"follower":1,"following":2}],"albums":[{"album_name":"For Broken Ears","album_id":"7hxkf98gfcg4fc6","artist_name":"Tems","album_art":"/images/tems.jpg","artist_id":"82sdhdbjs92njwe97yzhbs","songs":[{"title":"Interference","song_id":"29738dn28gaub9h2n39qx"},{"title":"Free Mind","song_id":"9ns0kjsnd2skn8skjnd"},{"title":"Higher","song_id":"8ddbshjhb2309i30dj"},{"title":"Damages","song_id":"askuinks3092sndjk"},{"title":"Ice T","song_id":"9hwenj23njhne8dsu"}]},{"album_name":"Fountain Baby","album_id":"7hxkf98g92g4fc6","artist_name":"Amaarae","album_art":"/images/fountain_baby.jpg","artist_id":"87csdhdb6wwhdbjs","songs":[{"title":"Angels in Tibet","song_id":"iudc0jq9jenij98"},{"title":"Co-Star","song_id":"093nk3jnd2039uajn"},{"title":"Princess Going Digital","song_id":"d4kcn9843kjnkkw2"},{"title":"Reckless & Sweet","song_id":"3ds8uewnksjnkan2"},{"title":"All My Love","song_id":"9encs7shhejnks02"}]},{"album_name":"Snow Angel","album_id":"7sakf98g92g4fc6","artist_name":"Renee Rapp","album_art":"/images/snow-angel.jpg","artist_id":"87cs08tol6op7dbjs","songs":[{"title":"Talk Too Much","song_id":"i75dc0jq9jrij98"},{"title":"Poison Poison","song_id":"09wp93jnd2p31uajn"},{"title":"So What Now","song_id":"d4k9n9p4wk093hgw2"},{"title":"Tummy Hurts","song_id":"3ds8pko83sjn2an"},{"title":"Pretty Girls","song_id":"9er8s7s1h0lo2s02"}]},{"album_name":"TYLA","album_id":"7sPk72g92g4fc6","artist_name":"Tyla","album_art":"/images/tyla.png","artist_id":"87cs08tui6op7dbjs","songs":[{"title":"Water","song_id":"i75dc0jq9jpkj98"},{"title":"Safer","song_id":"09wp93jrcp31uan"},{"title":"Truth or Dare","song_id":"d4k9n9f7k093hgw2"},{"title":"Breathe Me","song_id":"3ds8p8h83sjn2an"},{"title":"Butterflies","song_id":"9er89bs1h0lo2s02"}]}]}
+{
+    "user": [
+        {
+            "id": 1,
+            "username": "janedoe",
+            "email": "jane@email.com",
+            "password": "janepass",
+            "image_url": "https://i.pinimg.com/564x/8a/2f/e3/8a2fe3a4cdd2ed7ad9068b14e916b2c6.jpg"
+        },
+        {
+            "id": 2,
+            "username": "annesa",
+            "email": "annesa@email.com",
+            "password": "annesapass",
+            "image_url": "https://i.pinimg.com/564x/3b/f0/5a/3bf05a1bd795849635e999548ba4b763.jpg"
+        }
+    ],
+    "review": [
+        {
+            "id": 1,
+            "user_id": 1,
+            "song_id": "4VD0uDvoaqXu0t706SA4hB",
+            "album_id": "7EMoYQ7QghVnHSsdNLWv5P",
+            "rating": 4,
+            "review_text": "on repeat woww"
+        },
+        {
+            "id": 2,
+            "user_id": 1,
+            "song_id": "5Xhsf1DLA9j2pVyCbqjkLh",
+            "album_id": "71Q44PCgBGD6QyxI12jJNy",
+            "rating": 5,
+            "review_text": "soo amazing! her best work tbh!"
+        },
+        {
+            "id": 3,
+            "user_id": 2,
+            "song_id": "5Xhsf1DLA9j2pVyCbqjkLh",
+            "album_id": "71Q44PCgBGD6QyxI12jJNy",
+            "rating": 2,
+            "review_text": "overrated..."
+        },
+        {
+            "id": 4,
+            "user_id": 1,
+            "song_id": "iudc0jq9jenij98",
+            "rating": 4,
+            "review_text": "jbjhbbjn,mn"
+        },
+        {
+            "id": 5,
+            "user_id": 1,
+            "song_id": "iudc0jq9jenij98",
+            "rating": 4,
+            "review_text": "jbjhbbjn,mn"
+        },
+        {
+            "id": 6,
+            "user_id": 1,
+            "song_id": "iudc0jq9jenij98",
+            "rating": 5,
+            "review_text": "nbn"
+        }
+    ],
+    "review_like": [
+        {
+            "user_id": 2,
+            "review_id": 1
+        }
+    ],
+    "list": [
+        {
+            "id": 1,
+            "user_id": 1,
+            "name": "My Favorites",
+            "description": ""
+        },
+        {
+            "id": 2,
+            "user_id": 1,
+            "name": "2000s",
+            "description": "hits from the 2000's"
+        },
+        {
+            "id": 3,
+            "user_id": 1,
+            "name": "2010s",
+            "description": ""
+        }
+    ],
+    "list_song": [
+        {
+            "list_id": 1,
+            "song_id": "5Xhsf1DLA9j2pVyCbqjkLh"
+        },
+        {
+            "list_id": 1,
+            "song_id": "4VD0uDvoaqXu0t706SA4hB"
+        }
+    ],
+    "follow": [
+        {
+            "follower": 1,
+            "following": 2
+        }
+    ],
+    "albums": [
+        {
+            "album_name": "For Broken Ears",
+            "album_id": "7hxkf98gfcg4fc6",
+            "artist_name": "Tems",
+            "album_art": "data:image/jpeg;base64,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",
+            "artist_id": "82sdhdbjs92njwe97yzhbs",
+            "year": 2020,
+            "songs": [
+                {
+                    "title": "Interference",
+                    "song_id": "29738dn28gaub9h2n39qx"
+                },
+                {
+                    "title": "Free Mind",
+                    "song_id": "9ns0kjsnd2skn8skjnd"
+                },
+                {
+                    "title": "Higher",
+                    "song_id": "8ddbshjhb2309i30dj"
+                },
+                {
+                    "title": "Damages",
+                    "song_id": "askuinks3092sndjk"
+                },
+                {
+                    "title": "Ice T",
+                    "song_id": "9hwenj23njhne8dsu"
+                }
+            ]
+        },
+        {
+            "album_name": "Fountain Baby",
+            "album_id": "7hxkf98g92g4fc6",
+            "artist_name": "Amaarae",
+            "album_art": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSv_qseSISl9aHHEMZc3rCeLErq9U2EQVU9_0mcmuNoSQ&s",
+            "artist_id": "87csdhdb6wwhdbjs",
+            "year": 2020,
+            "songs": [
+                {
+                    "title": "Angels in Tibet",
+                    "song_id": "iudc0jq9jenij98"
+                },
+                {
+                    "title": "Co-Star",
+                    "song_id": "093nk3jnd2039uajn"
+                },
+                {
+                    "title": "Princess Going Digital",
+                    "song_id": "d4kcn9843kjnkkw2"
+                },
+                {
+                    "title": "Reckless & Sweet",
+                    "song_id": "3ds8uewnksjnkan2"
+                },
+                {
+                    "title": "All My Love",
+                    "song_id": "9encs7shhejnks02"
+                }
+            ]
+        },
+        {
+            "album_name": "Snow Angel",
+            "album_id": "7sakf98g92g4fc6",
+            "artist_name": "Renee Rapp",
+            "album_art": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fis1-ssl.mzstatic.com%2Fimage%2Fthumb%2FMusic126%2Fv4%2Fb7%2F27%2F57%2Fb727577e-1e90-2209-ec08-169232cd17f7%2F23UMGIM60775.rgb.jpg%2F1200x1200bf-60.jpg&f=1&nofb=1&ipt=caf4469e8959ad1b91702c6c3812d9f711b33731c4a301f7e78395f4c123578f&ipo=images",
+            "artist_id": "87cs08tol6op7dbjs",
+            "year": 2020,
+            "songs": [
+                {
+                    "title": "Talk Too Much",
+                    "song_id": "i75dc0jq9jrij98"
+                },
+                {
+                    "title": "Poison Poison",
+                    "song_id": "09wp93jnd2p31uajn"
+                },
+                {
+                    "title": "So What Now",
+                    "song_id": "d4k9n9p4wk093hgw2"
+                },
+                {
+                    "title": "Tummy Hurts",
+                    "song_id": "3ds8pko83sjn2an"
+                },
+                {
+                    "title": "Pretty Girls",
+                    "song_id": "9er8s7s1h0lo2s02"
+                }
+            ]
+        },
+        {
+            "album_name": "TYLA",
+            "album_id": "7sPk72g92g4fc6",
+            "artist_name": "Tyla",
+            "album_art": "https://upload.wikimedia.org/wikipedia/en/thumb/1/1e/Tyla_album.jpg/220px-Tyla_album.jpg",
+            "artist_id": "87cs08tui6op7dbjs",
+            "year": 2020,
+            "songs": [
+                {
+                    "title": "Water",
+                    "song_id": "i75dc0jq9jpkj98"
+                },
+                {
+                    "title": "Safer",
+                    "song_id": "09wp93jrcp31uan"
+                },
+                {
+                    "title": "Truth or Dare",
+                    "song_id": "d4k9n9f7k093hgw2"
+                },
+                {
+                    "title": "Breathe Me",
+                    "song_id": "3ds8p8h83sjn2an"
+                },
+                {
+                    "title": "Butterflies",
+                    "song_id": "9er89bs1h0lo2s02"
+                }
+            ]
+        }
+    ]
+}

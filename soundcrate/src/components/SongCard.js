@@ -5,9 +5,10 @@ import Link from 'next/link';
 export default function SongCard({ 
   song_id,
   song_name='Song',
-  song_artist='Artist',
+  song_artist,
   album_art=null,
   track_number=null,
+  review_count,
   }) {
 
 
@@ -41,8 +42,8 @@ export default function SongCard({
           <div className="flex flex-col">
             {/* 1.3.1 song, artist or user*/}
             <h4> {song_name}</h4>
-            <span className="font-medium opacity-60">{song_artist}</span>
-
+            {song_artist ?? <span className="font-medium opacity-60">{song_artist}</span>}
+            {/* {review_count ?? <span className="text-xs opacity-60 uppercase">{review_count} Reviews</span>} */}
           </div>
         </div>
       </div>
