@@ -54,7 +54,7 @@ export default function AlbumPage({ params }) {
       <div className="flex flex-col grow shrink min-w-52 w-1/3 gap-6">
         <section className="flex flex-col gap-3">
           <h3>Top Reviews</h3>
-          <div>
+          <div className="flex flex-col gap-2">
             <SongReviewCard 
               review_text={"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed."}
               like_count={90}
