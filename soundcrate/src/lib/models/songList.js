@@ -22,5 +22,5 @@ const songListSchema = new Schema({
   }, { timestamps: true }
 );
 
-const Review = models.Review || mongoose.model("Review", reviewSchema);
-export default Review;
+const SongList = models.SongList || mongoose.model("SongList", songListSchema);
+export default SongList;
