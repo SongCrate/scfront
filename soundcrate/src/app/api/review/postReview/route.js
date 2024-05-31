@@ -14,13 +14,16 @@ export async function POST(req){
 
     await connectMongoDB();
 
-    const review = new Review({
+    var review = new Review({
       user: user_id,
       songId: song_id,
       albumId: album_id,
       rating: rating,
-      text: review_text
     });
+
+    if (Boolean(review_text)) {
+      review['text'] = review_text;
+    }
 
     var res = null;
 
@@ -36,8 +39,9 @@ export async function POST(req){
       });
 
   } catch (error) {
+    console.log(error)
     res = NextResponse.json(
-      { message: "Internal Server Error" },
+      { message: "Internal Server Error: " + error },
       { status: 500 }
     )
   } finally {
