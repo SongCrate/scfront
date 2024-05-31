@@ -1,16 +1,12 @@
 import { connectMongoDB } from '@/lib/mongodb';
 import User from '@/lib/models/user';
-// import Review from '@/lib/models/review';
-// import SongList from '@/lib/models/';
 import { NextResponse } from 'next/server';
 
 export async function GET(req, {params}){
     try {
       const username = params.username;
-      console.log(username)
 
       await connectMongoDB();
-      console.log('connected to mongodb')
       const user = await User.findOne({ username })
 
       if (!user) {
