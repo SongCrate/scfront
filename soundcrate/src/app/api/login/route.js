@@ -1,8 +1,8 @@
-import {NextResponse} from "next/server";
-import { connectMongoDB } from "../../../../../lib/mongodb";
-import User from "../../../../../models/user"
-import bcrypt from "bcryptjs"
-import jwt from "jsonwebtoken"
+import { NextResponse } from 'next/server';
+import { connectMongoDB } from '@/lib/mongodb';
+import User from '@/lib/models/user';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 export async function POST(req){
     try{
