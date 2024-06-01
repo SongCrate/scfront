@@ -8,8 +8,6 @@ import {
   get_album_ids,
   get_lists, 
   get_list_length, 
-  get_reviews,
-  get_review_likes,
 } from '/utils';
 import {
   AlbumCard,
@@ -24,7 +22,7 @@ export default function UserProfilePage({ params }) {
   const { username } = params;
 
   const [ songData, setSongData ] = useState(null);
-  const [ albumData, setAlbumData ] = useState(null);
+  const [ albums, setAlbums ] = useState([]);
   const [ reviews, setReviews ] = useState([]);
 
   useEffect(() => {
@@ -66,21 +64,20 @@ export default function UserProfilePage({ params }) {
     fetchReviewsByUsername(username);
   }, []);
   
+  // get album data from spotify api for album cards
   useEffect(() => {
-    // get album data from spotify api for album cards
     const get_album_data = async () => {
-      if (album_ids) {
-        const response = await get_albums(album_ids);
-        setAlbumData(response);
-      }
+      const album_ids = reviews.map((review) => {
+        return review.albumId;
+      })
+      const unique_album_ids = [...new Set(album_ids)];
+
+      const response = await get_albums(unique_album_ids);
+      setAlbums(response?.albums);
     };
     
     get_album_data();
-  }, [album_ids]);
-
-  // ============ GETTING DATA FOR ALBUMS ============
-  // get data for first 8 albums
-  var album_ids = get_album_ids(username).slice(0, 8);
+  }, [reviews]);
 
   // ============ GETTING DATA FOR LISTS ============
   var lists = get_lists(username);
@@ -110,15 +107,18 @@ export default function UserProfilePage({ params }) {
     ))
   }
 
-  const album_cards = album_ids.map((album_id, i) =>
-    <AlbumCard 
-      key={`album-card-${album_id}`} 
-      username={username}
-      album_id={album_id}
-      name={albumData?.albums[i]?.name}
-      artist_name={albumData?.albums[i]?.artists[0]?.name}
-      album_art={albumData?.albums[i]?.images[1]?.url} />
-  )
+  const render_album_cards = (album_array) => {
+    return (album_array && album_array.map((album) =>
+      <AlbumCard 
+        key={`album-card-${album.id}`} 
+        username={username}
+        album_id={album.id}
+        name={album.name}
+        artist_name={album?.artists[0]?.name}
+        album_art={album?.images[1]?.url} />
+      )
+    )
+  }
 
   const list_cards = list_data.map((list) => 
     <div key={`list-card-${list.id}`}>
@@ -141,7 +141,7 @@ export default function UserProfilePage({ params }) {
         <section>
           <Link href="profile/albums"><h3 className="mb-3">Albums</h3></Link>
           <div className="gap-3 grid grid-cols-4">
-            {album_cards}
+            {render_album_cards(albums?.slice(0, 8))}
           </div>
         </section>
       </div>
