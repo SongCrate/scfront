@@ -1,24 +1,43 @@
-import { 
-  get_album_ids,
-  get_followers,
-  get_following,
-  get_lists,
-  get_reviews,
-  get_user 
-} from '/utils';
+'use client';
+
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function UserProfileLayout({ children, params }) {
   const { username } = params;
-  const user = get_user(username)
+  const [ user, setUser ] = useState({});
 
-  const user_data = {
-    profile_img: user.image_url,
-    review_count: get_reviews(username).length,
-    album_count: get_album_ids(username).length,
-    list_count: get_lists(username).length,
-    follower_count: get_followers(username).length,
-    following_count: get_following(username).length
+
+  useEffect(() => {
+
+    // fetch user data
+    async function fetchUser() {
+      try {
+        const response = await fetch(`/api/user/getUser/${username}`, {
+          method: 'GET',
+        });
+    
+        const responseData = await response.json();
+        if (responseData?.body) {
+          setUser(responseData.body);
+        }
+    
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    fetchUser();
+  }, []);
+
+  // user data packaged up in one place
+  const userData = {
+    profile_img: user?.user?.imageUrl,
+    review_count: user?.reviewCount,
+    album_count: user?.albumCount,
+    list_count: user?.listCount,
+    follower_count: user?.user?.followers?.length,
+    following_count: user?.user?.following?.length
   }
 
   return (
@@ -28,7 +47,7 @@ export default function UserProfileLayout({ children, params }) {
 
         {/* user profile picture */}
         <img
-          src={user_data.profile_img ?? "/images/default-user.png"} 
+          src={userData.profile_img ?? "/images/default-user.png"} 
           alt={username}
           className="rounded-md object-cover w-[70px] h-[70px]"
         />
@@ -40,27 +59,27 @@ export default function UserProfileLayout({ children, params }) {
           {/* stats container: reviews, albums, followers, following */}
           <div className="flex flex-nowrap gap-2 items-end">
             <UserProfileStatistic
-              number={user_data.review_count}
+              number={userData.review_count}
               label={"Reviews"}
               href={`/user/${username}/profile/reviews`}
             />
             <UserProfileStatistic
-              number={user_data.album_count}
+              number={userData.album_count}
               label={"Albums"}
               href={`/user/${username}/profile/albums`}
             />
             <UserProfileStatistic
-              number={user_data.list_count}
+              number={userData.list_count}
               label={"Lists"}
               href={`/user/${username}/profile/lists`}
             />
             <UserProfileStatistic
-              number={user_data.follower_count}
+              number={userData.follower_count}
               label={"Followers"}
               href={`/user/${username}/profile/followers`}
             />
             <UserProfileStatistic
-              number={user_data.following_count}
+              number={userData.following_count}
               label={"Following"}
               href={`/user/${username}/profile/following`}
             />
