@@ -11,11 +11,12 @@ export async function GET(req){
     // initialize objects to filter/sort reviews
     let filter_query = {};
     let sort_query = {};
+    let limit_query = 0; // no limit
     
-    // add in filters specified in search params
+    // filter for specific song id
     if ('songId' in search_params) { filter_query.songId = search_params.songId };
 
-    // filter by user id or username
+    // filter by user id (priority) or username 
     if ('userId' in search_params) { 
       filter_query.user = search_params.userId 
     } else if ('username' in search_params) { 
@@ -38,10 +39,14 @@ export async function GET(req){
         sort_query = { 'createdAt' : -1 }
       }
     };
+
+    // // add in limit requirements specified in search params
+    if ('limit' in search_params) { limit_query = parseInt(search_params.limit) };
     
     const reviews = await Review
       .find(filter_query)
       .sort(sort_query)
+      .limit(limit_query)
       .populate('user')
       .exec();
 
@@ -51,7 +56,6 @@ export async function GET(req){
     )
 
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       { message: `Internal Server Error: ${error}` },
       { status: 500 }
