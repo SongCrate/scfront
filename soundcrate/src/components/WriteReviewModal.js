@@ -1,5 +1,4 @@
 'use client';
-import { get_db } from '/utils';
 import { Fragment, useState } from 'react';
 import { 
   Star,
@@ -17,14 +16,12 @@ export default function WriteReviewModal({
 }) {
 
   // mock data, would be grabbing this from header
-  const user_id = 1;
+  const user_id = '664690bb36aa3aa3e8c8d240';
 
   const modal_id = "write-review-modal-id";
   const [ rating, setRating ] = useState(null);
   const [ reviewText, setReviewText ] = useState("");
   const review_text_char_limit = 1000;
-
-  const db = get_db();
 
   const handleCancel = () => {
     // deselect all ratings
@@ -39,36 +36,37 @@ export default function WriteReviewModal({
   }
 
   const handleSubmit = async (e) => {
+    async function postReview(new_review) {
+      try {
+        const response = await fetch('/api/review/postReview', {
+          method: 'POST',
+          body: JSON.stringify(new_review)
+        });
+
+        const response_data = await response.json();
+        if (response_data?.status == 200) {
+          console.log(response_data.body)
+        } else {
+          console.log(response_data.error)
+        }
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
     e.preventDefault();
 
-    // create new database object
-    const last_id = db['review'].slice(-1)[0].id
-    var new_db = db
-    new_db['review'][last_id] = {
-      "id": last_id + 1,
-      "user_id": user_id,
-      "song_id": song_id,
-      "album_id": album_id,
-      "rating": rating,
-      "review_text": reviewText.trim()
+    // create body to send to api
+    const new_review = {
+      user_id,
+      song_id,
+      album_id,
+      rating: rating,
+      review_text: reviewText,
     }
 
-    try {
-      const response = await fetch('/api/update_db', {
-        method: 'POST',
-        body: JSON.stringify(new_db)
-      });
-
-      const response_data = await response.json();
-
-      if (response.status === 200) {
-        console.log('success');
-      } else {
-        console.log(response.status)
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    postReview(new_review)
 
     // close modal
     const close_btn = document.getElementById("write-review-modal-close-btn");
@@ -76,7 +74,6 @@ export default function WriteReviewModal({
 
     // clear modal inputs
     handleCancel();
-
   }
 
   const render_header = () => {

@@ -1,4 +1,3 @@
-import { Int32 } from 'mongodb';
 import mongoose, { models, Schema } from 'mongoose';
 
 const reviewSchema = new Schema({
@@ -8,20 +7,20 @@ const reviewSchema = new Schema({
       ref: "User",
     },
     songId: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     albumId: {
       type: String,
       required: true
     },
     rating: {
-        type: Int32,
-        required: true
+      type: Number,
+      required: true
     },
     text: {
       type: String,
-      required: true
+      required: false
     },
     likes: [
       {
