@@ -15,6 +15,17 @@ export async function GET(req){
     // add in filters specified in search params
     if ('userId' in search_params) { filter_query.user = search_params.userId };
     if ('songId' in search_params) { filter_query.songId = search_params.songId };
+    if ('username' in search_params) { 
+      const user = await User.findOne({ username: search_params.username });
+      
+      if (!user) 
+        return NextResponse.json(
+          { message: `User does not exist` },
+          { status: 400 }
+        )
+      
+      filter_query.user =  user._id;
+    };
     
     // add in sort requirements specified in search params
     if ('sortBy' in search_params) { 
