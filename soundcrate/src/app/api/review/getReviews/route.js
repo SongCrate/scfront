@@ -1,5 +1,6 @@
 import { connectMongoDB } from '@/lib/mongodb';
 import Review from '@/lib/models/review';
+import User from '@/lib/models/user';
 import { NextResponse } from 'next/server';
 
 export async function GET(req){
@@ -14,7 +15,7 @@ export async function GET(req){
     if ('userId' in search_params) { filter_query.user = search_params.userId };
     if ('songId' in search_params) { filter_query.songId = search_params.songId };
     
-    const reviews = await Review.find(filter_query);
+    const reviews = await Review.find(filter_query).populate('user').exec();
 
     return NextResponse.json(
       { body: reviews }, 
@@ -22,6 +23,7 @@ export async function GET(req){
     )
 
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { message: `Internal Server Error: ${error}` },
       { status: 500 }

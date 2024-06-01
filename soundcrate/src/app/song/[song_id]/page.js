@@ -115,8 +115,7 @@ export default function SongPage({ params }) {
         review_text={review.text}
         song_name={song_data.name}
         song_artist={song_data.artist}
-        album_art={song_data.album_art}
-        like_count={review.likes.length}
+        image={review.user.imageUrl}
         detail_type={'user'}
       />
     ))
@@ -144,6 +143,7 @@ export default function SongPage({ params }) {
         </section>
         <section className="flex flex-col gap-3">
           <h3>Popular Reviews</h3>
+          {JSON.stringify(reviews)}
           {render_review_cards(reviews)}
         </section>
       </div>
