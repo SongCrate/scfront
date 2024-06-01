@@ -36,7 +36,7 @@ export default function SongPage({ params }) {
   useEffect(() => {
     async function fetchReviewsBySongId(song_id) {
       try {
-        const response = await fetch(`/api/review/getReviews?songId=${song_id}`, {
+        const response = await fetch(`/api/review/getReviews?songId=${song_id}&sortBy=likes`, {
           method: 'GET',
         });
     
@@ -137,13 +137,12 @@ export default function SongPage({ params }) {
     <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
       <div className="flex flex-col grow shrink gap-6 w-2/3">
         {render_header()}
-        <section className="flex flex-col gap-3">
+        {/* <section className="flex flex-col gap-3">
           <h3>From Your Following</h3>
-          {/* {following_review_cards} */}
-        </section>
+          {following_review_cards}
+        </section> */}
         <section className="flex flex-col gap-3">
           <h3>Popular Reviews</h3>
-          {JSON.stringify(reviews)}
           {render_review_cards(reviews)}
         </section>
       </div>
