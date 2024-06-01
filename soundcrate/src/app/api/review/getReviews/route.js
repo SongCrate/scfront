@@ -20,6 +20,8 @@ export async function GET(req){
     if ('sortBy' in search_params) { 
       if (search_params.sortBy == 'likes') {
         sort_query = { 'likes' : -1 };
+      } else if (search_params.sortBy == 'date') {
+        sort_query = { 'createdAt' : -1 }
       }
     };
     

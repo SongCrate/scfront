@@ -108,7 +108,7 @@ export default function SongPage({ params }) {
     return (review_array && review_array.map((review) =>
       <SongReviewCard
         key={`review-card-${review._id}`}
-        username={'janedoe'}
+        username={review.user.username}
         review_id={review._id}
         song_id={review.songId}
         rating={review.rating}
