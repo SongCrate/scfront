@@ -77,7 +77,7 @@ export default function NavBar() {
                 <User size={18} weight="bold" />
                 Profile
               </Link>
-              <Link href="#" className={menu_nav_link_styling}>
+              <Link href={`/user/${username}/profile?modal=setings`} className={menu_nav_link_styling}>
                 <Gear size={18} weight="bold" />
                 Settings
               </Link>

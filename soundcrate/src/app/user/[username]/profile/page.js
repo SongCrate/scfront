@@ -19,12 +19,15 @@ import {
 } from "@/components";
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useRouter } from "next/navigation";
 
 export default function UserProfilePage({ params }) {
   const { username } = params;
 
   const [ songData, setSongData ] = useState(null);
   const [ albumData, setAlbumData ] = useState(null);
+  const [showSettings, setShowSettings] = useState(false);
+  const router = useRouter()
 
   useEffect(() => {
     // get song data from spotify api for review cards
