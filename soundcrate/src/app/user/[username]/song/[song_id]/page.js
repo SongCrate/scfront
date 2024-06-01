@@ -1,11 +1,9 @@
 'use client';
 
 import {
-  get_review,
   get_lists_by_song_id,
   get_list_length,
   get_username,
-  get_review_likes
 } from '/utils';
 import { get_song } from '@/lib/spotify';
 import {
