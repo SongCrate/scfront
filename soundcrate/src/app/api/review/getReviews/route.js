@@ -13,18 +13,21 @@ export async function GET(req){
     let sort_query = {};
     
     // add in filters specified in search params
-    if ('userId' in search_params) { filter_query.user = search_params.userId };
     if ('songId' in search_params) { filter_query.songId = search_params.songId };
-    if ('username' in search_params) { 
+
+    // filter by user id or username
+    if ('userId' in search_params) { 
+      filter_query.user = search_params.userId 
+    } else if ('username' in search_params) { 
       const user = await User.findOne({ username: search_params.username });
       
       if (!user) 
         return NextResponse.json(
-          { message: `User does not exist` },
+          { message: `User with username ${search_params.username} does not exist` },
           { status: 400 }
         )
       
-      filter_query.user =  user._id;
+      filter_query.user = user._id;
     };
     
     // add in sort requirements specified in search params
