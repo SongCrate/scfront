@@ -20,9 +20,10 @@ export default function ListsPage({ params }) {
   ))
 
   const list_cards = list_data.map((list, i) => 
-  <div key={`list-card-${i}`}>
+  <div key={`list-card-${list.id}`}>
     <ListCard 
       username={username}
+      list_id={list.id}
       name={list.name}
       song_count={list.song_count} />
     <hr className="opacity-30"></hr>

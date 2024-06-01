@@ -4,7 +4,7 @@ import { get_user, is_review_liked, get_review_likes } from '/utils';
 import { Heart } from '@phosphor-icons/react';
 import { useState } from 'react';
 
-export default function LikeButton({ review_id, size=20 }) {
+export default function LikeButton({ review_id, size=20, show_like_count=true }) {
 
   const user_id = 1; // mock data, will retrieve this from headers
 
@@ -30,7 +30,7 @@ export default function LikeButton({ review_id, size=20 }) {
       <button className="flex flex-col items-center gap-1 z-99 padding-3" onClick={handleClick}>
         <Heart weight={weight} size={size} className={classes}/>
       </button>
-      <p className="opacity-80">{likeCount?.toString()}</p>
+      {show_like_count ?? <p className="opacity-80">{likeCount?.toString()}</p>}
     </div>
   );
 }

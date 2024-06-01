@@ -56,6 +56,14 @@ const get_username = (user_id) => {
   }).username
 }
 
+const get_review = (username, song_id) => {
+  const db = get_db();
+  const user_id = get_user_id(username);
+  return db['review'].find(record => {
+    return record.user_id === user_id && record.song_id === song_id;
+  })
+}
+
 const get_reviews = (username) => {
   // get all reviews given username
   const db = get_db();
@@ -148,6 +156,24 @@ const is_review_liked = (user_id, review_id) => {
   }))
 }
 
+const get_list_by_id = (list_id) => {
+  const db = get_db();
+  return db['list'].find(record => {
+    return record.id == list_id;
+  })
+}
+
+const get_list_song_ids = (list_id) => {
+  const db = get_db();
+  return db['list_song']
+  .filter(record => {
+    return record.list_id == list_id
+  })
+  .map((record) => (
+    record['song_id']
+  ))
+}
+
 export {
   get_db,
   get_user,
@@ -158,6 +184,7 @@ export {
   get_user_id,
   get_username,
   get_reviews,
+  get_review,
   get_all_reviews,
   get_reviews_by_song_id,
   get_lists_by_song_id,
@@ -166,4 +193,6 @@ export {
   get_followers,
   get_following,
   is_review_liked,
+  get_list_by_id,
+  get_list_song_ids
 };

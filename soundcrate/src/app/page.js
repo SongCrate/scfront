@@ -18,6 +18,7 @@ export default function Home() {
 
     // get username to set logged-in status
     const storedUsername = sessionStorage.getItem('username');
+    const storedHomeData = sessionStorage.getItem('home-data');
     if (storedUsername && storedUsername != '') {
         setIsLoggedIn(true);
         setUsername(storedUsername);
@@ -28,6 +29,7 @@ export default function Home() {
       const randomSongs = await get_random_songs();
       setSongs(randomSongs);
     }
+    
     fetchSongs();
   }, []);
 
@@ -101,10 +103,10 @@ export default function Home() {
         {!isLoggedIn && (
           <span>
             <Link href="/register">
-              <button className="btn">Get Started</button>
+              <button className="register-btn">Get Started</button>
             </Link>
             <Link href="/login">
-              <button className="btn">Login</button>
+              <button className="login-btn">Login</button>
             </Link>
           </span>
         )}
