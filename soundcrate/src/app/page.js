@@ -86,7 +86,7 @@ export default function Home() {
             review_text={review.review_text}
             song_name={songData?.tracks[i]?.name}
             song_artist={songData?.tracks[i]?.artists[0]?.name}
-            album_art={songData?.tracks[i]?.album?.images[1]?.url}
+            image={songData?.tracks[i]?.album?.images[1]?.url}
             like_count={review.like_count} />
         )
     }

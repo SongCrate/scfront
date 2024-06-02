@@ -1,46 +1,65 @@
 'use client';
 
 import { get_albums } from '@/lib/spotify';
-import { get_album_ids } from '/utils';
 import { AlbumCard } from "@/components";
 import { useState, useEffect } from 'react';
 
 export default function ListsPage({ params }) {
   const { username } = params;
+  const [ albums, setAlbums ] = useState([]);
 
-  const [ albumData, setAlbumData ] = useState(null);
-
+  // fetch all albums from reviews for this username
   useEffect(() => {
-    // get album data from spotify api for album cards
-    const get_album_data = async () => {
-      if (album_ids) {
-        const response = await get_albums(album_ids);
-        setAlbumData(response);
+    async function fetchReviewsByUsername(username) {
+      try {
+        const response = await fetch(
+          `/api/review/getReviews?username=${username}&sortBy=date`, 
+          { method: 'GET' }
+        );
+    
+        const responseData = await response.json();
+        if (responseData?.body) {
+          return responseData.body;
+        } else {
+          throw responseData.error;
+        }
+      } catch (error) {
+        console.log(error);
       }
+    }
+
+    const get_album_data = async (username) => {
+      const fetched_reviews = await fetchReviewsByUsername(username);
+      const album_ids = fetched_reviews.map((review) => {
+        return review.albumId;
+      })
+      const unique_album_ids = [...new Set(album_ids)];
+
+      const response = await get_albums(unique_album_ids);
+      setAlbums(response?.albums);
     };
     
-    get_album_data();
-  }, [album_ids]);
+    get_album_data(username);
+  }, []);
 
-  // get data for albums
-  var album_ids = get_album_ids(username);
-
-  const album_cards = album_ids.map((album_id, i) =>
-    <AlbumCard 
-      key={`album-card-${album_id}`} 
-      username={username}
-      album_id={album_id}
-      name={albumData?.albums[i]?.name}
-      artist_name={albumData?.albums[i]?.artists[0]?.name}
-      album_art={albumData?.albums[i]?.images[1]?.url} 
-      size={20} />
-  )
+  const render_album_cards = (album_array) => {
+    return (album_array && album_array.map((album) =>
+      <AlbumCard 
+        key={`album-card-${album.id}`} 
+        username={username}
+        album_id={album.id}
+        name={album.name}
+        artist_name={album?.artists[0]?.name}
+        album_art={album?.images[1]?.url} />
+      )
+    )
+  }
     
   return (
     <main className="flex flex-col gap-4">
       <h2>Albums</h2>
       <div className="flex flex-row flex-wrap gap-3">
-        {album_cards}
+        {render_album_cards(albums)}
       </div>
     </main>
   );
