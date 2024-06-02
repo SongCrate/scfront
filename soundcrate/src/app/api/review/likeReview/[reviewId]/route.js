@@ -1,6 +1,5 @@
 import { connectMongoDB } from '@/lib/mongodb';
 import Review from '@/lib/models/review';
-// import User from '@/lib/models/user';
 import { NextResponse } from 'next/server';
 
 export async function POST(req, { params }){
@@ -18,7 +17,7 @@ export async function POST(req, { params }){
         action_obj = { $addToSet: { likes: user_id } };
         break;
       case 'unlike':
-        action_obj = { $pull: { likes: user_id } };action_obj = { $pull: { likes: user_id } }
+        action_obj = { $pull: { likes: user_id } };
         break;
       default:
         return NextResponse.json(

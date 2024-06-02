@@ -1,6 +1,5 @@
 'use client';
 
-import { get_user } from '/utils';
 import Link from 'next/link';
 import { Rating, LikeButton } from '@/components';
 
