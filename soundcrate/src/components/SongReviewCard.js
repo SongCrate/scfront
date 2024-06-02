@@ -15,7 +15,8 @@ export default function SongReviewCard({
   image='',
   track_number=null,
   show_image=true,
-  detail_type='album'
+  detail_type='album',
+  likes=[]
   }) {
 
   // display either album art + song details OR profile image + username
@@ -78,7 +79,11 @@ export default function SongReviewCard({
         </div>
 
         {/* 2 - like count */}
-        <LikeButton review_id={review_id} />
+        <LikeButton 
+          review_id={review_id}
+          likes={likes}
+          compact={true}
+        />
       </div>
     </Link>
   );
