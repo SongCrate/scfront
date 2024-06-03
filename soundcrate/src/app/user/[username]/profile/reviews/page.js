@@ -64,6 +64,7 @@ export default function ListsPage({ params }) {
           song_artist={song_obj?.artists[0]?.name}
           image={song_obj?.album?.images[1]?.url}
           detail_type={'album'}
+          likes={review.likes}
         />
       )}
     ))
