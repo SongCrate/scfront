@@ -15,7 +15,7 @@
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "mong": "^2.0.2",
-    "mongoose": "^8.3.5",
+    "mongoose": "^8.4.1",
     "net": "^1.0.2",
     "next": "latest",
     "next-auth": "^4.24.7",
