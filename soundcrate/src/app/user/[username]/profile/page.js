@@ -5,7 +5,6 @@ import {
   get_songs 
 } from '@/lib/spotify';
 import {
-  get_album_ids,
   get_lists, 
   get_list_length, 
 } from '/utils';
@@ -25,16 +24,18 @@ export default function UserProfilePage({ params }) {
   const [ albums, setAlbums ] = useState([]);
   const [ reviews, setReviews ] = useState([]);
 
+  // get song data from spotify api for review cards
   useEffect(() => {
-    // get song data from spotify api for review cards
     const get_song_data = async () => {
       if (reviews) {
         const song_ids = reviews.map((review) => {
           return review.songId;
         })
-
-        const response = await get_songs(song_ids);
-        setSongData(response?.tracks);
+        
+        if (song_ids.length) {
+          const response = await get_songs(song_ids);
+          setSongData(response?.tracks);
+        }
       }
     };
     
@@ -72,8 +73,10 @@ export default function UserProfilePage({ params }) {
       })
       const unique_album_ids = [...new Set(album_ids)];
 
-      const response = await get_albums(unique_album_ids);
-      setAlbums(response?.albums);
+      if (unique_album_ids.length) {
+        const response = await get_albums(unique_album_ids);
+        setAlbums(response?.albums);
+      }
     };
     
     get_album_data();
