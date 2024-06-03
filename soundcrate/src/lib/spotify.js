@@ -70,6 +70,21 @@ export const get_songs = async (song_id_array) => {
   } 
 };
 
+export const get_album = async (album_id) => {
+  const access_token = await authorize();
+
+  try {
+    const response = await axios.get(`https://api.spotify.com/v1/albums/${album_id}`, {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    });
+    return response.data;
+  } catch(error) {
+    console.log(error);
+  } 
+};
+
 export const get_albums = async (album_id_array) => {
   const access_token = await authorize();
 
