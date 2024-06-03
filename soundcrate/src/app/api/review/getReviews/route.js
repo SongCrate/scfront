@@ -16,6 +16,9 @@ export async function GET(req){
     // filter for specific song id
     if ('songId' in search_params) { filter_query.songId = search_params.songId };
 
+    // filter for specific album id
+    if ('albumId' in search_params) { filter_query.albumId = search_params.albumId };
+
     // filter by user id (priority) or username 
     if ('userId' in search_params) { 
       filter_query.user = search_params.userId 
