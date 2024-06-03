@@ -2,9 +2,8 @@ import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/lib/mongodb';
 import User from '@/lib/models/user';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 
-export async function POST(req){
+export async function login(req){
     try{
         const {email, password} = await req.json();
         const encryptedPassword = await bcrypt.hash(password, 10);
@@ -21,32 +20,32 @@ export async function POST(req){
         if(!validPassword){
             return NextResponse.json({error: "Invalid password"}, {status: 400})
         }else{
-            return NextResponse.json({ username: user.username });
+            return NextResponse.json({
+                id: user._id,
+                password: user.password,
+                username: user.username,
+                email: user.email,
+                followers: user.followers,
+                following: user.following,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt
+            });
         }
-
-        const tokenData = {
-            id: user._id,
-            username: user.username,
-            email: user.email
-        }
-
-        // Create a token with expiration of 1 day
-        const token = await jwt.sign(tokenData, process.env.NEXTAUTH_SECRET, {expiresIn: "1d"})
 
         const response = NextResponse.json({
             message: "Login successful",
             success: true,
         })
 
-        response.cookies.set("token", token, {
-            httpOnly: true,
-        })
-
         return response;
 
     }catch(error){
         return NextResponse.json({
-            message: "An error occurred while registering the user."}, {status: 500}
+            message: "An error occurred while logging in the user."}, {status: 500}
         )
     }
+}
+
+export async function POST(req) {
+    return login(req);
 }

@@ -16,12 +16,12 @@ const reviewSchema = new Schema({
       required: true
     },
     rating: {
-        type: Int32,
+        type: Number,
         required: true
     },
     text: {
       type: String,
-      required: true
+      required: false
     },
     likes: [
       {

@@ -1,4 +1,6 @@
 import '../styles/global.css';
+import { getServerSession } from "next-auth";
+import SessionProvider from "./SessionProvider/SessionProvider";
 import { Work_Sans} from 'next/font/google';
 import { 
   NavBar,
@@ -12,14 +14,17 @@ export const metadata = {
   description: 'INF124 SoundCrate App',
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+    const session = await getServerSession();
   return (
     <html lang="en">
       <body className={work_sans.className}>
-        <NavBar />
-        <main className="main-container">
-          {children}
-        </main>
+      <SessionProvider>
+          <NavBar />
+          <main className="main-container">
+              {children}
+          </main>
+      </SessionProvider>
       </body>
       <PrelineScript />   
     </html>

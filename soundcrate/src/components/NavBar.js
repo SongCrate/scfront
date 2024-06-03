@@ -7,6 +7,7 @@ import {
     User
 } from '@phosphor-icons/react';
 import {useEffect, useState} from "react";
+import { signOut, useSession } from "next-auth/react";
 
 export default function NavBar() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);

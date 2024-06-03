@@ -12,11 +12,19 @@ export default function RegisterForm() {
     const [error, setError] = useState("")
     const router = useRouter();
 
+    const isValidEmail = (email: string) => {
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        return emailRegex.test(email);
+    }
     const handleSubmit = async(e) => {
         e.preventDefault();
 
         if (!username || !email || !password || !confirmedPassword ){
             setError("All fields are necesarry.");
+            return;
+        }
+        if (!isValidEmail(email)){
+            setError("Email is invalid");
             return;
         }
         if (password !== confirmedPassword){
@@ -42,10 +50,7 @@ export default function RegisterForm() {
                     const form = e.target;
                     sessionStorage.setItem("username", username)
                     form.reset();
-
-
-                    router.push('/')
-                    window.location.reload();
+                    router.replace("/");
                 }
                 else {
                     const data = await res.json();
