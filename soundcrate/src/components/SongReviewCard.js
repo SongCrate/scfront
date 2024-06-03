@@ -10,12 +10,11 @@ export default function SongReviewCard({
   review_id,
   rating=0,
   review_text='',
-  like_count=0,
   song_name='Song',
   song_artist='Artist',
-  album_art='',
+  image='',
   track_number=null,
-  show_album_art=true,
+  show_image=true,
   detail_type='album'
   }) {
 
@@ -24,14 +23,14 @@ export default function SongReviewCard({
   var src = '';
   var header = null;
   if (detail_type == 'album') {
-    src = album_art ?? "/images/default-user.png";
+    src = image ?? "/images/default-user.png";
     header = 
       <>
         {song_name}
         <span className="opacity-60 ml-1.5">{song_artist}</span>
       </>
   } else if (detail_type == 'user') {
-    src =  get_user(username).image_url ?? "/images/default-user.png";
+    src =  image ?? "/images/default-user.png";
     header = username;
   }
 
@@ -47,14 +46,16 @@ export default function SongReviewCard({
             <div className="w-fit text-right opacity-60">{track_number}</div>
           }
 
-          {/* 1.2 - album art */}
-          {show_album_art &&
+          {/* 1.2 - album art / user profile picture*/}
+          {show_image &&
             <img
               src={src}
-              alt={`${song_name} by ${song_artist}`}
+              alt={detail_type == 'album' 
+                ? `${song_name} by ${song_artist}` 
+                : username}
               width={50}
               height={50}
-              className="rounded-md"
+              className="rounded-md object-cover aspect-square"
               onError={e => {
                 e.currentTarget.src = "/images/default-user.png"
               }}

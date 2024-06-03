@@ -8,8 +8,6 @@ import {
   get_album_ids,
   get_lists, 
   get_list_length, 
-  get_reviews,
-  get_review_likes,
 } from '/utils';
 import {
   AlbumCard,
@@ -19,56 +17,67 @@ import {
 } from "@/components";
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { useRouter } from "next/navigation";
 
 export default function UserProfilePage({ params }) {
   const { username } = params;
 
   const [ songData, setSongData ] = useState(null);
-  const [ albumData, setAlbumData ] = useState(null);
-  const [showSettings, setShowSettings] = useState(false);
-  const router = useRouter()
+  const [ albums, setAlbums ] = useState([]);
+  const [ reviews, setReviews ] = useState([]);
 
   useEffect(() => {
     // get song data from spotify api for review cards
     const get_song_data = async () => {
-      if (review_data) {
-        const song_ids = review_data.map((obj) => {
-          return obj.song_id;
+      if (reviews) {
+        const song_ids = reviews.map((review) => {
+          return review.songId;
         })
 
         const response = await get_songs(song_ids);
-        setSongData(response);
+        setSongData(response?.tracks);
       }
     };
     
     get_song_data();
-  }, [review_data]);
+  }, [reviews]);
 
+  // fetch all reviews for this username
   useEffect(() => {
-    // get album data from spotify api for album cards
-    const get_album_data = async () => {
-      if (album_ids) {
-        const response = await get_albums(album_ids);
-        setAlbumData(response);
+    async function fetchReviewsByUsername(username) {
+      try {
+        const response = await fetch(
+          `/api/review/getReviews?username=${username}&sortBy=date`, 
+          { method: 'GET' }
+        );
+    
+        const responseData = await response.json();
+        if (responseData?.body) {
+          setReviews(responseData.body);
+        } else {
+          throw responseData.error;
+        }
+      } catch (error) {
+        console.log(error);
       }
+    }
+    
+    fetchReviewsByUsername(username);
+  }, []);
+  
+  // get album data from spotify api for album cards
+  useEffect(() => {
+    const get_album_data = async () => {
+      const album_ids = reviews.map((review) => {
+        return review.albumId;
+      })
+      const unique_album_ids = [...new Set(album_ids)];
+
+      const response = await get_albums(unique_album_ids);
+      setAlbums(response?.albums);
     };
     
     get_album_data();
-  }, [album_ids]);
-
-  // ============ GETTING DATA FOR REVIEW CARDS ============
-  // get data for first 2 reviews
-  var reviews = get_reviews(username).slice(0, 2);
-  var review_data = reviews.map((_, i) => ( // add in like count
-    {...reviews[i], 
-      "like_count": get_review_likes(reviews[i].id)
-    }
-  ))
-
-  // ============ GETTING DATA FOR ALBUMS ============
-  // get data for first 8 albums
-  var album_ids = get_album_ids(username).slice(0, 8);
+  }, [reviews]);
 
   // ============ GETTING DATA FOR LISTS ============
   var lists = get_lists(username);
@@ -78,28 +87,38 @@ export default function UserProfilePage({ params }) {
     } 
   ))
 
-  const review_cards = review_data.map((review, i) =>
-    <SongReviewCard 
-      key={`review-card-${review.song_id}`}
-      username={username}
-      song_id={review.song_id}
-      rating={review.rating}
-      review_text={review.review_text}
-      song_name={songData?.tracks[i]?.name}
-      song_artist={songData?.tracks[i]?.artists[0]?.name}
-      album_art={songData?.tracks[i]?.album?.images[1]?.url}
-      like_count={review.like_count} />
-  )
+  const render_review_cards = (review_array) => {
+    return (review_array && review_array.map((review) => {
+      const song_obj = songData?.find((song) => song.id === review.songId);
+      return (
+        <SongReviewCard
+          key={`review-card-${review._id}`}
+          username={review.user.username}
+          review_id={review._id}
+          song_id={review.songId}
+          rating={review.rating}
+          review_text={review.text}
+          song_name={song_obj?.name}
+          song_artist={song_obj?.artists[0]?.name}
+          image={song_obj?.album?.images[1]?.url}
+          detail_type={'album'}
+        />
+      )}
+    ))
+  }
 
-  const album_cards = album_ids.map((album_id, i) =>
-    <AlbumCard 
-      key={`album-card-${album_id}`} 
-      username={username}
-      album_id={album_id}
-      name={albumData?.albums[i]?.name}
-      artist_name={albumData?.albums[i]?.artists[0]?.name}
-      album_art={albumData?.albums[i]?.images[1]?.url} />
-  )
+  const render_album_cards = (album_array) => {
+    return (album_array && album_array.map((album) =>
+      <AlbumCard 
+        key={`album-card-${album.id}`} 
+        username={username}
+        album_id={album.id}
+        name={album.name}
+        artist_name={album?.artists[0]?.name}
+        album_art={album?.images[1]?.url} />
+      )
+    )
+  }
 
   const list_cards = list_data.map((list) => 
     <div key={`list-card-${list.id}`}>
@@ -117,12 +136,12 @@ export default function UserProfilePage({ params }) {
       <div className="flex flex-col grow shrink gap-6 w-2/3">
         <section className="flex flex-col gap-3">
           <Link href="profile/reviews"><h3>Reviews</h3></Link>
-          {review_cards}
+          {render_review_cards(reviews.slice(0, 3))}
         </section>
         <section>
           <Link href="profile/albums"><h3 className="mb-3">Albums</h3></Link>
           <div className="gap-3 grid grid-cols-4">
-            {album_cards}
+            {render_album_cards(albums?.slice(0, 8))}
           </div>
         </section>
       </div>

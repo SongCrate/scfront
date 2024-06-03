@@ -1,63 +1,79 @@
 'use client';
 
 import { get_songs } from '@/lib/spotify';
-import { 
-  get_reviews, 
-  get_review_likes 
-  } from '/utils';
-import {
-    SongReviewCard
-  } from "@/components";
-
+import { SongReviewCard } from '@/components';
 import { useState, useEffect } from 'react';
 
 export default function ListsPage({ params }) {
   const { username } = params;
 
-  const [ songData, setSongData ] = useState(null);
+  const [ songData, setSongData ] = useState([]);
+  const [ reviews, setReviews ] = useState([]);
 
   useEffect(() => {
     // get song data from spotify api for review cards
     const get_song_data = async () => {
-      if (review_data) {
-        const song_ids = review_data.map((obj) => {
-          return obj.song_id;
+      if (reviews) {
+        const song_ids = reviews.map((review) => {
+          return review.songId;
         })
 
         const response = await get_songs(song_ids);
-        setSongData(response);
+        setSongData(response?.tracks);
       }
     };
     
     get_song_data();
-  }, [review_data]);
+  }, [reviews]);
 
-  var reviews = get_reviews(username);
-  var review_data = reviews.map((_, i) => ( // add in like count
-    {...reviews[i], 
-      "like_count": get_review_likes(reviews[i].id)
+  // fetch all reviews for this songId
+  useEffect(() => {
+    async function fetchReviewsByUsername(username) {
+      try {
+        const response = await fetch(
+          `/api/review/getReviews?username=${username}&sortBy=date`, 
+          { method: 'GET' }
+        );
+    
+        const responseData = await response.json();
+        if (responseData?.body) {
+          setReviews(responseData.body);
+        } else {
+          throw responseData.error;
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
-  ))
+    
+    fetchReviewsByUsername(username);
+  }, []);
 
-  const review_cards = review_data.map((review, i) =>
-    <SongReviewCard 
-      key={`review-card-${i}`}
-      username={username}
-      review_id={review.id}
-      song_id={review.song_id}
-      rating={review.rating}
-      review_text={review.review_text}
-      song_name={songData?.tracks[i]?.name}
-      song_artist={songData?.tracks[i]?.artists[0]?.name}
-      album_art={songData?.tracks[i]?.album?.images[1]?.url}
-      like_count={review.like_count} />
-  )
+  const render_review_cards = (review_array) => {
+    return (review_array && review_array.map((review) => {
+      const song_obj = songData?.find((song) => song.id === review.songId);
+      return (
+        <SongReviewCard
+          key={`review-card-${review._id}`}
+          username={review.user.username}
+          review_id={review._id}
+          song_id={review.songId}
+          rating={review.rating}
+          review_text={review.text}
+          song_name={song_obj?.name}
+          song_artist={song_obj?.artists[0]?.name}
+          image={song_obj?.album?.images[1]?.url}
+          detail_type={'album'}
+        />
+      )}
+    ))
+  }
     
   return (
     <main className="flex flex-col gap-4">
       <h2>Reviews</h2>
       <div className="flex flex-col gap-3">
-        {review_cards}
+        {render_review_cards(reviews)}
       </div>
     </main>
   );
