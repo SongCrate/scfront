@@ -94,7 +94,7 @@ export default function AlbumPage({ params }) {
         <h3>Tracklist ({album_songs.length})</h3>
         {album_songs.map((song, i) =>
           <SongCard
-            key={`song-card-${song.id}`}
+            key={`song-card-${song.song_id}`}
             song_id={song.song_id}
             song_name={song.name}
             song_artist={song.artist}
