@@ -1,5 +1,7 @@
 import { connectMongoDB } from '@/lib/mongodb';
 import User from '@/lib/models/user';
+import Review from '@/lib/models/review';
+import SongList from '@/lib/models/songList';
 import { NextResponse } from 'next/server';
 
 export async function GET(req, {params}){
@@ -16,12 +18,20 @@ export async function GET(req, {params}){
         )
       } else {
 
+        // get profile statistics to pass in response body
+        const reviews = await Review.find({ user: user._id });
+
+        const song_lists = await SongList.find({ user: user._id });
+        
+        const album_ids = reviews.map((review) => { return review.albumId; });
+        const unique_album_ids = [...new Set(album_ids)];
+        
         return NextResponse.json(
           { body: {
               user, 
-              'reviewCount': 1, 
-              'albumCount': 1, 
-              'listCount': 2 
+              'reviewCount': reviews.length, 
+              'albumCount': unique_album_ids.length, 
+              'listCount': song_lists.length 
             }
           }, 
           { status: 200 }
