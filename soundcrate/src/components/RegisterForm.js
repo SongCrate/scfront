@@ -4,7 +4,6 @@ import { useState } from "react";
 import {useRouter} from "next/navigation";
 import {signIn} from "next-auth/react";
 
-
 export default function RegisterForm() {
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")

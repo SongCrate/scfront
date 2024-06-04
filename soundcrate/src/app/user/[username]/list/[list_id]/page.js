@@ -3,6 +3,8 @@ import { get_list_by_id, get_list_song_ids } from '/utils';
 import { get_songs } from '@/lib/spotify';
 import { useState, useEffect } from 'react';
 import { SongCard } from '@/components';
+import {useRouter} from "next/navigation";
+import {useSession} from "next-auth/react";
 
 export default function ListPage({ params }) {
   const { username, list_id } = params;
@@ -11,6 +13,15 @@ export default function ListPage({ params }) {
 
   const list_data = get_list_by_id(list_id);
   const song_ids = get_list_song_ids(list_id);
+
+  const router = useRouter();
+  const session = useSession();
+  useEffect(() => {
+    if (session?.status == "unauthenticated"){
+      router.replace("/");
+    }
+  }, [session, router]);
+
 
   useEffect(() => {
     // fetch songs to fill song cards
