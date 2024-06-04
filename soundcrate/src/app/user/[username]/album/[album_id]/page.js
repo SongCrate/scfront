@@ -1,9 +1,10 @@
 'use client';
 
-import { get_album } from '@/lib/spotify';
+import { get_album, get_albums } from '@/lib/spotify';
 import {
   SongCard,
-  SongReviewCard
+  SongReviewCard,
+  AlbumCard
 } from '@/components';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -13,6 +14,8 @@ export default function AlbumReviewPage({ params }) {
 
   const [ albumData, setAlbumData ] = useState(null);
   const [ reviews, setReviews ] = useState([]);
+  const [ allReviews, setAllReviews ] = useState([]);
+  const [ albums, setAlbums ] = useState(null);
 
   // get album data from spotify api
   useEffect(() => {
@@ -29,13 +32,18 @@ export default function AlbumReviewPage({ params }) {
     async function fetchReviews() {
       try {
         const response = await fetch(
-          `/api/review/getReviews?albumId=${album_id}&username=${username}`, 
+          `/api/review/getReviews?albumId=${album_id}&username=${username}&sortBy=date`, 
           { method: 'GET' }
         );
     
         const responseData = await response.json();
         if (responseData?.body) {
-          setReviews(responseData.body);
+          // get the fetched reviews and only get the most recent review for each songId
+          let fetched_reviews = responseData.body;
+          fetched_reviews = fetched_reviews.filter((a, i, arr) => 
+            arr.findIndex(b => (b.songId === a.songId)) === i
+          )
+          setReviews(fetched_reviews);
         } else {
           throw responseData.error;
         }
@@ -46,6 +54,50 @@ export default function AlbumReviewPage({ params }) {
     
     fetchReviews();
   }, []);
+
+  // fetch all reviews for this username to populate more albums section
+  useEffect(() => {
+    async function fetchReviewsByUsername(username) {
+      try {
+        const response = await fetch(
+          `/api/review/getReviews?username=${username}&sortBy=date`, 
+          { method: 'GET' }
+        );
+    
+        const responseData = await response.json();
+        if (responseData?.body) {
+          setAllReviews(responseData.body);
+        } else {
+          throw responseData.error;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    fetchReviewsByUsername(username);
+  }, []);
+  
+  // get album data from spotify api for album cards
+  useEffect(() => {
+    const get_album_data = async () => {
+      const album_ids = allReviews.map((review) => {
+        return review.albumId;
+      })
+      let unique_album_ids = new Set(album_ids);
+      unique_album_ids.delete(album_id);
+      unique_album_ids = [...unique_album_ids];
+
+      console.log(unique_album_ids)
+
+      if (unique_album_ids.length) {
+        const response = await get_albums(unique_album_ids);
+        setAlbums(response?.albums);
+      }
+    };
+    
+    get_album_data();
+  }, [reviews]);
 
   // package albumData for easy use
   const album_data = albumData && {
@@ -130,6 +182,20 @@ export default function AlbumReviewPage({ params }) {
     ))
   }
 
+  const render_album_cards = (album_array) => {
+    return (album_array && album_array.map((album) =>
+      <AlbumCard 
+        key={`album-card-${album.id}`} 
+        href={`/user/${username}/album/${album.id}`}
+        username={username}
+        album_id={album.id}
+        name={''}
+        artist_name={''}
+        album_art={album?.images[1]?.url} />
+      )
+    )
+  }
+
   return (
       <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
         <div className="flex flex-col grow shrink gap-6 w-2/3">
@@ -151,9 +217,8 @@ export default function AlbumReviewPage({ params }) {
           </section>
           <section className="flex flex-col gap-3">
             <h3>More Albums</h3>
-            <div>
-              <hr className="opacity-30"></hr>
-              {/* {list_cards} */}
+              <div className="flex flex-row no-wrap gap-3">
+                {render_album_cards(albums?.slice(0, 3))}
             </div>
           </section>
         </div>
