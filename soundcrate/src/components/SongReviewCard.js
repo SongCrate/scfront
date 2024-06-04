@@ -11,7 +11,7 @@ export default function SongReviewCard({
   review_text='',
   song_name='Song',
   song_artist='Artist',
-  image='',
+  image,
   track_number=null,
   show_image=true,
   detail_type='album',
@@ -25,13 +25,13 @@ export default function SongReviewCard({
   if (detail_type == 'album') {
     src = image ?? "/images/default-user.png";
     header = 
-      <>
+      <span className="line-clamp-1 text-ellipses">
         {song_name}
         <span className="opacity-60 ml-1.5">{song_artist}</span>
-      </>
+      </span>
   } else if (detail_type == 'user') {
     src =  image ?? "/images/default-user.png";
-    header = username;
+    header = <span className="line-clamp-1 text-ellipses">{username}</span>;
   }
 
   return (
