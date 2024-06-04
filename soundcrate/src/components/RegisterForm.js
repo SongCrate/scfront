@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import {useRouter} from "next/navigation";
+import {signIn} from "next-auth/react";
 
 
 export default function RegisterForm() {
@@ -48,7 +49,11 @@ export default function RegisterForm() {
 
                 if (res.ok ) {
                     const form = e.target;
-                    // sessionStorage.setItem("username", username)
+                    await signIn("credentials", {
+                        redirect:false,
+                        email,
+                        password
+                    });
                     form.reset();
                     router.replace("/");
                 }

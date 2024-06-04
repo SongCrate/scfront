@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/lib/mongodb';
 import User from '@/lib/models/user';
 import bcrypt from 'bcryptjs';
-import {login} from "@/app/api/login/route";
 
 export async function register(req){
     try{

@@ -1,21 +1,14 @@
 "use client";
 import Link from "next/link";
-import {useEffect, useState} from "react";
 import { useRouter } from 'next/navigation';
-import { useSession, signIn } from "next-auth/react";
+import {signIn} from "next-auth/react";
+import {useState} from "react";
 
 export default function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
-    const session = useSession();
-
-    // useEffect(() => {
-    //     if (session?.status == "authenticated"){
-    //         router.replace("/");
-    //     }
-    // }, [session, router]);
     const isValidEmail = (email) => {
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         return emailRegex.test(email);
