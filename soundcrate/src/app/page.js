@@ -6,10 +6,12 @@ import { get_random_songs, get_songs } from '../lib/spotify';
 import { get_username, get_all_reviews, get_review_likes } from '/utils';
 import { AlbumCard, SongReviewCard } from '@/components';
 import './home.css';
+import {useSession} from "next-auth/react";
 
 export default function Home() {
+  const { data: session } = useSession();
   const [ songData, setSongData ] = useState({});
-  const [ isLoggedIn, setIsLoggedIn ] = useState(false);
+  // const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ songs, setSongs ] = useState([]);
 
   const [ username, setUsername ] = useState('')
@@ -17,12 +19,12 @@ export default function Home() {
   useEffect(() => {
 
     // get username to set logged-in status
-    const storedUsername = sessionStorage.getItem('username');
-    const storedHomeData = sessionStorage.getItem('home-data');
-    if (storedUsername && storedUsername != '') {
-        setIsLoggedIn(true);
-        setUsername(storedUsername);
-      }
+    // const storedUsername = sessionStorage.getItem('username');
+    // const storedHomeData = sessionStorage.getItem('home-data');
+    // if (storedUsername && storedUsername != '') {
+    //     setIsLoggedIn(true);
+    //     setUsername(storedUsername);
+    //   }
 
     // fetch songs to fill new releases section
     async function fetchSongs() {
@@ -98,9 +100,9 @@ export default function Home() {
 
       {/* hero */}
       <section className="intro">
-        <p id="welcome-message">{isLoggedIn ? `Hi, ${username}!` : "SoundCrate"}</p>
-        {!isLoggedIn && <p id="intro-text">Rate and review music today!</p>}
-        {!isLoggedIn && (
+        <p id="welcome-message">{session?.status==="authenticated" ? `Hi, ${username}!` : "SoundCrate"}</p>
+        {session?.status==="authenticated" && <p id="intro-text">Rate and review music today!</p>}
+        {session?.status==="authenticated" && (
           <span>
             <Link href="/register">
               <button className="register-btn">Get Started</button>
