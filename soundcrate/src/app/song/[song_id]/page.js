@@ -117,6 +117,7 @@ export default function SongPage({ params }) {
         song_artist={song_data.artist}
         image={review.user.imageUrl}
         detail_type={'user'}
+        likes={review.likes}
       />
     ))
   }

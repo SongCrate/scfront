@@ -122,6 +122,7 @@ export default function SongReviewPage({ params }) {
         song_artist={song_data.artist}
         image={review.user.imageUrl}
         detail_type={'user'}
+        likes={review.likes}
       />
     ))
   }
@@ -143,13 +144,16 @@ export default function SongReviewPage({ params }) {
           {render_header()}
           
           {/* details for most recent review */}
-          <section className="flex flex-col gap-3">
-            {latest_review?.text}
-            <div className="flex flex-row gap-2">
-              <LikeButton review_id={latest_review?._id} show_like_count={false} />
-              <p className="opacity-60 text-sm">{latest_review?.likes.length} {latest_review?.likes.length == 1 ? 'like' : 'likes' }</p>
-            </div>
-          </section>
+          {latest_review &&
+            <section className="flex flex-col gap-3">
+              {latest_review.text}
+              <LikeButton 
+                review_id={latest_review._id}
+                likes={latest_review.likes}
+                compact={false}
+              />
+            </section>
+          }
 
           {/* album link */}
           {/* <Link href={`/user/${username}/album/${latest_review?.albumId}`}>
