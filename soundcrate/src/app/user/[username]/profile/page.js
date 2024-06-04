@@ -16,6 +16,7 @@ import {
   CreateListModal,
   ListCard,
   SongReviewCard,
+  UpdateUserDataModal,
 } from "@/components";
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -25,6 +26,9 @@ export default function UserProfilePage({ params }) {
 
   const [ songData, setSongData ] = useState(null);
   const [ albumData, setAlbumData ] = useState(null);
+
+  const [ userData, setUserData ] = useState(null);
+  const [ isModalOpen, setIsModalOpen ] = useState(false);
 
   useEffect(() => {
     // get song data from spotify api for review cards
@@ -53,6 +57,41 @@ export default function UserProfilePage({ params }) {
     
     get_album_data();
   }, [album_ids]);
+
+  const handleProfileSave = async (updatedData) => {
+    const response = await fetch('/api/update_user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (response.ok) {
+      const updatedUser = await response.json();
+      setUserData({ ...userData, username: updatedData.username, image_url: updatedData.image_url });
+      setIsProfileModalOpen(false);
+    } else {
+      console.error('Failed to update user');
+    }
+  };
+
+  // const handleCredentialsSave = async (updatedData) => {
+  //   const response = await fetch('/api/update_credentials', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(updatedData),
+  //   });
+
+  //   if (response.ok) {
+  //     setUserData({ ...userData, email: updatedData.email });
+  //     setIsCredentialsModalOpen(false);
+  //   } else {
+  //     console.error('Failed to update credentials');
+  //   }
+  // };
 
   // ============ GETTING DATA FOR REVIEW CARDS ============
   // get data for first 2 reviews
@@ -130,7 +169,18 @@ export default function UserProfilePage({ params }) {
         </div>
         <hr className="opacity-30"></hr>
         {list_cards}
+        <div className="mt-6">
+        <button onClick={() => setIsModalOpen(true)}>Edit Profile</button>
+        </div>
       </section>
+
+      {isModalOpen && (
+        <UpdateUserDataModal
+          userData={userData}
+          onSave={handleProfileSave}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 }
