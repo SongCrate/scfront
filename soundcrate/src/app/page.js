@@ -10,7 +10,7 @@ export default function Home() {
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
   const [ username, setUsername ] = useState('')
 
-  const [ newReleases, setNewReleases ] = useState(null);
+  const [ exploreSongs, setExploreSongs ] = useState(null);
   const [ reviews, setReviews ] = useState([]);
   const [ songData, setSongData ] = useState(null);
 
@@ -24,11 +24,11 @@ export default function Home() {
       }
   }, []);
 
-  // fetch song data from spotify api for new releases section
+  // fetch song data from spotify api for explore section
   useEffect(() => {
     async function fetchNewReleases() {
       const random_songs = await get_random_songs();
-      setNewReleases(random_songs);
+      setExploreSongs(random_songs);
     }
     
     fetchNewReleases();
@@ -74,8 +74,8 @@ export default function Home() {
     get_song_data();
   }, [reviews]);
 
-  const render_new_release_cards = () => {
-    return newReleases?.map((song) =>
+  const render_explore_song_cards = () => {
+    return exploreSongs?.map((song) =>
       <AlbumCard 
         key={`song-card-${song.id}`}
         album_id={song.id}
@@ -128,11 +128,11 @@ export default function Home() {
         )}
       </section>
       
-      {/* new releases */}
+      {/* explore */}
       <section className="flex flex-col gap-3 mb-6 w-full">
-        <h2>New Releases</h2>
+        <h2>Explore</h2>
         <div className="columns-5">
-          {render_new_release_cards()}
+          {render_explore_song_cards()}
         </div>
       </section>
 
