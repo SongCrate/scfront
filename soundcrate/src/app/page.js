@@ -3,63 +3,79 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import { get_random_songs, get_songs } from '../lib/spotify';
-import { get_username, get_all_reviews, get_review_likes } from '/utils';
 import { AlbumCard, SongReviewCard } from '@/components';
 import './home.css';
 
 export default function Home() {
-  const [ songData, setSongData ] = useState({});
   const [ isLoggedIn, setIsLoggedIn ] = useState(false);
-  const [ songs, setSongs ] = useState([]);
-
   const [ username, setUsername ] = useState('')
 
-  useEffect(() => {
+  const [ newReleases, setNewReleases ] = useState(null);
+  const [ reviews, setReviews ] = useState([]);
+  const [ songData, setSongData ] = useState(null);
 
-    // get username to set logged-in status
+  // TODO: update to use request headers
+  // get username to set logged-in status
+  useEffect(() => {
     const storedUsername = sessionStorage.getItem('username');
-    const storedHomeData = sessionStorage.getItem('home-data');
     if (storedUsername && storedUsername != '') {
         setIsLoggedIn(true);
         setUsername(storedUsername);
       }
-
-    // fetch songs to fill new releases section
-    async function fetchSongs() {
-      const randomSongs = await get_random_songs();
-      setSongs(randomSongs);
-    }
-    
-    fetchSongs();
   }, []);
 
+  // fetch song data from spotify api for new releases section
   useEffect(() => {
-    // get song data from spotify api for review cards
+    async function fetchNewReleases() {
+      const random_songs = await get_random_songs();
+      setNewReleases(random_songs);
+    }
+    
+    fetchNewReleases();
+  }, []);
+
+  // fetch top 5 reviews for popular releases section
+  useEffect(() => {
+    async function fetchPopularReviews() {
+      try {
+        const response = await fetch(`/api/review/getReviews?sortBy=likes&limit=5`, {
+          method: 'GET',
+        });
+    
+        const responseData = await response.json();
+        if (responseData?.body) {
+          setReviews(responseData.body);
+        } else {
+          throw responseData.error;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    
+    fetchPopularReviews();
+  }, []);
+
+  // get song data from spotify api for review cards
+  useEffect(() => {
     const get_song_data = async () => {
-      if (review_data) {
-        const song_ids = review_data.map((obj) => {
-          return obj.song_id;
+      if (reviews) {
+        const song_ids = reviews.map((review) => {
+          return review.songId;
         })
 
-        const response = await get_songs(song_ids);
-        setSongData(response);
+        if (song_ids.length) {
+          const response = await get_songs(song_ids);
+          setSongData(response?.tracks);
+        }
       }
     };
     
     get_song_data();
-  }, [review_data]);
+  }, [reviews]);
 
-  // ============ GETTING DATA FOR REVIEW CARDS ============
-  // get data for all reviews
-  var reviews = get_all_reviews();
-  var review_data = reviews.map((_, i) => ( // add in like count
-    {...reviews[i], 
-      "like_count": get_review_likes(reviews[i].id)
-    }
-  ))
-
-  const render_song_cards = () => {
-    return songs?.map((song) =>
+  const render_new_release_cards = () => {
+    return newReleases?.map((song) =>
       <AlbumCard 
         key={`song-card-${song.id}`}
         album_id={song.id}
@@ -67,30 +83,30 @@ export default function Home() {
         artist_name={song.album.artists[0]?.name}
         size={20}
         album_art={song.album.images[1]?.url}
-        href={'/song/'+song.id} 
-        rating={4} /> // TODO: hardcoded
+        href={'/song/'+song.id} />
     );
   }
 
   const render_review_cards = () => {
-    if (songData?.tracks) {
-      return review_data
-        .sort((a, b) => (a.like_count - b.like_count)) // sort by like count
-        .slice(0, 4) // only return the top 5
-        .map((review, i) =>
-          <SongReviewCard 
-            key={`review-card-${review.song_id}-${get_username(review.user_id)}-${i}`}
-            username={get_username(review.user_id)}
-            song_id={review.song_id}
-            rating={review.rating}
-            review_text={review.review_text}
-            song_name={songData?.tracks[i]?.name}
-            song_artist={songData?.tracks[i]?.artists[0]?.name}
-            image={songData?.tracks[i]?.album?.images[1]?.url}
-            like_count={review.like_count} />
-        )
-    }
-  };
+    return (reviews && reviews.map((review) => {
+      const song_obj = songData?.find((song) => song.id === review.songId);
+      return (
+        <SongReviewCard
+          key={`review-card-${review._id}`}
+          username={review.user.username}
+          review_id={review._id}
+          song_id={review.songId}
+          rating={review.rating}
+          review_text={review.text}
+          song_name={song_obj?.name}
+          song_artist={song_obj?.artists[0]?.name}
+          image={song_obj?.album?.images[1]?.url}
+          detail_type={'album'}
+          likes={review.likes}
+        />
+      )}
+    ))
+  }
 
 
   return (
@@ -116,7 +132,7 @@ export default function Home() {
       <section className="flex flex-col gap-3 mb-6 w-full">
         <h2>New Releases</h2>
         <div className="columns-5">
-          {render_song_cards()}
+          {render_new_release_cards()}
         </div>
       </section>
 
