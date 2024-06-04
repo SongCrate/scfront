@@ -12,7 +12,7 @@ export default function RegisterForm() {
     const [error, setError] = useState("")
     const router = useRouter();
 
-    const isValidEmail = (email: string) => {
+    const isValidEmail = (email) => {
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         return emailRegex.test(email);
     }
@@ -48,7 +48,7 @@ export default function RegisterForm() {
 
                 if (res.ok ) {
                     const form = e.target;
-                    sessionStorage.setItem("username", username)
+                    // sessionStorage.setItem("username", username)
                     form.reset();
                     router.replace("/");
                 }

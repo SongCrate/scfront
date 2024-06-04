@@ -3,41 +3,62 @@ import User from "@/lib/models/user";
 import { connectMongoDB } from "@/lib/mongodb";
 import bcrypt from "bcryptjs";
 import {NextResponse} from "next/server";
+import NextAuth from "next-auth";
 
-export const authOptions:any = {
+export const authOptions ={
     // configure one or more authentication providers
     providers: [
         CredentialsProvider({
             id: "credentials",
             name: "Credentials",
             credentials: {
-                email: {label: "email", type: "text"},
-                password: {label: "password", type: "password"}
+                email: { label: 'Email', type: 'text' },
+                password: { label: 'Password', type: 'password' },
+
             },
-            async authorize(credentials:any){
+            async authorize(credentials){
+
+                await connectMongoDB();
+
                 try{
-                    const { username, email, password } = await req.json();
-                    const encryptedPassword = await bcrypt.hash(password, 10);
-
-                    await connectMongoDB();
-
-                    const user = await User.findOne({email})
+                    const user = await User.findOne({email: credentials.email});
+                    // console.log(user);
 
                     if(user){
-                        return NextResponse.json({error: "User already exists"}, {status: 400})
+                        const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
+                        if (isPasswordCorrect){
+                            return user;
+                        }
                     }
-
-                    await User.create({username, email, password: encryptedPassword});
-
-                    return NextResponse.json({message: "user registered"}, {status: 201});
-
+                    return null; // Return null if authentication fails
                 }catch(error){
-                    return NextResponse.json({
-                        message: "An error occurred while registering the user."}, {status: 500}
-                    )
+                    throw new Error(error);
+                    return null; // Return null if an error occurs
                 }
             }
         }),
         //add more
-    ]
+    ],
+    callbacks: {
+        async jwt({ token, user }) {
+            // Attach user data to token object
+            if (user) {
+                token.user = user;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            // Attach user data to session object
+            if (token.user) {
+                session.user = token.user;
+                session.status = "authenticated";
+            }else{
+                session.status = "unauthenticated";
+            }
+            return session;
+        },
+    },
 }
+
+export const handler = NextAuth(authOptions);
+export { handler as GET, handler as POST };

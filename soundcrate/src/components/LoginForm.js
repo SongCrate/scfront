@@ -11,13 +11,12 @@ export default function LoginForm() {
     const router = useRouter();
     const session = useSession();
 
-    useEffect(() => {
-        if (session?.status == "authenticated"){
-            router.replace("/");
-        }
-    }, [session, router]);
-
-    const isValidEmail = (email: string) => {
+    // useEffect(() => {
+    //     if (session?.status == "authenticated"){
+    //         router.replace("/");
+    //     }
+    // }, [session, router]);
+    const isValidEmail = (email) => {
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         return emailRegex.test(email);
     }
@@ -34,9 +33,10 @@ export default function LoginForm() {
         }
         try {
             const res = await signIn("credentials", {
+                redirect:false,
                 email,
                 password
-            })
+            });
             if (res?.error){
                 setError("Invalid email or password");
                 const form = e.target;
@@ -44,6 +44,7 @@ export default function LoginForm() {
                 if (res?.url){router.replace("/")}
             } else{
                 setError("")
+                router.replace("/");
             }
         }catch(error){
             setError("An unexpected error occurred.");
