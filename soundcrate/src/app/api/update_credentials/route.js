@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 
 export async function POST(req) {
   try {
-    const { username, email, password } = await req.json();
+    const { username, password } = await req.json();
     await connectMongoDB();
 
     const user = await User.findOne({ username });
@@ -14,7 +14,6 @@ export async function POST(req) {
     }
 
     const updates = {};
-    if (email) updates.email = email;
     if (password) updates.password = await bcrypt.hash(password, 10);
 
     await User.updateOne({ username: username }, { $set: updates });

@@ -16,6 +16,7 @@ import {
   CreateListModal,
   ListCard,
   SongReviewCard,
+  UpdateCredentialsModal,
   UpdateUserDataModal,
 } from "@/components";
 import Link from 'next/link';
@@ -29,6 +30,9 @@ export default function UserProfilePage({ params }) {
 
   const [ userData, setUserData ] = useState(null);
   const [ isModalOpen, setIsModalOpen ] = useState(false);
+
+  const [ userCredentials, setUserCredentials ] = useState(null);
+  const [ isCredentialsModalOpen, setIsCredentialsModalOpen ] = useState(false);
 
   useEffect(() => {
     // get song data from spotify api for review cards
@@ -76,22 +80,22 @@ export default function UserProfilePage({ params }) {
     }
   };
 
-  // const handleCredentialsSave = async (updatedData) => {
-  //   const response = await fetch('/api/update_credentials', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(updatedData),
-  //   });
+  const handleCredentialsSave = async (updatedData) => {
+    const response = await fetch('/api/update_credentials', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    });
 
-  //   if (response.ok) {
-  //     setUserData({ ...userData, email: updatedData.email });
-  //     setIsCredentialsModalOpen(false);
-  //   } else {
-  //     console.error('Failed to update credentials');
-  //   }
-  // };
+    if (response.ok) {
+      setUserData({ ...userData, password: updatedData.password });
+      setIsCredentialsModalOpen(false);
+    } else {
+      console.error('Failed to update credentials');
+    }
+  };
 
   // ============ GETTING DATA FOR REVIEW CARDS ============
   // get data for first 2 reviews
@@ -172,6 +176,9 @@ export default function UserProfilePage({ params }) {
         <div className="mt-6">
         <button onClick={() => setIsModalOpen(true)}>Edit Profile</button>
         </div>
+        <div className="mt-6">
+        <button onClick={() => setIsCredentialsModalOpen(true)}>Edit Password</button>
+        </div>
       </section>
 
       {isModalOpen && (
@@ -179,6 +186,14 @@ export default function UserProfilePage({ params }) {
           userData={userData}
           onSave={handleProfileSave}
           onClose={() => setIsModalOpen(false)}
+        />
+      )}
+
+      {isCredentialsModalOpen && (
+        <UpdateCredentialsModal
+          userData={userData}
+          onSave={handleCredentialsSave}
+          onClose={() => setIsCredentialsModalOpen(false)}
         />
       )}
     </div>

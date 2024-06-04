@@ -1,9 +1,8 @@
 'use client';
 import { useState } from 'react';
 
-export default function UpdateUserDataModal({ userData, onSave, onClose }) {
-  const [username, setUsername] = useState('');
-  const [photoUrl, setPhotoUrl] = useState('');
+export default function UpdateCredentialsModal({ userData, onSave, onClose }) {
+  const [password, setPassword] = useState('');
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -18,12 +17,8 @@ export default function UpdateUserDataModal({ userData, onSave, onClose }) {
         <h2>Update Profile</h2>
         <form onSubmit={handleSave}>
           <div>
-            <label>Username</label>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-          </div>
-          <div>
-            <label>Photo URL (Optional)</label>
-            <input type="text" value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} />
+            <label>Password</label>
+            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
           <button type="submit">Save</button>
         </form>
