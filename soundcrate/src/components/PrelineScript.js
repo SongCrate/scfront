@@ -9,11 +9,15 @@ export default function PrelineScript() {
   useEffect(() => {
     const loadPreline = async () => {
       await import("preline/preline");
-
-      window.HSStaticMethods.autoInit();
     };
 
     loadPreline();
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      window.HSStaticMethods.autoInit();
+    }, 500);
   }, [path]);
 
   return null;
