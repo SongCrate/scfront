@@ -4,10 +4,12 @@ import {
   get_albums, 
   get_songs 
 } from '@/lib/spotify';
-import {
-  get_lists, 
-  get_list_length, 
-} from '/utils';
+// // REMOVE THIS SECTION **************
+// import {
+//   get_lists, 
+//   get_list_length, 
+// } from '/utils';
+// // ************** REMOVE THIS SECTION
 import {
   AlbumCard,
   CreateListModal,
@@ -87,13 +89,37 @@ export default function UserProfilePage({ params }) {
     get_album_data();
   }, [reviews]);
 
-  // ============ GETTING DATA FOR LISTS ============
-  var lists = get_lists(username);
-  var list_data = lists.map((_, i) => ( // add in list length
-    {...lists[i],
-      "song_count": get_list_length(lists[i].id)
-    } 
-  ))
+  // // REMOVE THIS SECTION **************
+  // // ============ GETTING DATA FOR LISTS ============
+  // var lists = get_lists(username);
+  // var list_data = lists.map((_, i) => ( // add in list length
+  //   {...lists[i],
+  //     "song_count": get_list_length(lists[i].id)
+  //   } 
+  // ))
+  // // ************** REMOVE THIS SECTION
+
+  // fetch all songlists for this username
+  useEffect(() => {
+    async function fetchSongLists(username) {
+      try {
+        const response = await fetch(
+          `/api/lists/getSongLists?username=${username}`, 
+          { method: 'GET' }
+        );
+        const responseData = await response.json();
+        if (responseData?.body) {
+          setLists(responseData.body);
+        } else {
+          throw responseData.error;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchSongLists(username);
+  }, [username]);
+
 
   const render_review_cards = (review_array) => {
     return (review_array && review_array.map((review) => {
@@ -129,16 +155,27 @@ export default function UserProfilePage({ params }) {
     )
   }
 
-  const list_cards = list_data.map((list) => 
-    <div key={`list-card-${list.id}`}>
+  // const list_cards = lists.map((list) => 
+  //   <div key={`list-card-${list._id}`}>
+  //     <ListCard 
+  //       username={username}
+  //       list_id={list._id}
+  //       name={list.title}
+  //       song_count={list.songIds.length} />
+  //     <hr className="opacity-30"></hr>
+  //   </div>
+  // );
+
+  const list_cards = (list_array) => {
+  return (list_array && list_array.map((lists) =>
       <ListCard 
         username={username}
         list_id={list.id}
         name={list.name}
         song_count={list.song_count} />
-      <hr className="opacity-30"></hr>
-    </div >
-  )
+      )
+    )
+  }
 
   return (
     <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
