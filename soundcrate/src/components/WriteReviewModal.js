@@ -75,7 +75,6 @@ export default function WriteReviewModal({
 
     // create body to send to api
     const new_review = {
-      user_id,
       song_id,
       album_id,
       rating: rating,

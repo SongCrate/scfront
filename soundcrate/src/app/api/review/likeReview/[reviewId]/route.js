@@ -3,9 +3,6 @@ import Review from '@/lib/models/review';
 import { NextResponse } from 'next/server';
 
 export async function POST(req, { params }){
-
-  console.log(req.headers);
-
   const user_id = req.headers.get('user_id');
 
   if (user_id == undefined) {
