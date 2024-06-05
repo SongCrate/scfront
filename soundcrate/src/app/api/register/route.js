@@ -10,10 +10,16 @@ export async function register(req){
 
         await connectMongoDB();
 
-        const user = await User.findOne({email})
+        const existingEmail = await User.findOne({email});
+        const existingUsername = await User.findOne({username});
 
-        if(user){
-            return NextResponse.json({error: "User already exists"}, {status: 400})
+        if (existingEmail) {
+            console.log(existingEmail)
+            return NextResponse.json({ error: "Email already in use" }, { status: 400 });
+        }
+
+        if (existingUsername) {
+            return NextResponse.json({ error: "Username already in use" }, { status: 400 });
         }
 
         await User.create({username, email, password: encryptedPassword});

@@ -16,6 +16,11 @@ export default function RegisterForm() {
         const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
         return emailRegex.test(email);
     }
+    const isValidPassword = (password) =>{
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        return regex.test(password);
+    }
+
     const handleSubmit = async(e) => {
         e.preventDefault();
 
@@ -25,6 +30,15 @@ export default function RegisterForm() {
         }
         if (!isValidEmail(email)){
             setError("Email is invalid");
+            return;
+        }
+        if (!isValidPassword(password)){
+            setError("Password must include:\n" +
+                "A minimum of 1 lower case letter\n" +
+                "A minimum of 1 upper case letter\n" +
+                "A minimum of 1 numeric character\n" +
+                "A minimum of 1 special character\n"
+            );
             return;
         }
         if (password !== confirmedPassword){
@@ -85,7 +99,7 @@ export default function RegisterForm() {
                 <button className={"bg-dark-dark h-12 w-80 mt-4 rounded-md font-bold"}>Register</button>
 
                 { error && (
-                    <div className={"text-red text- pt-4"}>
+                    <div className={"text-red text- pt-4"} style={{ whiteSpace: 'pre-line'}}>
                         {error}
                     </div>)
                 }
