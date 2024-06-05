@@ -2,17 +2,19 @@
 
 import { Heart } from '@phosphor-icons/react';
 import { useState } from 'react';
+import { useSession } from "next-auth/react";
 
 export default function LikeButton({ review_id, likes=[], compact=true, size=20 }) {
 
-  const user_id = '664690bb36aa3aa3e8c8d240'; // mock data, will retrieve this from headers
+  const { data: session } = useSession();
+  const user_id = session?.user?._id;
 
-  const [ isLiked, setIsLiked ] = useState(likes.includes(user_id));
+  const [ isLiked, setIsLiked ] = useState(user_id ? likes.includes(user_id) : false);
   const [ likeCount, setLikeCount ] = useState(likes.length);
 
   // styling for heart icon depending on isLiked state
   const weight = isLiked ? 'fill' : 'bold';
-  const classes = isLiked ? 'text-red opacity-80' : 'opacity-40'
+  const classes = isLiked ? 'text-red opacity-80' : 'opacity-40';
 
   const handleClick = (e) => {
 
@@ -47,7 +49,12 @@ export default function LikeButton({ review_id, likes=[], compact=true, size=20 
       }
     }
 
-    toggleLike(review_id);
+    if (session?.status==="authenticated") {
+      toggleLike(review_id);
+    } else {
+      // show modal
+    }
+
     e.stopPropagation();
     e.preventDefault();
   }
