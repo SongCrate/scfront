@@ -1,6 +1,7 @@
 import '../styles/global.css';
 import { getServerSession } from "next-auth";
 import SessionProvider from "./SessionProvider/SessionProvider";
+import { ModalContextProvider } from "./ModalContextProvider/ModalContextProvider";
 import { Work_Sans} from 'next/font/google';
 import { 
   NavBar,
@@ -20,10 +21,12 @@ export default async function RootLayout({ children }) {
     <html lang="en">
       <body className={work_sans.className}>
       <SessionProvider>
-          <NavBar />
-          <main className="main-container">
-              {children}
-          </main>
+          <ModalContextProvider>
+            <NavBar />
+            <main className="main-container">
+                {children}
+            </main>
+          </ModalContextProvider>
       </SessionProvider>
       </body>
       <PrelineScript />   

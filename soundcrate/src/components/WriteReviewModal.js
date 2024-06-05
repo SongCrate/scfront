@@ -1,4 +1,6 @@
 'use client';
+
+import { useModalContext } from '@/app/ModalContextProvider/ModalContextProvider';
 import { Fragment, useState } from 'react';
 import { useSession } from "next-auth/react";
 import { 
@@ -18,10 +20,25 @@ export default function WriteReviewModal({
   const { data: session } = useSession();
   const user_id = session?.user?._id;
 
+  const { setIsOpen, setMessage } = useModalContext();
+
   const modal_id = "write-review-modal-id";
   const [ rating, setRating ] = useState(null);
   const [ reviewText, setReviewText ] = useState("");
+  const [ hideThisModal, setHideThisModal ] = useState(false);
   const review_text_char_limit = 1000;
+
+  const handleClick = (e) => {
+    if (session?.status != 'authenticated') {
+      setIsOpen(true);
+      setMessage('Join SoundCrate to rate and review songs');
+      setHideThisModal(true);
+      e.preventDefault();
+      e.stopPropagation();
+    } else {
+      setHideThisModal(false);
+    }
+  }
 
   const handleCancel = () => {
     // deselect all ratings
@@ -172,10 +189,11 @@ export default function WriteReviewModal({
 
   return (
     <>
-      <button type="button" className="btn bg-accent text-white text-lg font-sembold rounded-md hover:bg-blue p-3 w-full" data-hs-overlay={"#"+modal_id}>
+      <button onClick={handleClick} type="button" className="btn bg-accent text-white text-lg font-sembold rounded-md hover:bg-blue p-3 w-full" data-hs-overlay={"#"+modal_id}>
         <Star size={18} weight="fill" className="mr-2" /> Rate / Review
       </button>
 
+      {hideThisModal && 
       <div id="write-review-modal-id" className="hs-overlay hs-overlay-backdrop-open:bg-dark-dark/80 hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none">
         {/* hs overlay */}
         <div className="opacity-100 transition-all hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-14 ease-out sm:max-w-lg sm:w-full m-3 sm:mx-auto">
@@ -201,6 +219,7 @@ export default function WriteReviewModal({
           </div>
         </div>
       </div>
+      }
     </>
   );
 }

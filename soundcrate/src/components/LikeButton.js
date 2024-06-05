@@ -3,6 +3,7 @@
 import { Heart } from '@phosphor-icons/react';
 import { useState } from 'react';
 import { useSession } from "next-auth/react";
+import { useModalContext } from '@/app/ModalContextProvider/ModalContextProvider';
 
 export default function LikeButton({ review_id, likes=[], compact=true, size=20 }) {
 
@@ -11,6 +12,8 @@ export default function LikeButton({ review_id, likes=[], compact=true, size=20 
 
   const [ isLiked, setIsLiked ] = useState(user_id ? likes.includes(user_id) : false);
   const [ likeCount, setLikeCount ] = useState(likes.length);
+
+  const { setIsOpen, setMessage } = useModalContext();
 
   // styling for heart icon depending on isLiked state
   const weight = isLiked ? 'fill' : 'bold';
@@ -52,7 +55,8 @@ export default function LikeButton({ review_id, likes=[], compact=true, size=20 
     if (session?.status==="authenticated") {
       toggleLike(review_id);
     } else {
-      console.log('inauthenticated');
+      setIsOpen(true);
+      setMessage('Join SoundCrate to like reviews');
     }
 
     e.stopPropagation();
