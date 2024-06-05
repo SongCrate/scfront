@@ -88,8 +88,6 @@ export default function AlbumReviewPage({ params }) {
       unique_album_ids.delete(album_id);
       unique_album_ids = [...unique_album_ids];
 
-      console.log(unique_album_ids)
-
       if (unique_album_ids.length) {
         const response = await get_albums(unique_album_ids);
         setAlbums(response?.albums);
