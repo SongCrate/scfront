@@ -7,6 +7,7 @@ import LikeButton from './LikeButton';
 import ListCard from './ListCard';
 import NavBar from './NavBar';
 import PrelineScript from './PrelineScript';
+import ProtectedActionModal from './ProtectedActionModal';
 import Rating from './Rating';
 import SongCard from './SongCard';
 import SongReviewCard from './SongReviewCard';
@@ -24,6 +25,7 @@ export {
   ListCard,
   NavBar,
   PrelineScript,
+  ProtectedActionModal,
   Rating,
   SongCard,
   SongReviewCard,
