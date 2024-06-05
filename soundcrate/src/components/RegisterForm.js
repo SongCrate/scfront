@@ -34,6 +34,7 @@ export default function RegisterForm() {
         }
         if (!isValidPassword(password)){
             setError("Password must include:\n" +
+                "8 characters or longer\n" +
                 "A minimum of 1 lower case letter\n" +
                 "A minimum of 1 upper case letter\n" +
                 "A minimum of 1 numeric character\n" +
