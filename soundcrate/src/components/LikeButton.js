@@ -52,7 +52,7 @@ export default function LikeButton({ review_id, likes=[], compact=true, size=20 
     if (session?.status==="authenticated") {
       toggleLike(review_id);
     } else {
-      // show modal
+      console.log('inauthenticated');
     }
 
     e.stopPropagation();

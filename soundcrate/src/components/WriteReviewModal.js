@@ -1,5 +1,6 @@
 'use client';
 import { Fragment, useState } from 'react';
+import { useSession } from "next-auth/react";
 import { 
   Star,
   X 
@@ -14,9 +15,8 @@ export default function WriteReviewModal({
   album_art,
   year
 }) {
-
-  // mock data, would be grabbing this from header
-  const user_id = '664690bb36aa3aa3e8c8d240';
+  const { data: session } = useSession();
+  const user_id = session?.user?._id;
 
   const modal_id = "write-review-modal-id";
   const [ rating, setRating ] = useState(null);
