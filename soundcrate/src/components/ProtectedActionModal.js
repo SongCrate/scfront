@@ -16,8 +16,6 @@ export default function ProtectedActionModal({ isOpen, setIsOpen, message }) {
 
   return ( session?.status !== 'authenticated' && isOpen && // only display if user not logged in
     <>
-    {/* <button type="button" className="hidden" data-hs-overlay={"#"+modal_id}></button> */}
-
     <div id={modal_id} className="h-screen flex items-center hs-overlay bg-dark-dark/80 size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none">
       {/* hs overlay */}
       <div className="opacity-100 transition-all y-auto sm:max-w-lg sm:w-full m-3 sm:mx-auto">

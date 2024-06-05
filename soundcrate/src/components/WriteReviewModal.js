@@ -25,18 +25,17 @@ export default function WriteReviewModal({
   const modal_id = "write-review-modal-id";
   const [ rating, setRating ] = useState(null);
   const [ reviewText, setReviewText ] = useState("");
-  const [ hideThisModal, setHideThisModal ] = useState(false);
   const review_text_char_limit = 1000;
 
   const handleClick = (e) => {
     if (session?.status != 'authenticated') {
       setIsOpen(true);
       setMessage('Join SoundCrate to rate and review songs');
-      setHideThisModal(true);
+      const close_btn = document.getElementById("write-review-modal-close-btn");
+      close_btn.click();
+  
       e.preventDefault();
       e.stopPropagation();
-    } else {
-      setHideThisModal(false);
     }
   }
 
@@ -193,7 +192,6 @@ export default function WriteReviewModal({
         <Star size={18} weight="fill" className="mr-2" /> Rate / Review
       </button>
 
-      {hideThisModal && 
       <div id="write-review-modal-id" className="hs-overlay hs-overlay-backdrop-open:bg-dark-dark/80 hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none">
         {/* hs overlay */}
         <div className="opacity-100 transition-all hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-14 ease-out sm:max-w-lg sm:w-full m-3 sm:mx-auto">
@@ -219,7 +217,6 @@ export default function WriteReviewModal({
           </div>
         </div>
       </div>
-      }
     </>
   );
 }
