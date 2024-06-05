@@ -7,27 +7,11 @@ import {
     User
 } from '@phosphor-icons/react';
 import {useEffect, useState} from "react";
+import { signOut, useSession } from "next-auth/react";
 
 export default function NavBar() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [username, setUsername] = useState('');
-    const [profileImg, setProfileImg] = useState('/images/janedoe-user.jpg');
+    const { data: session } = useSession();
 
-    useEffect(() => {
-        const storedUsername = sessionStorage.getItem('username');
-        // const storedIsLoggedIn = sessionStorage.getItem('is_logged_in');
-        console.log(storedUsername)
-        if (storedUsername) {
-            setIsLoggedIn(true);
-            setUsername(storedUsername);
-            // setProfileImg(`/images/${storedUsername}-user.jpg`);
-        }
-    }, []);
-
-    const handleLogout = () => {
-        sessionStorage.removeItem("username");
-        window.location.reload();
-    }
   const renderPublicNav = () => {
     return (
       <>
@@ -59,7 +43,11 @@ export default function NavBar() {
 
         <div className="hs-dropdown relative inline-flex [--placement:bottom-right] z-[80]">
           <button id="hs-dropdown-with-header" type="button" className="hs-dropdown-toggle inline-flex items-center gap-x-2 text-sm font-medium">
-            <img className="inline-block size-8 rounded-full" src={profileImg} />
+              {session?.user?.imageUrl ?
+                  <img className="inline-block size-8 rounded-full" src={session?.user?.imageUrl} /> :
+                  <img className="inline-block size-8 rounded-full" src={"/images/default-user.png"} />
+              }
+
             <CaretDown size={18} weight="bold" />
           </button>
 
@@ -68,21 +56,21 @@ export default function NavBar() {
             {/* username header */}
             <div className="py-3 px-5 -m-2 bg-dark-light rounded-t-lg">
               <p className="text-sm text-gray">Signed in as</p>
-              <p className="font-medium text-gray-light">{username}</p>
+              <p className="font-medium text-gray-light">{session?.user?.username}</p>
             </div>
 
             {/* nav links */}
             <div className="mt-2 py-2 first:pt-0 last:pb-0">
-              <Link href={`/user/${username}/profile`} className={menu_nav_link_styling}>
+              <Link href={`/user/${session?.user?.username}/profile`} className={menu_nav_link_styling}>
                 <User size={18} weight="bold" />
                 Profile
               </Link>
-              <Link href="#" className={menu_nav_link_styling}>
+              <Link href={`/user/${session?.user?.username}/profile?modal=setings`} className={menu_nav_link_styling}>
                 <Gear size={18} weight="bold" />
                 Settings
               </Link>
               <hr className="border-dark-light my-1"></hr>
-              <Link href="/" className={menu_nav_link_styling} onClick={handleLogout}>
+              <Link href="/" className={menu_nav_link_styling} onClick={signOut}>
                 <SignOut size={18} weight="bold" />Logout
               </Link>
             </div>
@@ -103,7 +91,7 @@ export default function NavBar() {
 
         {/* navigation */}
         <div className="flex gap-2">
-            {isLoggedIn
+            {session?.status==="authenticated"
               ? renderUserNav() 
               : renderPublicNav()
             }

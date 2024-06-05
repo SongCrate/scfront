@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import {useRouter} from "next/navigation";
-
+import {signIn} from "next-auth/react";
 
 export default function RegisterForm() {
     const [username, setUsername] = useState("")
@@ -12,11 +12,19 @@ export default function RegisterForm() {
     const [error, setError] = useState("")
     const router = useRouter();
 
+    const isValidEmail = (email) => {
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        return emailRegex.test(email);
+    }
     const handleSubmit = async(e) => {
         e.preventDefault();
 
         if (!username || !email || !password || !confirmedPassword ){
             setError("All fields are necesarry.");
+            return;
+        }
+        if (!isValidEmail(email)){
+            setError("Email is invalid");
             return;
         }
         if (password !== confirmedPassword){
@@ -40,12 +48,13 @@ export default function RegisterForm() {
 
                 if (res.ok ) {
                     const form = e.target;
-                    sessionStorage.setItem("username", username)
+                    await signIn("credentials", {
+                        redirect:false,
+                        email,
+                        password
+                    });
                     form.reset();
-
-
-                    router.push('/')
-                    window.location.reload();
+                    router.replace("/");
                 }
                 else {
                     const data = await res.json();

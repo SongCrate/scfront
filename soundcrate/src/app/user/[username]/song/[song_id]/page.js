@@ -14,6 +14,8 @@ import {
 } from '@/components';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import {useRouter} from "next/navigation";
+import {useSession} from "next-auth/react";
 
 export default function SongReviewPage({ params }) {
   const { username, song_id } = params;
@@ -23,6 +25,9 @@ export default function SongReviewPage({ params }) {
 
   const latest_review = reviews[0];
   const older_reviews = reviews.slice(1);
+  const router = useRouter();
+  const session = useSession();
+
 
   // get song data from spotify api
   useEffect(() => {

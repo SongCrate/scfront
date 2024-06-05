@@ -3,7 +3,7 @@ import { connectMongoDB } from '@/lib/mongodb';
 import User from '@/lib/models/user';
 import bcrypt from 'bcryptjs';
 
-export async function POST(req){
+export async function register(req){
     try{
         const { username, email, password } = await req.json();
         const encryptedPassword = await bcrypt.hash(password, 10);
@@ -25,4 +25,8 @@ export async function POST(req){
             message: "An error occurred while registering the user."}, {status: 500}
         )
     }
+}
+
+export async function POST(req) {
+    return register(req);
 }

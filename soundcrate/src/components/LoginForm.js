@@ -1,45 +1,43 @@
 "use client";
 import Link from "next/link";
-import {useEffect, useState} from "react";
 import { useRouter } from 'next/navigation';
+import {signIn} from "next-auth/react";
+import {useState} from "react";
+
 export default function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
+    const isValidEmail = (email) => {
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        return emailRegex.test(email);
+    }
     const handleSubmit = async(e) => {
         e.preventDefault();
 
-
         if (!email || !password){
-            setError("All fields are necesarry.");
+            setError("All fields are necessary.");
+            return;
+        }
+        if (!isValidEmail(email)){
+            setError("Email is invalid");
             return;
         }
         try {
-            const res = await fetch("api/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    email,
-                    password,
-                }),
+            const res = await signIn("credentials", {
+                redirect:false,
+                email,
+                password
             });
-
-            if (res.ok ) {
+            if (res?.error){
+                setError("Invalid email or password");
                 const form = e.target;
-                const data = await res.json();
-                sessionStorage.setItem("username", data.username);
-                setError("");
                 form.reset();
-                window.location.reload();
-
-            }
-            else {
-                const data = await res.json();
-                setError(data.error);
-                return;
+                if (res?.url){router.replace("/")}
+            } else{
+                setError("")
+                router.replace("/");
             }
         }catch(error){
             setError("An unexpected error occurred.");
