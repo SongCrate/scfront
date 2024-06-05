@@ -23,10 +23,7 @@ export default function LikeButton({ review_id, likes=[], compact=true, size=20 
 
     async function toggleLike(review_id) {
       try {
-        const req_body = {
-          user_id,
-          action: isLiked ? 'unlike' : 'like'
-        }
+        const req_body = { action: isLiked ? 'unlike' : 'like' }
 
         const response = await fetch(
           `/api/review/likeReview/${review_id}`, 
@@ -36,7 +33,7 @@ export default function LikeButton({ review_id, likes=[], compact=true, size=20 
         );
     
         const responseData = await response.json();
-
+        
         if (responseData?.body) {
           if (responseData.body.like_count != likeCount) {
             setIsLiked(responseData.body.is_liked);
@@ -44,6 +41,10 @@ export default function LikeButton({ review_id, likes=[], compact=true, size=20 
           } else {
             throw "Action unsuccessful";
           };
+        } else if (responseData.status == 401) {
+          // open modal is response is unauthorized
+          setIsOpen(true);
+          setMessage('Join SoundCrate to like reviews');
         } else {
           throw responseData.error;
         }
@@ -52,13 +53,7 @@ export default function LikeButton({ review_id, likes=[], compact=true, size=20 
       }
     }
 
-    if (session?.status==="authenticated") {
-      toggleLike(review_id);
-    } else {
-      setIsOpen(true);
-      setMessage('Join SoundCrate to like reviews');
-    }
-
+    toggleLike(review_id);
     e.stopPropagation();
     e.preventDefault();
   }
@@ -78,5 +73,4 @@ export default function LikeButton({ review_id, likes=[], compact=true, size=20 
           <p className="opacity-60 text-sm">{likeCount?.toString()} {likeCount == 1 ? 'like' : 'likes' }</p>
         </div>
   )
-
 }

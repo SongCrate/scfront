@@ -38,6 +38,7 @@ export const authOptions ={
         }),
         //add more
     ],
+    secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
         async jwt({ token, user }) {
             // Attach user data to token object

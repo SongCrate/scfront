@@ -3,9 +3,20 @@ import Review from '@/lib/models/review';
 import { NextResponse } from 'next/server';
 
 export async function POST(req, { params }){
+
+  console.log(req.headers);
+
+  const user_id = req.headers.get('user_id');
+
+  if (user_id == undefined) {
+    return NextResponse.json(
+      { message: 'Unauthorized', status: 401 }
+    )
+  }
+
   try {
     const review_id = params.reviewId;
-    const { user_id, action } = await req.json(); // TODO: retrieve user id from headers instead
+    const { action } = await req.json();
 
     await connectMongoDB();
 
