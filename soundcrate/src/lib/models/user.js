@@ -1,5 +1,4 @@
 import mongoose, { models, Schema } from 'mongoose';
-
 const userSchema = new Schema({
     username: {
         type: String,
@@ -15,7 +14,7 @@ const userSchema = new Schema({
     },
     imageUrl: {
       type: String,
-      required: false
+      required: false,
     },
     followers: [
       {

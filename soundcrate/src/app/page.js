@@ -5,24 +5,15 @@ import React, { useEffect, useState } from 'react';
 import { get_random_songs, get_songs } from '../lib/spotify';
 import { AlbumCard, SongReviewCard } from '@/components';
 import './home.css';
+import {useSession} from "next-auth/react";
 
 export default function Home() {
-  const [ isLoggedIn, setIsLoggedIn ] = useState(false);
-  const [ username, setUsername ] = useState('')
-
+  const { data: session } = useSession();
   const [ exploreSongs, setExploreSongs ] = useState(null);
   const [ reviews, setReviews ] = useState([]);
   const [ songData, setSongData ] = useState(null);
 
   // TODO: update to use request headers
-  // get username to set logged-in status
-  useEffect(() => {
-    const storedUsername = sessionStorage.getItem('username');
-    if (storedUsername && storedUsername != '') {
-        setIsLoggedIn(true);
-        setUsername(storedUsername);
-      }
-  }, []);
 
   // fetch song data from spotify api for explore section
   useEffect(() => {
@@ -114,9 +105,9 @@ export default function Home() {
 
       {/* hero */}
       <section className="intro">
-        <p id="welcome-message">{isLoggedIn ? `Hi, ${username}!` : "SoundCrate"}</p>
-        {!isLoggedIn && <p id="intro-text">Rate and review music today!</p>}
-        {!isLoggedIn && (
+        <p id="welcome-message">{session?.status==="authenticated" ? `Hi, ${session?.user?.username}!` : "SoundCrate"}</p>
+        {session?.status==="unauthenticated" && <p id="intro-text">Rate and review music today!</p>}
+        {session?.status==="unauthenticated" && (
           <span>
             <Link href="/register">
               <button className="register-btn">Get Started</button>
