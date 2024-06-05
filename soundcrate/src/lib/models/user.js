@@ -14,8 +14,7 @@ const userSchema = new Schema({
     },
     imageUrl: {
       type: String,
-      required: true,
-      default: "./images/default-user.png",
+      required: false,
     },
     followers: [
       {

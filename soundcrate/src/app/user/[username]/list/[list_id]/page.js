@@ -16,11 +16,6 @@ export default function ListPage({ params }) {
 
   const router = useRouter();
   const session = useSession();
-  useEffect(() => {
-    if (session?.status == "unauthenticated"){
-      router.replace("/");
-    }
-  }, [session, router]);
 
 
   useEffect(() => {

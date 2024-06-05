@@ -28,11 +28,6 @@ export default function UserProfilePage({ params }) {
 
   const router = useRouter();
   const session = useSession();
-  useEffect(() => {
-    if (session?.status == "unauthenticated"){
-      router.replace("/");
-    }
-  }, [session, router]);
 
   // get song data from spotify api for review cards
   useEffect(() => {

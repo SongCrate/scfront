@@ -27,11 +27,6 @@ export default function SongReviewPage({ params }) {
   const older_reviews = reviews.slice(1);
   const router = useRouter();
   const session = useSession();
-  useEffect(() => {
-    if (session?.status == "unauthenticated"){
-      router.replace("/");
-    }
-  }, [session, router]);
 
 
   // get song data from spotify api
