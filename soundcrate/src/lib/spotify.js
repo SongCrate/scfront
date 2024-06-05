@@ -138,3 +138,21 @@ export const get_random_songs = async () => {
     console.log(error);
   }
 };
+
+export const get_new_releases = async () => {
+  const access_token = await authorize();
+
+  try {
+    const response = await axios.get('https://api.spotify.com/v1/browse/new-releases', {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      },
+      params: {
+        limit: 5
+      }
+    });
+    return response.data.albums;
+  } catch (error) {
+    console.log(error);
+  }
+};
