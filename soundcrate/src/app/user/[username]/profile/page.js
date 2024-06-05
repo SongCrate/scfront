@@ -27,6 +27,7 @@ export default function UserProfilePage({ params }) {
   const [ songData, setSongData ] = useState(null);
   const [ albums, setAlbums ] = useState([]);
   const [ reviews, setReviews ] = useState([]);
+  const [ lists, setLists ] = useState([]);
 
   const router = useRouter();
   const session = useSession();
@@ -170,12 +171,13 @@ export default function UserProfilePage({ params }) {
   return (list_array && list_array.map((lists) =>
       <ListCard 
         username={username}
-        list_id={list.id}
+        list_id={list._id}
         name={list.name}
         song_count={list.song_count} />
       )
     )
   }
+  
 
   return (
     <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
@@ -197,7 +199,7 @@ export default function UserProfilePage({ params }) {
           <CreateListModal />
         </div>
         <hr className="opacity-30"></hr>
-        {list_cards}
+        {list_cards(lists.slice(0, 5))}
       </section>
     </div>
   );
