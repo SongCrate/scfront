@@ -43,8 +43,8 @@ export default function LikeButton({ review_id, likes=[], compact=true, size=20 
           };
         } else if (responseData.status == 401) {
           // open modal is response is unauthorized
-          setIsOpen(true);
           setMessage('Join SoundCrate to like reviews');
+          setIsOpen(true);
         } else {
           throw responseData.error;
         }
