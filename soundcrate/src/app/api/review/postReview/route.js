@@ -3,15 +3,8 @@ import Review from '@/lib/models/review';
 import { NextResponse } from 'next/server';
 
 export async function POST(req){
-  const user_id = req.headers.get('user_id');
-
-  if (user_id == undefined) {
-    return NextResponse.json(
-      { message: 'Unauthorized', status: 401 }
-    )
-  }
-  
   try {
+    const user_id = req.headers.get('user_id');
     const { 
       song_id,
       album_id,
