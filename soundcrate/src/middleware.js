@@ -6,6 +6,8 @@ function is_protected(path) {
     return true;
   else if (path.startsWith('/api/review/postReview')) 
     return true;
+  else if (path.startsWith('/api/user/update')) 
+    return true;
   else 
     return false;
 }
