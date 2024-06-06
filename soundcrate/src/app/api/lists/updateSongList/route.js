@@ -16,24 +16,23 @@ export async function PATCH(req) {
 
         await connectMongoDB();
 
-        var res = null;
+        const songList = await SongList.findById(listId);
+
+        if (!songList) {
+            return NextResponse.json(
+                { message: 'Song list not found' },
+                { status: 404 }
+            );
+        }
+
+        let updatedList;
         if (action === 'add') {
-            if (!songList.songIds.includes(song_id)) {
-                // Add the song ID to the list of song IDs in the specified list
-                await SongList.findOneAndUpdate(
-                    { _id: listId },
+            if (!songList.songIds.includes(songId)) {
+                updatedList = await SongList.findByIdAndUpdate(
+                    listId,
                     { $addToSet: { songIds: songId } },
                     { new: true }
-                )
-                .then((doc) => {
-                    res = NextResponse.json(
-                        { body: doc },
-                        { status: 200 }
-                    ); 
-                })
-                .catch((error) => {
-                    throw error;
-                });
+                );
             } else {
                 return NextResponse.json(
                     { message: 'Song is already in the list' },
@@ -41,41 +40,34 @@ export async function PATCH(req) {
                 );
             }
         } else if (action === 'remove') {
-            if (songList.songIds.includes(song_id)) {
-                // Remove the song ID from the list of song IDs in the specified list
-                await SongList.findOneAndUpdate(
-                    { _id: listId },
+            if (songList.songIds.includes(songId)) {
+                updatedList = await SongList.findByIdAndUpdate(
+                    listId,
                     { $pull: { songIds: songId } },
                     { new: true }
-                )
-                .then((doc) => {
-                    res = NextResponse.json(
-                        { body: doc },
-                        { status: 200 }
-                    ); 
-                })
-                .catch((error) => {
-                    throw error;
-                });
+                );
             } else {
                 return NextResponse.json(
-                    { message: 'Song is already in the list' },
+                    { message: 'Song is not in the list' },
                     { status: 400 }
                 );
             }
         } else {
             return NextResponse.json(
-                { message: 'Action failed' },
+                { message: 'Invalid action' },
                 { status: 400 }
             );
         }
 
+        return NextResponse.json(
+            { body: updatedList },
+            { status: 200 }
+        );
+
     } catch (error) {
         return NextResponse.json(
-            { message: `Internal Server Error: ${error}` },
+            { message: `Internal Server Error: ${error.message}` },
             { status: 500 }
         );
-    } finally {
-        return res;
     }
 }

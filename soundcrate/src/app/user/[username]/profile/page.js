@@ -173,7 +173,7 @@ export default function UserProfilePage({ params }) {
         username={username}
         list_id={lists._id}
         name={lists.title}
-        song_count={lists.song_count} />
+        song_count={lists.songIds.length} />
       )
     )
   }
