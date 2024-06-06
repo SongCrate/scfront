@@ -1,5 +1,9 @@
 'use client';
+
+import { useModalContext } from '@/app/ModalContextProvider/ModalContextProvider';
+import { HSOverlay } from 'preline/preline';
 import { Fragment, useState } from 'react';
+import { useSession } from "next-auth/react";
 import { 
   Star,
   X 
@@ -14,14 +18,25 @@ export default function WriteReviewModal({
   album_art,
   year
 }) {
-
-  // mock data, would be grabbing this from header
-  const user_id = '664690bb36aa3aa3e8c8d240';
-
   const modal_id = "write-review-modal-id";
+
+  const { data: session } = useSession();
+  const { setIsOpen, setMessage } = useModalContext();
+
   const [ rating, setRating ] = useState(null);
   const [ reviewText, setReviewText ] = useState("");
   const review_text_char_limit = 1000;
+
+  const handleClick = (e) => {
+    if (session?.status != 'authenticated') {
+      setMessage('Join SoundCrate to rate and review songs');
+      setIsOpen(true);
+      HSOverlay.close("#"+modal_id);
+
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
 
   const handleCancel = () => {
     // deselect all ratings
@@ -46,6 +61,11 @@ export default function WriteReviewModal({
         const response_data = await response.json();
         if (response_data?.status == 200) {
           console.log(response_data.body)
+        } else if (response_data?.status == 401) {
+          // display unauthorized modal
+          HSOverlay.close("#"+modal_id);
+          setMessage('Join SoundCrate to rate and review songs');
+          setIsOpen(true);
         } else {
           console.log(response_data.error)
         }
@@ -59,7 +79,6 @@ export default function WriteReviewModal({
 
     // create body to send to api
     const new_review = {
-      user_id,
       song_id,
       album_id,
       rating: rating,
@@ -68,11 +87,8 @@ export default function WriteReviewModal({
 
     postReview(new_review)
 
-    // close modal
-    const close_btn = document.getElementById("write-review-modal-close-btn");
-    close_btn.click();
-
-    // clear modal inputs
+    // close and clear modal inputs
+    HSOverlay.close("#"+modal_id);
     handleCancel();
   }
 
@@ -172,7 +188,7 @@ export default function WriteReviewModal({
 
   return (
     <>
-      <button type="button" className="btn bg-accent text-white text-lg font-sembold rounded-md hover:bg-blue p-3 w-full" data-hs-overlay={"#"+modal_id}>
+      <button onClick={handleClick} type="button" className="btn bg-accent text-white text-lg font-sembold rounded-md hover:bg-blue p-3 w-full" data-hs-overlay={"#"+modal_id}>
         <Star size={18} weight="fill" className="mr-2" /> Rate / Review
       </button>
 
