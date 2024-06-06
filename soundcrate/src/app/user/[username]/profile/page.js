@@ -13,18 +13,22 @@ import {
   CreateListModal,
   ListCard,
   SongReviewCard,
+  UpdateUserDataModal,  // Import UpdateUserModal
+  UpdateCredentialsModal // Import UpdateCredentialsModal
 } from "@/components";
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import {useRouter} from "next/navigation";
-import {useSession} from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function UserProfilePage({ params }) {
   const { username } = params;
 
-  const [ songData, setSongData ] = useState(null);
-  const [ albums, setAlbums ] = useState([]);
-  const [ reviews, setReviews ] = useState([]);
+  const [songData, setSongData] = useState(null);
+  const [albums, setAlbums] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [isUserDataModalOpen, setIsUserDataModalOpen] = useState(false);
+  const [isCredentialsModalOpen, setIsCredentialsModalOpen] = useState(false);
 
   const router = useRouter();
   const session = useSession();
@@ -35,7 +39,7 @@ export default function UserProfilePage({ params }) {
       if (reviews) {
         const song_ids = reviews.map((review) => {
           return review.songId;
-        })
+        });
         
         if (song_ids.length) {
           const response = await get_songs(song_ids);
@@ -75,7 +79,7 @@ export default function UserProfilePage({ params }) {
     const get_album_data = async () => {
       const album_ids = reviews.map((review) => {
         return review.albumId;
-      })
+      });
       const unique_album_ids = [...new Set(album_ids)];
 
       if (unique_album_ids.length) {
@@ -93,7 +97,7 @@ export default function UserProfilePage({ params }) {
     {...lists[i],
       "song_count": get_list_length(lists[i].id)
     } 
-  ))
+  ));
 
   const render_review_cards = (review_array) => {
     return (review_array && review_array.map((review) => {
@@ -113,8 +117,8 @@ export default function UserProfilePage({ params }) {
           likes={review.likes}
         />
       )}
-    ))
-  }
+    ));
+  };
 
   const render_album_cards = (album_array) => {
     return (album_array && album_array.map((album) =>
@@ -126,8 +130,8 @@ export default function UserProfilePage({ params }) {
         artist_name={album?.artists[0]?.name}
         album_art={album?.images[1]?.url} />
       )
-    )
-  }
+    );
+  };
 
   const list_cards = list_data.map((list) => 
     <div key={`list-card-${list.id}`}>
@@ -138,7 +142,7 @@ export default function UserProfilePage({ params }) {
         song_count={list.song_count} />
       <hr className="opacity-30"></hr>
     </div >
-  )
+  );
 
   return (
     <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
@@ -161,7 +165,14 @@ export default function UserProfilePage({ params }) {
         </div>
         <hr className="opacity-30"></hr>
         {list_cards}
+        <div className="flex flex-col gap-4 mt-6">
+          <button onClick={() => setIsUserDataModalOpen(true)}>Update User Data</button>
+          <button onClick={() => setIsCredentialsModalOpen(true)}>Update Credentials</button>
+        </div>
       </section>
+      {isUserDataModalOpen && <UpdateUserDataModal onClose={() => setIsUserDataModalOpen(false)} />}
+      {isCredentialsModalOpen && <UpdateCredentialsModal onClose={() => setIsCredentialsModalOpen(false)} />}
     </div>
   );
 }
+
