@@ -31,7 +31,7 @@ export default function UserProfilePage({ params }) {
   const [isCredentialsModalOpen, setIsCredentialsModalOpen] = useState(false);
 
   const router = useRouter();
-  const session = useSession();
+  const { data: session, update } = useSession();
 
   // get song data from spotify api for review cards
   useEffect(() => {
@@ -144,6 +144,41 @@ export default function UserProfilePage({ params }) {
     </div >
   );
 
+  const handleUpdateProfile = async (profile_details) => {
+    try {
+      const response = await fetch(`/api/users/${username}/update_user`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(profile_details)
+      });
+
+      const response_data = await response.json();
+      if (response_data?.status === 200) {
+        console.log("updating");
+        // update session
+        update({
+          user: {
+            ...session.user,
+            username: profile_details.username,
+            imageUrl: profile_details.imageUrl
+          }
+        });
+
+        // reload entire page if username was changed so that all links are correct
+        if (profile_details.username !== username) {
+          window.location.reload();
+        }
+
+      } else {
+        console.log(response_data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
       <div className="flex flex-col grow shrink gap-6 w-2/3">
@@ -170,9 +205,17 @@ export default function UserProfilePage({ params }) {
           <button onClick={() => setIsCredentialsModalOpen(true)}>Update Credentials</button>
         </div>
       </section>
-      {isUserDataModalOpen && <UpdateUserDataModal onClose={() => setIsUserDataModalOpen(false)} />}
+      {isUserDataModalOpen && (
+        <UpdateUserDataModal
+          onClose={() => setIsUserDataModalOpen(false)}
+          onSubmit={handleUpdateProfile}
+          username={username}
+          imageUrl={session?.user?.imageUrl}
+        />
+      )}
       {isCredentialsModalOpen && <UpdateCredentialsModal onClose={() => setIsCredentialsModalOpen(false)} />}
     </div>
   );
 }
+
 

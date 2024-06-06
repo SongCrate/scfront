@@ -1,17 +1,21 @@
 import { NextResponse } from 'next/server';
 import clientPromise from '../../../lib/mongodb';
+import User from '@/lib/models/user';
 
-export async function POST(request) {
+export async function PUT(request, { params }) {
   try {
+    const og_username = params.username;
+
     const body = await request.json();
     const { username, image_url } = body;
+    console.log('Received data:', body);
 
     const client = await clientPromise;
     const db = client.db();
 
     const result = await db.collection('users').updateOne(
-      { username: username },
-      { $set: { image_url: image_url } }
+      { username: og_username },
+      { $set: { username: username, image_url: image_url } }
     );
 
     if (result.matchedCount === 0) {
