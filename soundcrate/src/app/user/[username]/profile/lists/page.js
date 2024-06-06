@@ -61,9 +61,8 @@ export default function ListsPage({ params }) {
             list_id={lists._id}
             name={lists.title}
             song_count={lists.song_count} />
-        )
-      )
-    }
+    ))
+  }
     
   return (
     <main className="flex flex-col gap-4">

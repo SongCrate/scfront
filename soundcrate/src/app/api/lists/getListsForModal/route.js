@@ -1,17 +1,26 @@
 import { connectMongoDB } from '@/lib/mongodb';
 import SongList from '@/lib/models/songList';
 import { NextResponse } from 'next/server';
-import User from '@/lib/models/user';
+// import User from '@/lib/models/user';
+import {useSession} from "next-auth/react";
+import { getSession } from 'next-auth/react';
 
 export async function GET(req) {
     try {
         await connectMongoDB();
 
-        // find songlists based on a user
-        const username = req.nextUrl.searchParams.get('username');
-        // const username = params.username;
-        // await connectMongoDB();
-        const user = await User.findOne({ username })
+
+        // find songlists based on a user who is logged in
+        // const { data: session } = useSession();
+        // const user = session?.user;
+        const session = await getSession({ req });
+        if (!session || !session.user) {
+            return NextResponse.json(
+                { error: "User not authenticated" }, 
+                { status: 401 }
+            );
+        }
+        const user = session.user;
   
         // make sure the user exists in database
         if (!user) {

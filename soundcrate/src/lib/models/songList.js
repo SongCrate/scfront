@@ -22,5 +22,9 @@ const songListSchema = new Schema({
   }, { timestamps: true }
 );
 
+songListSchema.virtual('songCount').get(function () {
+  return this.songIds.length;
+});
+
 const SongList = models.SongList || mongoose.model("SongList", songListSchema);
 export default SongList;

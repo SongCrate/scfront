@@ -1,10 +1,5 @@
 'use client';
 
-import {
-  get_lists_by_song_id,
-  get_list_length,
-  get_username,
-} from '/utils';
 import { get_song } from '@/lib/spotify';
 import {
   ListCard,
@@ -22,12 +17,10 @@ export default function SongReviewPage({ params }) {
 
   const [ songData, setSongData ] = useState(null);
   const [ reviews, setReviews ] = useState([]);
+  const [lists, setLists] = useState([]);
 
   const latest_review = reviews[0];
   const older_reviews = reviews.slice(1);
-  const router = useRouter();
-  const session = useSession();
-
 
   // get song data from spotify api
   useEffect(() => {
@@ -39,36 +32,27 @@ export default function SongReviewPage({ params }) {
     get_song_data();
   }, []);
 
-  // fetch all reviews for this songId
+  // Fetch lists that include this song : VIEWING A REVIEW
   useEffect(() => {
-    async function fetchReviews(song_id, username) {
+    async function fetchLists(song_id) {
       try {
-        const response = await fetch(
-          `/api/review/getReviews?songId=${song_id}&username=${username}&sortBy=date`, 
-          { method: 'GET' }
-        );
-    
+        const response = await fetch(`/api/lists/getListsBySong?songId=${song_id}`, {
+          method: 'GET'
+        });
+
         const responseData = await response.json();
-        if (responseData?.body) {
-          setReviews(responseData.body);
+        if (response.ok) {
+          setLists(responseData.body);
         } else {
-          throw responseData.error;
+          console.error(responseData.error);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
-    
-    fetchReviews(song_id, username);
-  }, []);
 
-  // ============ GETTING DATA FOR LISTS ============
-  var lists = get_lists_by_song_id(song_id);
-  var list_data = lists.map((_, i) => ( // add in list length
-      {...lists[i],
-        "song_count": get_list_length(lists[i].id)
-      }
-  ))
+    fetchLists(song_id);
+  }, [song_id]);
 
   // package songData for easy use
   const song_data = {
@@ -132,16 +116,15 @@ export default function SongReviewPage({ params }) {
     ))
   }
 
-  const list_cards = list_data.map((list) =>
-    <div key={`list-card-${list.id}`}>
-      <ListCard
-        username={get_username(list.user_id)}
-        name={list.name}
-        song_count={list.song_count}
-        show_username={true} />
-      <hr className="opacity-30"></hr>
-    </div >
-  )
+  const list_cards = (list_array) => {
+    return (list_array && list_array.map((lists) =>
+          <ListCard 
+            username={username}
+            list_id={lists._id}
+            name={lists.title}
+            song_count={lists.songIds.length} />
+    ))
+  }
 
   return (
       <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
@@ -179,7 +162,7 @@ export default function SongReviewPage({ params }) {
             <h3>Saved In</h3>
             <div>
               <hr className="opacity-30"></hr>
-              {list_cards}
+              {list_cards(lists)}
             </div>
           </section>
         </div>
