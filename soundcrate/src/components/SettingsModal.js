@@ -185,7 +185,7 @@ export default function SettingsModal({ modalId }) {
                 {/* user image preview */}
                 <img
                   src={previewImageUrl ?? "/images/default-user.png"}
-                  className="rounded-md mt-2 w-[100px] h-[100px]"
+                  className="rounded-md mt-2 w-[100px] h-[100px] object-cover"
                   onError={e => {
                     e.currentTarget.src = "/images/default-user.png"
                   }}
