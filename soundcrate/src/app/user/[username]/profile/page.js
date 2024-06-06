@@ -13,13 +13,9 @@ import {
   CreateListModal,
   ListCard,
   SongReviewCard,
-  UpdateCredentialsModal,
-  SettingsModal,
 } from "@/components";
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import {useRouter} from "next/navigation";
-import {useSession} from "next-auth/react";
 import { useSearchParams } from 'next/navigation'
 
 export default function UserProfilePage({ params }) {
@@ -28,20 +24,6 @@ export default function UserProfilePage({ params }) {
   const [ songData, setSongData ] = useState(null);
   const [ albums, setAlbums ] = useState([]);
   const [ reviews, setReviews ] = useState([]);
-  const [ isModalOpen, setIsModalOpen ] = useState(false);
-  const [ isCredentialsModalOpen, setIsCredentialsModalOpen ] = useState(false);
-  const [viewSettings, setViewSettings] = useState(false);
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const session = useSession();
-
-  // checks if the user is in the profile section to view settings
-  useEffect(()=>{
-    const search = searchParams.get('modal')
-    if (search){
-      setViewSettings(true);
-    }
-  })
 
   // get song data from spotify api for review cards
   useEffect(() => {
@@ -108,40 +90,6 @@ export default function UserProfilePage({ params }) {
       "song_count": get_list_length(lists[i].id)
     } 
   ))
-  const handleProfileSave = async (updatedData) => {
-    const response = await fetch('/api/update_user', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedData),
-    });
-
-    // if (response.ok) {
-    //   const updatedUser = await response.json();
-    //   setUserData({ ...userData, username: updatedData.username, image_url: updatedData.image_url });
-    //   setIsProfileModalOpen(false);
-    // } else {
-    //   console.error('Failed to update user');
-    // }
-  };
-
-  const handleCredentialsSave = async (updatedData) => {
-    const response = await fetch('/api/update_credentials', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedData),
-    });
-
-    // if (response.ok) {
-    //   setUserData({ ...userData, password: updatedData.password });
-    //   setIsCredentialsModalOpen(false);
-    // } else {
-    //   console.error('Failed to update credentials');
-    // }
-  };
 
   const render_review_cards = (review_array) => {
     return (review_array && review_array.map((review) => {
@@ -209,12 +157,7 @@ export default function UserProfilePage({ params }) {
         </div>
         <hr className="opacity-30"></hr>
         {list_cards}
-
       </section>
-      {viewSettings && (
-          <SettingsModal/>
-      )}
-
     </div>
   );
 }

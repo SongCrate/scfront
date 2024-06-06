@@ -4,18 +4,24 @@ import {
   CaretDown,
   Gear,
   SignOut,
-  User
+  User,
+  Star
   } from '@phosphor-icons/react';
 import { signOut, useSession } from 'next-auth/react';
-import { SettingsModal } from '@/components';
+import { UpdateUserModal, UpdateCredentialsModal } from '@/components';
 
 export default function NavBar() {
-    const { data: session } = useSession();
-    const update_settings_modal_id = "update-settings-modal";
+  const { data: session } = useSession();
+  const update_user_modal_id = "update-user-modal";
+  const update_credentials_modal_id = "update-credentials-modal";
 
-    const handleSettingsNav = () => {
-      HSOverlay.open("#"+update_settings_modal_id);
-    }
+  const handleMyAccountNav = () => {
+    HSOverlay.open("#"+update_user_modal_id);
+  }
+
+  const handleSettingsNav = () => {
+    HSOverlay.open("#"+update_credentials_modal_id);
+  }
 
   const renderPublicNav = () => {
     return (
@@ -39,8 +45,10 @@ export default function NavBar() {
 
     return (
       <>
-        {/* INITIALLY HIDDEN: update settings modal */}
-        <SettingsModal modalId={update_settings_modal_id}/>
+        {/* INITIALLY HIDDEN MODALS */}
+        <UpdateUserModal modalId={update_user_modal_id}/>
+        <UpdateCredentialsModal modalId={update_credentials_modal_id}/>
+
 
         <button type="button" className="btn">
           <Link href="/search">Search</Link>
@@ -49,8 +57,8 @@ export default function NavBar() {
         <div className="hs-dropdown relative inline-flex [--placement:bottom-right] z-[80]">
           <button id="hs-dropdown-with-header" type="button" className="hs-dropdown-toggle inline-flex items-center gap-x-2 text-sm font-medium">
               {session?.user?.imageUrl ?
-                  <img className="inline-block size-8 rounded-full" src={session?.user?.imageUrl} /> :
-                  <img className="inline-block size-8 rounded-full" src={"/images/default-user.png"} />
+                <img className="inline-block size-8 rounded-full" src={session?.user?.imageUrl} /> :
+                <img className="inline-block size-8 rounded-full" src={"/images/default-user.png"} />
               }
             <CaretDown size={18} weight="bold" />
           </button>
@@ -66,9 +74,13 @@ export default function NavBar() {
             {/* nav links */}
             <div className="mt-2 py-2 first:pt-0 last:pb-0">
               <Link href={`/user/${session?.user?.username}/profile`} className={menu_nav_link_styling}>
-                <User size={18} weight="bold" />
+                <Star size={18} weight="bold" />
                 Profile
               </Link>
+              <div onClick={handleMyAccountNav} className={menu_nav_link_styling + " hover:cursor-pointer"} >
+                <User size={18} weight="bold" />
+                My Account
+              </div>
               <div onClick={handleSettingsNav} className={menu_nav_link_styling + " hover:cursor-pointer"} >
                 <Gear size={18} weight="bold" />
                 Settings

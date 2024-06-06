@@ -4,14 +4,14 @@ import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { X } from "@phosphor-icons/react";
 
-export default function SettingsModal({ modalId }) {
+export default function UpdateUserModal({ modalId }) {
 
   const { data: session, update } = useSession();
   
   const username = session?.user?.username;
   const imageUrl = session?.user?.imageUrl ?? '';
   
-  const modal_id = modalId ?? "update-settings-modal";
+  const modal_id = modalId ?? "update-user-modal";
   const [ newUsername, setNewUsername ] = useState(username);
   const [ newImageUrl, setNewImageUrl ] = useState(imageUrl);
   const [ previewImageUrl, setPreviewImageUrl ] = useState(imageUrl);
@@ -97,7 +97,7 @@ export default function SettingsModal({ modalId }) {
 
           <div className="flex justify-between items-center">
             <label htmlFor="username-input" className="block text-sm font-medium mb-1 text-light">
-              Name
+              Username
             </label>
             <span className={`block mb-2 text-sm opacity-60" ${name.length < name_char_limit - 10 ? 'invisible' : 'visible'}`}>
               {newUsername.trim().length} / {name_char_limit}
