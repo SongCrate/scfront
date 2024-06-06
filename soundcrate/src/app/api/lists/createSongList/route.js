@@ -14,7 +14,7 @@ export async function POST(req) {
         // make sure that userId, title, and description are provided
         if (!user_id || !title || !description) {
             return NextResponse.json(
-                { message: "Retreived fields:" + user_id + ", " + title + ", " + desciption },
+                { message: "Retreived fields:" + user_id + ", " + title + ", " + description },
                 { status: 400 }
             );
         }
