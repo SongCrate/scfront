@@ -1,38 +1,37 @@
 'use client';
 import Link from 'next/link';
 import {
-    CaretDown,
-    Gear, MagnifyingGlass,
-    SignOut,
-    User
-} from '@phosphor-icons/react';
-import {useEffect, useState} from "react";
-import { signOut, useSession } from "next-auth/react";
-import {useRouter} from "next/navigation";
+  CaretDown,
+  Gear,
+  SignOut,
+  User
+  } from '@phosphor-icons/react';
+import { signOut, useSession } from 'next-auth/react';
+import { SettingsModal } from '@/components';
 
 export default function NavBar() {
     const { data: session } = useSession();
-    const router = useRouter();
+    const update_settings_modal_id = "update-settings-modal";
 
-    const handleSettings = () => {
-        router.push(`/user/${session?.user?.username}/profile?settings=true`, );
+    const handleSettingsNav = () => {
+      HSOverlay.open("#"+update_settings_modal_id);
     }
 
-      const renderPublicNav = () => {
-        return (
-          <>
-            <button type="button" className="btn text-white">
-              <Link href="/search">Explore</Link>
-            </button>
-            <button type="button" className="btn">
-              <Link href="/register">Register</Link>
-            </button>
-            <button type="button" className="btn">
-              <Link href="/login">Login</Link>
-            </button>
-          </>
-        )
-      }
+  const renderPublicNav = () => {
+    return (
+      <>
+        <button type="button" className="btn text-white">
+          <Link href="/search">Search</Link>
+        </button>
+        <button type="button" className="btn">
+          <Link href="/register">Register</Link>
+        </button>
+        <button type="button" className="btn">
+          <Link href="/login">Login</Link>
+        </button>
+      </>
+    )
+  }
 
   const renderUserNav = () => {
 
@@ -40,9 +39,9 @@ export default function NavBar() {
 
     return (
       <>
-        <button type="button" className="btn">
-          <Link href="/search">Explore</Link>
-        </button>
+        {/* INITIALLY HIDDEN: update settings modal */}
+        <SettingsModal modalId={update_settings_modal_id}/>
+
         <button type="button" className="btn">
           <Link href="/search">Search</Link>
         </button>
@@ -53,7 +52,6 @@ export default function NavBar() {
                   <img className="inline-block size-8 rounded-full" src={session?.user?.imageUrl} /> :
                   <img className="inline-block size-8 rounded-full" src={"/images/default-user.png"} />
               }
-
             <CaretDown size={18} weight="bold" />
           </button>
 
@@ -71,10 +69,10 @@ export default function NavBar() {
                 <User size={18} weight="bold" />
                 Profile
               </Link>
-              <Link href={`/user/${session?.user?.username}/profile?modal=setings`} className={menu_nav_link_styling}>
+              <div onClick={handleSettingsNav} className={menu_nav_link_styling + " hover:cursor-pointer"} >
                 <Gear size={18} weight="bold" />
                 Settings
-              </Link>
+              </div>
               <hr className="border-dark-light my-1"></hr>
               <Link href="/" className={menu_nav_link_styling} onClick={signOut}>
                 <SignOut size={18} weight="bold" />Logout
