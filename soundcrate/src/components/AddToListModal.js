@@ -1,6 +1,5 @@
 'use client';
 
-// import { get_db, get_list_length } from '/utils';
 import { ListCard } from '@/components';
 import { Playlist, Plus, X, Check } from '@phosphor-icons/react';
 import { useSession } from "next-auth/react";
@@ -13,7 +12,8 @@ export default function AddToListModal({
   artist,
   album_name,
   album_art,
-  year
+  year,
+  onListUpdate
 }) {
 
   const { data: session } = useSession();
@@ -54,6 +54,7 @@ export default function AddToListModal({
         setListData(prevData => prevData.map(list => 
           list._id === responseData.body._id ? responseData.body : list
         ));
+        onListUpdate(responseData.body);
       } else {
         console.log("Message3: " + responseData.error);
       }

@@ -49,15 +49,6 @@ export default function ListCard({
       
       </div>
       
-      {/* 1 - add to song button */}
-      {show_add_btn &&
-        <button className="flex flex-col items-center gap-1 z-99 padding-3" onClick={handleClick}>
-          {isAdded 
-            ? <Check weight={'bold'} size={18}/>
-            : <Plus weight={'bold'} size={18}/>
-          }
-        </button>
-      }  
     </Link>
   );
 }

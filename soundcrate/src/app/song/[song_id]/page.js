@@ -77,6 +77,18 @@ export default function SongPage({ params }) {
     fetchLists(song_id);
   }, [song_id]);
 
+  // Update lists when a song is added or removed from a list
+  const handleListUpdate = (updatedList) => {
+    setLists(prevLists => {
+      const index = prevLists.findIndex(list => list._id === updatedList._id);
+      if (index >= 0) {
+        return prevLists.map(list => list._id === updatedList._id ? updatedList : list);
+      } else {
+        return [...prevLists, updatedList];
+      }
+    });
+  };
+
   // package songData for easy use
   const song_data = {
     name: songData?.name,
@@ -182,6 +194,7 @@ export default function SongPage({ params }) {
             album_name={song_data.album}
             album_art={song_data.album_art}
             year={song_data.year}
+            onListUpdate={handleListUpdate}
           />
         </section>
         <section className="flex flex-col gap-3">
