@@ -17,9 +17,10 @@ export default function ListsPage({ params }) {
         const song_ids = reviews.map((review) => {
           return review.songId;
         })
-
-        const response = await get_songs(song_ids);
-        setSongData(response?.tracks);
+        if (song_ids.length) {
+          const response = await get_songs(song_ids);
+          setSongData(response?.tracks);
+        }
       }
     };
     

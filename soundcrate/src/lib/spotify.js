@@ -18,15 +18,18 @@ const authorize = async () => {
 
   // attempt to retrieve from session storage first
   var access_token = window.sessionStorage.getItem('spotify-access');
+  var access_token_exp = window.sessionStorage.getItem('spotify-access-exp');
 
   // if none in storage, generate and save a new access token
-  if ((!access_token) || access_token == null || access_token == undefined) {
+  if ((!access_token) || (access_token_exp < Date.now())) {
     try {
+      // getch new spotify access token
       request.post(auth_options, function(error, response, body) {
         if (!error && response.statusCode === 200) {
           // set newly retrieved access token
           access_token = body.access_token;
           window.sessionStorage.setItem('spotify-access', access_token);
+          window.sessionStorage.setItem('spotify-access-exp', Date.now() + body.expires_in * 1000 )
         } else {
           console.log(error);
         }
@@ -131,6 +134,24 @@ export const get_random_songs = async () => {
       }
     });
     return response.data.tracks;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const get_new_releases = async () => {
+  const access_token = await authorize();
+
+  try {
+    const response = await axios.get('https://api.spotify.com/v1/browse/new-releases', {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      },
+      params: {
+        limit: 5
+      }
+    });
+    return response.data.albums;
   } catch (error) {
     console.log(error);
   }
