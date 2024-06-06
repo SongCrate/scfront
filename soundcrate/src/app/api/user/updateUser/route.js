@@ -30,15 +30,13 @@ export async function PUT(req) {
     );
 
     return NextResponse.json(
-      { message: "User updated" }, 
-      { status: 200 }
+      { message: "User updated", status: 200 }
     );
 
   } catch (error) {
     console.log(error)
     return NextResponse.json(
-      { message: "An error occurred while updating the user." }, 
-      { status: 500 }
+      { message: "An error occurred while updating the user.", status: 500 }
     );
   }
 }

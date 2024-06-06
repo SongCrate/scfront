@@ -6,7 +6,7 @@ import { X } from "@phosphor-icons/react";
 
 export default function SettingsModal({ modalId }) {
 
-  const { data: session, update: session_update } = useSession();
+  const { data: session, update } = useSession();
   
   const username = session?.user?.username;
   const imageUrl = session?.user?.imageUrl ?? '';
@@ -30,16 +30,19 @@ export default function SettingsModal({ modalId }) {
         const response_data = await response.json();
         if (response_data?.status == 200) {
 
+          console.log("updating")
           // update session
-          session_update({
-            user: {...session.user, 
+          update({user: {
+              ...session.user, 
               username: profile_details.username, 
               imageUrl: profile_details.imageUrl 
             }
-          })
+          }) 
 
-          // reload the window so that all data fully updates
-          window.location.reload();
+          // reload entire page if username was changed so that all links are correct
+          if (profile_details.username != username) {
+            window.location.reload();
+          }
 
         } else if (response_data?.status == 401) {
           // display unauthorized modal

@@ -40,11 +40,18 @@ export const authOptions ={
     ],
     secret: process.env.NEXTAUTH_SECRET,
     callbacks: {
-        async jwt({ token, user }) {
-            // Attach user data to token object
-            if (user) {
-                token.user = user;
+        async jwt({ token, trigger, user, session }) {
+            // Attach user data to token object on first login
+            if (trigger === "update" && session?.user) {
+                // attach new user if it has been updated
+                token.user = session.user;
+                return token;
             }
+            else if (user) {
+                token.user = user;
+                return token
+            }
+
             return token;
         },
         async session({ session, token }) {
