@@ -2,24 +2,23 @@
 
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import { get_random_songs, get_songs } from '../lib/spotify';
+import { get_new_releases, get_songs } from '../lib/spotify';
 import { AlbumCard, SongReviewCard } from '@/components';
 import './home.css';
 import {useSession} from "next-auth/react";
 
 export default function Home() {
   const { data: session } = useSession();
-  const [ exploreSongs, setExploreSongs ] = useState(null);
+  const [ newReleases, setNewReleases ] = useState(null);
   const [ reviews, setReviews ] = useState([]);
   const [ songData, setSongData ] = useState(null);
 
-  // TODO: update to use request headers
 
   // fetch song data from spotify api for explore section
   useEffect(() => {
     async function fetchNewReleases() {
-      const random_songs = await get_random_songs();
-      setExploreSongs(random_songs);
+      const new_releases = await get_new_releases();
+      setNewReleases(new_releases?.items);
     }
     
     fetchNewReleases();
@@ -65,16 +64,16 @@ export default function Home() {
     get_song_data();
   }, [reviews]);
 
-  const render_explore_song_cards = () => {
-    return exploreSongs?.map((song) =>
+  const render_new_release_cards = () => {
+    return newReleases && newReleases.map((album) =>
       <AlbumCard 
-        key={`song-card-${song.id}`}
-        album_id={song.id}
-        name={song.name}
-        artist_name={song.album.artists[0]?.name}
+        key={`album-card-${album.id}`}
+        album_id={album.id}
+        name={album.name}
+        artist_name={album.artists[0]?.name}
         size={20}
-        album_art={song.album.images[1]?.url}
-        href={'/song/'+song.id} />
+        album_art={album.images[0]?.url}
+        href={'/album/'+album.id} />
     );
   }
 
@@ -119,11 +118,11 @@ export default function Home() {
         )}
       </section>
       
-      {/* explore */}
+      {/* new releases */}
       <section className="flex flex-col gap-3 mb-6 w-full">
-        <h2>Explore</h2>
+        <h2>New Releases</h2>
         <div className="columns-5">
-          {render_explore_song_cards()}
+          {render_new_release_cards()}
         </div>
       </section>
 

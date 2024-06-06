@@ -14,11 +14,7 @@ export async function POST(req) {
         // make sure that userId and title are provided
         if (!user_id || !title ) {
             return NextResponse.json(
-<<<<<<< Updated upstream
-                { message: "Retreived fields:" + user_id + ", " + title + ", " + desciption },
-=======
                 { message: "Required fields:" + user_id + ", " + title },
->>>>>>> Stashed changes
                 { status: 400 }
             );
         }
