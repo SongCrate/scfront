@@ -8,25 +8,31 @@ import {
 } from '@phosphor-icons/react';
 import {useEffect, useState} from "react";
 import { signOut, useSession } from "next-auth/react";
+import {useRouter} from "next/navigation";
 
 export default function NavBar() {
     const { data: session } = useSession();
+    const router = useRouter();
 
-  const renderPublicNav = () => {
-    return (
-      <>
-        <button type="button" className="btn text-white">
-          <Link href="/search">Explore</Link>
-        </button>
-        <button type="button" className="btn">
-          <Link href="/register">Register</Link>
-        </button>
-        <button type="button" className="btn">
-          <Link href="/login">Login</Link>
-        </button>
-      </>
-    )
-  }
+    const handleSettings = () => {
+        router.push(`/user/${session?.user?.username}/profile?settings=true`, );
+    }
+
+      const renderPublicNav = () => {
+        return (
+          <>
+            <button type="button" className="btn text-white">
+              <Link href="/search">Explore</Link>
+            </button>
+            <button type="button" className="btn">
+              <Link href="/register">Register</Link>
+            </button>
+            <button type="button" className="btn">
+              <Link href="/login">Login</Link>
+            </button>
+          </>
+        )
+      }
 
   const renderUserNav = () => {
 
