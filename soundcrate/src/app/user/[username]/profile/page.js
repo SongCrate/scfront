@@ -171,13 +171,13 @@ export default function UserProfilePage({ params }) {
   return (list_array && list_array.map((lists) =>
       <ListCard 
         username={username}
-        list_id={list._id}
-        name={list.name}
-        song_count={list.song_count} />
+        list_id={lists._id}
+        name={lists.title}
+        song_count={lists.song_count} />
       )
     )
   }
-  
+
 
   return (
     <div className="flex flex-wrap md:flex-nowrap w-full gap-6">

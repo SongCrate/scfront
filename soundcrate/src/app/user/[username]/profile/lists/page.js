@@ -56,11 +56,11 @@ export default function ListsPage({ params }) {
 
   const list_cards = (list_array) => {
     return (list_array && list_array.map((lists) =>
-        <ListCard 
-          username={username}
-          list_id={list.id}
-          name={list.name}
-          song_count={list.song_count} />
+          <ListCard 
+            username={username}
+            list_id={lists._id}
+            name={lists.name}
+            song_count={lists.song_count} />
         )
       )
     }
