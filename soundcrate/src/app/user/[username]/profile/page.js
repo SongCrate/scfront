@@ -4,12 +4,6 @@ import {
   get_albums, 
   get_songs 
 } from '@/lib/spotify';
-// // REMOVE THIS SECTION **************
-// import {
-//   get_lists, 
-//   get_list_length, 
-// } from '/utils';
-// // ************** REMOVE THIS SECTION
 import {
   AlbumCard,
   CreateListModal,
@@ -18,8 +12,6 @@ import {
 } from "@/components";
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import {useRouter} from "next/navigation";
-import {useSession} from "next-auth/react";
 
 export default function UserProfilePage({ params }) {
   const { username } = params;
@@ -28,9 +20,6 @@ export default function UserProfilePage({ params }) {
   const [ albums, setAlbums ] = useState([]);
   const [ reviews, setReviews ] = useState([]);
   const [ lists, setLists ] = useState([]);
-
-  const router = useRouter();
-  const session = useSession();
 
   // get song data from spotify api for review cards
   useEffect(() => {
@@ -90,16 +79,6 @@ export default function UserProfilePage({ params }) {
     get_album_data();
   }, [reviews]);
 
-  // // REMOVE THIS SECTION **************
-  // // ============ GETTING DATA FOR LISTS ============
-  // var lists = get_lists(username);
-  // var list_data = lists.map((_, i) => ( // add in list length
-  //   {...lists[i],
-  //     "song_count": get_list_length(lists[i].id)
-  //   } 
-  // ))
-  // // ************** REMOVE THIS SECTION
-
   // fetch all songlists for this username
   useEffect(() => {
     async function fetchSongLists(username) {
@@ -155,17 +134,6 @@ export default function UserProfilePage({ params }) {
       )
     )
   }
-
-  // const list_cards = lists.map((list) => 
-  //   <div key={`list-card-${list._id}`}>
-  //     <ListCard 
-  //       username={username}
-  //       list_id={list._id}
-  //       name={list.title}
-  //       song_count={list.songIds.length} />
-  //     <hr className="opacity-30"></hr>
-  //   </div>
-  // );
 
   const list_cards = (list_array) => {
   return (list_array && list_array.map((lists) =>

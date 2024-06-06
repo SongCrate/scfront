@@ -9,8 +9,6 @@ export async function GET(req) {
 
         // find songlists based on a user
         const username = req.nextUrl.searchParams.get('username');
-        // const username = params.username;
-        // await connectMongoDB();
         const user = await User.findOne({ username })
   
         // make sure the user exists in database

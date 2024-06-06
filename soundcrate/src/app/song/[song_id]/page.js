@@ -10,7 +10,6 @@ import {
 } from '@/components';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import {useRouter} from "next/navigation";
 import {useSession} from "next-auth/react";
 
 export default function SongPage({ params }) {
