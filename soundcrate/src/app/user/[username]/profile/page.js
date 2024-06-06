@@ -100,6 +100,10 @@ export default function UserProfilePage({ params }) {
     fetchSongLists(username);
   }, [username]);
 
+  // const handleCreateList = (newList) => {
+  //   setLists(prevLists => [newList, ...prevLists]);
+  //   document.getElementById('create-modal-id').classList.add('hidden');
+  // };
 
   const render_review_cards = (review_array) => {
     return (review_array && review_array.map((review) => {
@@ -165,6 +169,7 @@ export default function UserProfilePage({ params }) {
         <div className="flex justify-between items-baseline">
           <Link href="profile/lists"><h3>Lists</h3></Link>
           <CreateListModal />
+          {/* <CreateListModal onCreate={handleCreateList} /> */}
         </div>
         <hr className="opacity-30"></hr>
         {list_cards(lists.slice(0, 5))}

@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { Plus, X } from '@phosphor-icons/react';
 import { useSession } from "next-auth/react";
 
-export default function CreateListModal() {
+// export default function CreateListModal({ onCreate }) {
+  export default function CreateListModal() {
 
   const { data: session } = useSession();
 
@@ -31,6 +32,8 @@ export default function CreateListModal() {
         const response_data = await response.json();
         if (response_data?.status == 200) {
           console.log(response_data.body)
+          // onCreate(response_data.body);
+          // handleCancel();
         } else {
           console.log(response_data.error)
         }

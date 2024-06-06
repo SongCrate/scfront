@@ -11,10 +11,14 @@ export async function POST(req) {
             description
         } = await req.json();
 
-        // make sure that userId, title, and description are provided
-        if (!user_id || !title || !description) {
+        // make sure that userId and title are provided
+        if (!user_id || !title ) {
             return NextResponse.json(
+<<<<<<< Updated upstream
                 { message: "Retreived fields:" + user_id + ", " + title + ", " + desciption },
+=======
+                { message: "Required fields:" + user_id + ", " + title },
+>>>>>>> Stashed changes
                 { status: 400 }
             );
         }
@@ -25,9 +29,13 @@ export async function POST(req) {
         var songlist = new SongList({
             user: user_id,
             title: title,
-            description: description,
             songIds: [],
         });
+
+        if (Boolean(description)) {
+            songlist['description'] = description;
+          }
+      
 
         var res = null
 
