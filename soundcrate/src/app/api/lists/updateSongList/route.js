@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server';
 export async function PATCH(req) {
     try {
         const { listId, songId , action } = await req.json();
+        const user_id = req.headers.get('user_id');
 
         // error handling
         if (!listId || !songId) {
@@ -23,6 +24,13 @@ export async function PATCH(req) {
                 { message: 'Song list not found' },
                 { status: 404 }
             );
+        }
+
+        if (songList.user != user_id) {
+            return NextResponse.json(
+                { message: 'Unauthorized user' },
+                { status: 401 }  
+            )
         }
 
         let updatedList;
