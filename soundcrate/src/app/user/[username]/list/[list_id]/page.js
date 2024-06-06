@@ -29,7 +29,7 @@ export default function ListPage({ params }) {
     // fetch list data and song IDs
     async function fetchListData() {
       try {
-        const response = await fetch(`/api/lists/getSongList?id=${list_id}`);
+        const response = await fetch(`/api/lists/getOneSongList?id=${list_id}`);
         const data = await response.json();
         if (response.ok) {
           setListData(data.list);
@@ -78,7 +78,7 @@ export default function ListPage({ params }) {
   const render_song_cards = () => {
     if (songData?.tracks) {
       return songIds
-        .slice(0, 4) // only return the top 4
+        // .slice(0, 4) // only return the top 4
         .map((song_id, i) =>
           <SongCard 
             key={`song-card-${song_id}`}

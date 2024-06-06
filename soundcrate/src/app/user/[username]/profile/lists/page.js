@@ -59,7 +59,7 @@ export default function ListsPage({ params }) {
           <ListCard 
             username={username}
             list_id={lists._id}
-            name={lists.name}
+            name={lists.title}
             song_count={lists.song_count} />
         )
       )
