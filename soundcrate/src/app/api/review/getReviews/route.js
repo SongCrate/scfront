@@ -11,7 +11,7 @@ export async function GET(req){
     // initialize objects to filter/sort reviews
     let filter_query = {};
     let sort_query = {};
-    let limit_query = 0; // no limit
+    let limit_query = Number.MAX_SAFE_INTEGER; // no limit
     
     // filter for specific song id
     if ('songId' in search_params) { filter_query.songId = search_params.songId };
@@ -37,9 +37,9 @@ export async function GET(req){
     // add in sort requirements specified in search params
     if ('sortBy' in search_params) { 
       if (search_params.sortBy == 'likes') {
-        sort_query = { 'likes' : -1 };
+        sort_query = { likesCount : -1 };
       } else if (search_params.sortBy == 'date') {
-        sort_query = { 'createdAt' : -1 }
+        sort_query = { createdAt : -1 };
       }
     };
 
@@ -47,10 +47,34 @@ export async function GET(req){
     if ('limit' in search_params) { limit_query = parseInt(search_params.limit) };
     
     const reviews = await Review
-      .find(filter_query)
-      .sort(sort_query)
-      .limit(limit_query)
-      .populate('user')
+      .aggregate([
+        { // apply filters
+          $match: { ...filter_query }
+        },
+        { // add likeCount field
+          $addFields: {
+            likesCount: { $size: '$likes' }
+          }
+        },
+        { // apply sorting
+          $sort: { ...sort_query }
+        },
+        { // apply limits
+          $limit: limit_query
+        },
+        { // populate with user
+          $lookup: {
+            from: 'users',
+            localField: 'user',
+            foreignField: '_id',
+            as: 'user'
+          }
+        },
+        { $unwind: { 
+          path: '$user',
+        }
+      },
+      ])
       .exec();
 
     return NextResponse.json(
