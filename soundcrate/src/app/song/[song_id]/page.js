@@ -1,11 +1,6 @@
 'use client';
 
 import { get_song } from '@/lib/spotify';
-import {
-  get_lists_by_song_id,
-  get_list_length,
-  get_username,
-} from '/utils';
 import { 
   SongReviewCard, 
   ListCard, 
@@ -15,12 +10,17 @@ import {
 } from '@/components';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import {useSession} from "next-auth/react";
 
 export default function SongPage({ params }) {
   const { song_id } = params;
 
   const [ songData, setSongData ] = useState(null);
   const [ reviews, setReviews ] = useState([]);
+  const [lists, setLists] = useState([]);
+
+  const { data: session } = useSession();
+  const username = session?.user?.username;
 
   // get song data from spotify api
   useEffect(() => {
@@ -54,13 +54,39 @@ export default function SongPage({ params }) {
     fetchReviewsBySongId(song_id);
   }, []);
 
-  // ============ GETTING DATA FOR LISTS ============
-  var lists = get_lists_by_song_id(song_id);
-  var list_data = lists.map((_, i) => ( // add in list length
-    {...lists[i],
-      "song_count": get_list_length(lists[i].id)
+  // Fetch lists that include this song : VIEWING A SONG
+  useEffect(() => {
+    async function fetchLists(song_id) {
+      try {
+        const response = await fetch(`/api/lists/getListsBySong?songId=${song_id}`, {
+          method: 'GET'
+        });
+
+        const responseData = await response.json();
+        if (response.ok) {
+          setLists(responseData.body);
+        } else {
+          console.error(responseData.error);
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
-  ))
+
+    fetchLists(song_id);
+  }, [song_id]);
+
+  // Update lists when a song is added or removed from a list
+  const handleListUpdate = (updatedList) => {
+    setLists(prevLists => {
+      const index = prevLists.findIndex(list => list._id === updatedList._id);
+      if (index >= 0) {
+        return prevLists.map(list => list._id === updatedList._id ? updatedList : list);
+      } else {
+        return [...prevLists, updatedList];
+      }
+    });
+  };
 
   // package songData for easy use
   const song_data = {
@@ -122,17 +148,15 @@ export default function SongPage({ params }) {
     ))
   }
 
-  const list_cards = list_data.map((list) => 
-    <div key={`list-card-${list.id}`}>
-      <ListCard 
-        username={get_username(list.user_id)}
-        list_id={list.id}
-        name={list.name}
-        song_count={list.song_count} 
-        show_username={true} />
-      <hr className="opacity-30"></hr>
-    </div >
-  )
+  const list_cards = (list_array) => {
+    return (list_array && list_array.map((lists) =>
+          <ListCard 
+            username={username}
+            list_id={lists._id}
+            name={lists.title}
+            song_count={lists.songIds.length} />
+    ))
+  }
 
   return (
     <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
@@ -169,13 +193,14 @@ export default function SongPage({ params }) {
             album_name={song_data.album}
             album_art={song_data.album_art}
             year={song_data.year}
+            onListUpdate={handleListUpdate}
           />
         </section>
         <section className="flex flex-col gap-3">
-          <h3>Lists</h3>
+          <h3>Saved In</h3>
           <div>
             <hr className="opacity-30"></hr>
-            {list_cards}
+            {list_cards(lists)}
           </div>
         </section>
       </div>

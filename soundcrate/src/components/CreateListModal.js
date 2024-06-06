@@ -1,54 +1,66 @@
 'use client';
-import { get_db } from '/utils';
 import { useState } from 'react';
-import { 
-  Plus,
-  X } from '@phosphor-icons/react';
+import { Plus, X } from '@phosphor-icons/react';
+import { useSession } from "next-auth/react";
 
 export default function CreateListModal() {
 
-  // mock data, would be grabbing this from header
-  const user_id = 1;
+  const { data: session } = useSession();
 
   const modal_id = "create-modal-id";
-  const [ name, setName ] = useState("");
+  const [ title, setName ] = useState("");
   const [ description, setDescription ] = useState("");
   const description_char_limit = 150;
-  const name_char_limit = 30;
+  const title_char_limit = 30;
 
-  const db = get_db();
+  const handleCancel = () => {
+    setName("");
+    setDescription("");
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    // create new database object
-    const last_id = db['list'].slice(-1)[0].id
-    var new_db = db
-    new_db['list'][last_id] = {
-      "id": last_id + 1,
-      "user_id": user_id,
-      "name": name.trim(),
-      "description": description.trim()
-    }
-
-    try {
-      console.log(new_db);
-      const response = await fetch('/api/update_db', {
-        method: 'POST',
-        body: JSON.stringify(new_db)
-      });
-
-      const response_data = await response.json();
-
-      if (response.status === 200) {
-        console.log('success');
-      } else {
-        console.log(response.status)
+    async function createList(new_songlist) {
+      try {
+        // get backend function
+        const response = await fetch('/api/lists/createSongList', {
+          method: 'POST',
+          body: JSON.stringify(new_songlist)
+        });
+        
+        // get data from user
+        const response_data = await response.json();
+        if (response_data?.status == 200) {
+          console.log(response_data.body)
+        } else {
+          console.log(response_data.error)
+        }
+  
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
 
+    e.preventDefault();
+
+    // get user id from session
+    if (!session || !session.user) {
+      console.log("User not authenticated");
+      return;
+    }
+    const user_id = session.user._id;
+
+    // create body to send to the API
+    const new_list = {
+      user_id: user_id,
+      title: title,
+      description: description,
+    }
+
+    // create new list
+    createList(new_list)
+
+    // refresh account
+    handleCancel();
   }
 
   const renderForm = () => {
@@ -63,15 +75,15 @@ export default function CreateListModal() {
             <label htmlFor="list-name-input" className="block text-sm font-medium mb-1 text-light">
                 Name
             </label>
-            <span className={`block mb-2 text-sm opacity-60" ${name.length < name_char_limit - 10 ? 'invisible' : 'visible'}`}>
-              {name.length} / {name_char_limit}
+            <span className={`block mb-2 text-sm opacity-60" ${title.length < title_char_limit - 10 ? 'invisible' : 'visible'}`}>
+              {title.length} / {title_char_limit}
             </span>
           </div>
 
           <input 
             id="list-name-input"
-            maxLength={name_char_limit}
-            value={name}
+            maxLength={title_char_limit}
+            value={title}
             onChange={(e) => { setName(e.target.value) }}
           />
         </div>
@@ -99,12 +111,16 @@ export default function CreateListModal() {
 
         {/* cancel and action buttons */}
         <div className="flex justify-end items-center gap-x-2 p-3">
-          <button type="button" className="btn hs-dropup-toggle gap-x-2 text-sm font-medium rounded-md text-gray hover:bg-dark hover:bg-opacity-40" data-hs-overlay={"#"+modal_id}>
+          <button 
+            type="button" 
+            onClick={handleCancel}
+            className="btn hs-dropup-toggle gap-x-2 text-sm font-medium rounded-md text-gray hover:bg-dark hover:bg-opacity-40" 
+            data-hs-overlay={"#"+modal_id}>
             Cancel
           </button>
           <button 
             // type="submit"
-            disabled={!name}
+            disabled={!title}
             onClick={handleSubmit} 
             className="btn gap-x-2 text-sm rounded-md bg-blue hover:bg-opacity-80 text-light disabled:opacity-50"
           >
