@@ -149,13 +149,14 @@ export default function SongPage({ params }) {
   }
 
   const list_cards = (list_array) => {
-    return (list_array && list_array.map((lists) =>
+    return (list_array && list_array.map((list) =>
       <ListCard 
-        key={lists._id}
-        username={username}
-        list_id={lists._id}
-        name={lists.title}
-        song_count={lists.songIds.length} 
+        key={list._id}
+        username={list.user.username}
+        list_id={list._id}
+        name={list.title}
+        song_count={list.songIds.length}
+        show_username={true} 
       />
     ))
   }

@@ -1,8 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { AddToListButton } from '@/components';
-import { Plus, Check } from '@phosphor-icons/react';
 import { useState } from 'react';
 
 export default function ListCard({ 
@@ -16,13 +14,6 @@ export default function ListCard({
  }) {
 
   const [ isAdded, setIsAdded ] = useState(false);
-
-  const handleClick = (e) => {
-    setIsAdded(!isAdded);
-    e.stopPropagation();
-    e.preventDefault();
-  }
-
 
   return (
     <Link href={is_link ? `/user/${username}/list/${list_id}` : ''} className="w-full flex flex-row justify-between items-center">
@@ -42,7 +33,7 @@ export default function ListCard({
           </span>
           {show_username &&
             <span className="ml-1">
-              ∙ by {username}
+              ∙ <Link href={`/user/${username}/profile`} className="hover:opacity-90">By {username}</Link>
             </span>
           }
         </p>

@@ -100,7 +100,7 @@ export default function SongReviewPage({ params }) {
         />
         {/* song details */}
         <div className="flex flex-col pb-1">
-          <p className="uppercase opacity-50 text-xs mb-0.5">By {username}</p>
+          <Link href={`/user/${username}/profile`} className="uppercase opacity-50 text-xs mb-0.5 hover:opacity-90">By {username}</Link>
           <Link href={`/song/${song_data.song_id}`}>
             <h1 className="hover:underline underline-offset-4 decoration-accent">{song_data.name}</h1>
           </Link>
@@ -138,12 +138,13 @@ export default function SongReviewPage({ params }) {
   }
 
   const list_cards = (list_array) => {
-    return (list_array && list_array.map((lists) =>
-          <ListCard 
-            username={username}
-            list_id={lists._id}
-            name={lists.title}
-            song_count={lists.songIds.length} />
+    return (list_array && list_array.map((list) =>
+    <ListCard 
+      username={list.user.username}
+      list_id={list._id}
+      name={list.title}
+      song_count={list.songIds.length}
+      show_username={true} />
     ))
   }
 

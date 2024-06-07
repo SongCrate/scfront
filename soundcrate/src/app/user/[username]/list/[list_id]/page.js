@@ -1,5 +1,5 @@
 'use client';
-// import { get_list_by_id, get_list_song_ids } from '/utils';
+import Link from 'next/link';
 import { get_songs } from '@/lib/spotify';
 import { useState, useEffect } from 'react';
 import { SongCard } from '@/components';
@@ -12,9 +12,6 @@ export default function ListPage({ params }) {
   const [songData, setSongData] = useState({});
   const [listData, setListData] = useState({});
   const [songIds, setSongIds] = useState([]);
-
-  const router = useRouter();
-  const session = useSession();
 
   useEffect(() => {
     // fetch list data and song IDs
@@ -73,10 +70,10 @@ export default function ListPage({ params }) {
         <h1>{listData.title}</h1>
         <p className="opacity-80 text-sm">{listData.description}</p>
 
-        <div className="flex flex-row gap-1 text-sm uppercase opacity-40">
-          <div>{songIds.length} {songIds.length !== 1 ? 'songs' : 'song'}</div>
+        <div className="flex flex-row gap-1 text-sm uppercase">
+          <div className="opacity-40">{songIds.length} {songIds.length !== 1 ? 'songs' : 'song'}</div>
           ∙
-          <div>By {username}</div>
+          <Link href={`/user/${username}/profile`}className="opacity-40 hover:opacity-60">By {username}</Link>
         </div>
       </section>
 

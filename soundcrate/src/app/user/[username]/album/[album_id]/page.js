@@ -130,7 +130,7 @@ export default function AlbumReviewPage({ params }) {
         />
         {/* album details */}
         <div className="flex flex-col pb-1">
-          <p className="uppercase opacity-50 text-xs mb-0.5">Album ∙ By {username}</p>
+        <Link href={`/user/${username}/profile`}className="uppercase opacity-50 text-xs mb-0.5 hover:opacity-90">By {username}</Link>
           <Link href={`/album/${album_data.album_id}`}>
             <h1 className="hover:underline underline-offset-4 decoration-accent">{album_data.name}</h1>
           </Link>
