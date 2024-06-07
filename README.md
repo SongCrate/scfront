@@ -1,9 +1,10 @@
 # Soundcrate
 
-Soundcrate is a music review site that allows users to rate and review songs and albums. It features trending albums, top reviews, comprehensive search capabilities, personalized profiles, and detailed song review pages.
+Soundcrate is a music review site that allows users to rate and review songs and albums. It features trending albums, top reviews, comprehensive search capabilities, personalized profiles, song/album pages, and detailed song review pages.
 
 ## Table of Contents
 
+- [Types of Users](#types-of-users)
 - [Features](#features)
 - [Pages](#pages)
   - [Home Page](#home-page)
@@ -14,35 +15,50 @@ Soundcrate is a music review site that allows users to rate and review songs and
 - [Installation](#installation)
 - [Usage](#usage)
 
+## Types of Users
+
+### Unregistered Users
+Unregistered users have limited capabilities on Soundcrate, being able to access the Soundcrate home page as well as the search page. They can view profile pages, song/album pages, review pages, and lists, but are unable to like reviews or publish their own ratings/reviews and song lists. When attempting to do so, they will be prompted to log in or register for an account.
+
+### Registered Users
+Registered users have full capabilities on Soundcrate, including all unregistered user capabilities. In addition, they are able to like other reviews and create their own ratings/reviews and lists. Multiple pages, such as the homepage, will also be customized to the specific user if logged in.
+
 ## Features
 
-- **Trending Albums**: Discover the latest trending albums on the home page.
-- **Top Reviews**: Read top reviews from users on the home page.
-- **Search**: Search for your favorite songs and albums easily.
-- **User Profiles**: View and manage your lists of songs, reviews, and top albums.
-- **Song Reviews**: Rate songs out of 5 stars, write text reviews, see the number of likes, and manage the lists your review is saved in.
+#### Home Page: Discover the latest trending albums & top reviews.
+Through Soundcrate's homepage, viewers can see new music releases on Spotify and popular reviews from other users.
 
-## Pages
+#### Search Page: Search for your favorite songs and albums easily.
+Soundcrate's search page allows users to easily find songs and albums by searching with song title, album title, or artist name. Clicking on a song/album will direct the user to the unique song/album page.
 
-### Home Page
+#### Song Page: View song details.
+On the song page, users can view song information such as title, artist, and album, along with the song's average rating, popular reviews, and lists the song is featured on. Users can also choose to rate/review the song and add it to their song lists if they are logged in.
 
-The Home Page displays trending albums and top reviews. It’s the main landing page where users can quickly see what’s popular and what others are saying about different music.
+#### Album Page: View album details.
+On the album page, users can view album information, such as title, artist, and year of release. They can also view the album tracklist, and click on any song to be led to the song's page. Top reviews of songs on the album are also featured on this page.
 
-### Search Page
+#### User Profile Page: View and manage your lists of songs, reviews, and top albums.
+On the user profile page, users can view how many reviews they've written, how many albums they've reviewed songs from, how many lists they've created, how many followers they have, and how many users they are following. They can also view the user's reviews, the unique albums the user has reviewed from, and their song lists. Clicking on the individual review cards, album cards, or list cards will direct users to their respective pages.
+If this is the user's own profile, they can create a new song list by clicking "+ New".
 
-The Search Page allows users to search for songs and albums. It provides a comprehensive search functionality to find and explore various music pieces.
+#### Song Review Page: View detailed song critiques from Soundcrate users.
 
-### Profile Page
+The Song Review Page showcases detailed reviews by users. Each review includes a rating out of 5 stars, a text review, the number of likes the review has received, and song lists the review has been saved in
 
-The Profile Page contains a user's lists of songs, reviews, and top albums. Users can manage their personal music lists and see their contributions to the site.
+Users can choose to like the review if they are logged in.
 
-### Song Review Page
+#### Navigation Bar: Easy access to Soundcrate's various pages.
+On every page on Soundcrate, users will be able to directly visit other pages through the navigation bar. The navigation bar has 4 main pages:
+- **Soundcrate:** By clicking on Soundcrate, users are redirected to the homepage.
+- **Search:** Through Search, users can visit the search page.
+- **Profile:**
+  -  Unregistered Users: Unregistered users can either Register or Login.
+  -  Registered Users: Registered users can click on their profile icon to reveal a dropdown, allowing them to visit the following pages:
+      - Profile: Visit their profile page.
+      - My Account: Update their username or their profile image.
+      - Settings: Update their email or password.
+      - Logout: Log out of their account.
 
-The Song Review Page showcases detailed reviews by users. Each review includes:
-- A rating out of 5 stars
-- A text review
-- The number of likes the review has received
-- Lists the review has been saved in
 
 ## Technologies Used
 
@@ -51,6 +67,7 @@ The Song Review Page showcases detailed reviews by users. Each review includes:
 - **Node.js**: For the backend server
 - **Next.js**: For server-side rendering and static site generation
 - **MongoDB**: For the database
+- **Spotify API**: For fetching song and album information
 
 ## Installation
 
