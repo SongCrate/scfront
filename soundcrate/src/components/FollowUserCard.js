@@ -6,8 +6,7 @@ import Link from 'next/link';
 export default function FollowUserCard({ 
   username,
   profile_img=null,
-  review_count=0,
-  album_count=0
+  review_count=0
  }) {
   const profile_url = `/user/${username}/profile`
 
@@ -24,6 +23,9 @@ export default function FollowUserCard({
               src={profile_img ?? "/images/default-user.png"} 
               alt={username}
               className="rounded-md object-cover w-[45px] h-[45px]"
+              onError={e => {
+                e.currentTarget.src = "/images/default-user.png"
+            }}
             />
 
             <div className="flex flex-col">

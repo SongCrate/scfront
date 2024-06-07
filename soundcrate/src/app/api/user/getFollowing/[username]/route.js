@@ -15,21 +15,41 @@ export async function GET(req, { params }) {
         { status: 404 }
       );
     } else {
-      // Assuming the User model has a followers field which is an array of user IDs
+      
+      // const following = await User.find({ _id: { $in: followingIds } });
       const followingIds = user.following;
+      const following = await User.aggregate([
+        {
+          $match: {
+            _id: { $in: followingIds }
+          }
+        },
+        {
+          $lookup: {
+            from: 'reviews',
+            localField: '_id',
+            foreignField: 'user',
+            as: 'userReviews'
+          }
+        },
+        {
+          $addFields: {
+            reviewCount: { $size: { "$ifNull": [ "$userReviews", [] ] } }
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            username: 1,
+            imageUrl: 1,
+            reviewCount: 1
+          }
+        }
+      ]).exec();
 
-      const following = await User.find({ _id: { $in: followingIds } });
-
-      const followingData = following.map(following => ({
-        username: following.username,
-        profile_img: following.image_url,
-        review_count: following.reviews.length, // Adjust this according to your schema
-        album_count: following.albums.length, // Adjust this according to your schema
-        list_count: following.lists.length // Adjust this according to your schema
-      }));
 
       return NextResponse.json(
-        { following: followingData },
+        { following: following },
         { status: 200 }
       );
     }

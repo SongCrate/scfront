@@ -1,28 +1,19 @@
-"use client";
+'use client';
 
-import { 
-  get_user,
-  get_following,
-  get_album_ids,
-  get_username,
-  get_reviews
-} from '/utils';
 import { FollowUserCard } from '@/components';
-import {useState, useEffect} from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 export default function UserFollowingPage({ params }) {
-  const router = useRouter();
   const { username } = params;
-  const [followingData, setFollowingData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [ followingData, setFollowingData ] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(true);
 
   useEffect(() => {
     if (!username) return;
 
     async function fetchData() {
       try {
-        const response = await fetch(`/api/users/${username}/getFollowing`);
+        const response = await fetch(`/api/user/getFollowing/${username}`);
         const data = await response.json();
 
         if (response.ok) {
@@ -48,7 +39,7 @@ export default function UserFollowingPage({ params }) {
     <main className="flex flex-col gap-4">
       <h2>Following</h2>
       <div className="box-container flex flex-col gap-4">
-        {followingData.length > 0 ? (
+        {followingData?.length > 0 ? (
           followingData.map((user, i) => (
             <FollowUserCard
               key={`follow-user-card-${i}`}
