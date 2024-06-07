@@ -5,9 +5,10 @@ import Link from 'next/link';
 
 export default function FollowUserCard({ 
   username,
+  user_id,
   profile_img=null,
   review_count=0,
-  album_count=0
+  user_is_following
  }) {
   const profile_url = `/user/${username}/profile`
 
@@ -24,6 +25,9 @@ export default function FollowUserCard({
               src={profile_img ?? "/images/default-user.png"} 
               alt={username}
               className="rounded-md object-cover w-[45px] h-[45px]"
+              onError={e => {
+                e.currentTarget.src = "/images/default-user.png"
+            }}
             />
 
             <div className="flex flex-col">
@@ -33,17 +37,19 @@ export default function FollowUserCard({
                 <h4>{username}</h4>
               </Link>
 
-              {/* review_count and album_count */}
+              {/* review_count */}
               <div className="flex gap-2 opacity-60 uppercase text-xs">
                 <Link href={profile_url+"/reviews"}>{review_count} Reviews</Link> 
-                <Link href={profile_url+"/albums"}>{album_count} Albums</Link>
               </div>
             </div>
 
           </div>
 
-          <FollowBtn username={username} />
-          
+          <FollowBtn 
+            userId={user_id} 
+            user_is_following={user_is_following} 
+          />
+
         </div>
     </div>
   );

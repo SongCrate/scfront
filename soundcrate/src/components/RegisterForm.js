@@ -85,30 +85,40 @@ export default function RegisterForm() {
     };
 
     return (
-        <main className="auth-container p-10 min-w-[400px] w-[30vw] max-w-[1300px] mx-auto bg-dark-light flex items-center justify-center border-2 border-dark-dark mb-10">
-            <form className="register-form" onSubmit={handleSubmit}>
-                <h2 className={"text-3xl flex items-center justify-center"}>Register</h2>
-                <p className={"mt-7"}>Username</p>
-                <input onChange={e => setUsername(e.target.value)} type="text" name="username" className={"bg-light h-12 w-80 mt-1 text-dark-dark"}/>
-                <p className={"mt-6"}>Email</p>
-                <input onChange={e => setEmail(e.target.value)} type="text" name="email" className={"bg-light  h-12 mt-1 text-dark-dark"}/>
-                <p className={"mt-6"}>Password</p>
-                <input onChange={e => setPassword(e.target.value)} type="password" name="password" className={"bg-light  h-12 mt-1 text-dark-dark"}/>
-                <p className={"mt-6"}>Confirm Password</p>
-                <input onChange={e => setConfirmedPassword(e.target.value)} type="password" name="confirmpassword" className={"bg-light h-12 mt-1 text-dark-dark"}/>
+        <main className="box-container p-10 min-w-[400px] w-[25vw] max-w-[1300px] mx-auto bg-dark-light flex flex-col items-center justify-center gap-8">
+            <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+                <h2 className={"text-2xl font-semibold flex items-center justify-center mb-4"}>
+                    Register
+                </h2>
+                <label htmlFor="username-input" className="block text-sm font-medium text-light">
+                    Username
+                </label>
+                <input id="username-input" onChange={e => setUsername(e.target.value)} type="text" name="username"/>
+                <label htmlFor="email-input" className="block text-sm font-medium text-light">
+                    Email
+                </label>
+                <input id="email-input" onChange={e => setEmail(e.target.value)} type="text" name="email"/>
+                <label htmlFor="password-input" className="block text-sm font-medium text-light">
+                    Password
+                </label>
+                <input id="password-input" onChange={e => setPassword(e.target.value)} type="password" name="password"/>
+                <label htmlFor="confirm-password-input" className="block text-sm font-medium text-light">
+                    Confirm Password
+                </label>
+                <input id="confirm-password-input" onChange={e => setConfirmedPassword(e.target.value)} type="password" name="confirmpassword"/>
 
-                <button className={"bg-dark-dark h-12 w-80 mt-4 rounded-md font-bold"}>Register</button>
+                <button type="submit" className={"bg-accent hover:bg-opacity-80 h-12 w-80 mt-4 rounded-md font-semibold"}>Create Account</button>
 
                 { error && (
                     <div className={"text-red text- pt-4"} style={{ whiteSpace: 'pre-line'}}>
                         {error}
                     </div>)
                 }
-
-                <div className="register flex items-center justify-center mt-14">Already have an account?
-                    <Link href="/login" className={"underline ml-1"}>Login</Link>
-                </div>
             </form>
+            <div className="register flex items-center justify-center opacity-80">
+                Already have an account?
+                <Link href="/login" className={"text-light underline underline-offset-4 decoration-accent ml-1"}>Login</Link>
+            </div>
         </main>
     );
 }

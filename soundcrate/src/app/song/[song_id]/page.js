@@ -10,7 +10,6 @@ import {
 } from '@/components';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import {useSession} from "next-auth/react";
 
 export default function SongPage({ params }) {
   const { song_id } = params;
@@ -18,9 +17,6 @@ export default function SongPage({ params }) {
   const [ songData, setSongData ] = useState(null);
   const [ reviews, setReviews ] = useState([]);
   const [lists, setLists] = useState([]);
-
-  const { data: session } = useSession();
-  const username = session?.user?.username;
 
   // get song data from spotify api
   useEffect(() => {
@@ -115,13 +111,13 @@ export default function SongPage({ params }) {
         <div className="flex flex-col pb-1">
           <p className="uppercase opacity-50 text-xs mb-0.5">Song</p>
           <h1>{song_data.name}</h1>
-          <p className="text-med opacity-70 mb-1.5">
+          <div className="text-med opacity-70 mb-1.5">
             <span>{song_data.artist}</span>
             <span className="mx-2">∙</span>
             <Link href={`/album/${song_data.album_id}`}>
               <span className="hover:underline underline-offset-4 decoration-accent">{song_data.album} ({song_data.year})</span>
             </Link>
-          </p>
+          </div>
           <span>
             <Rating rating={song_data.average_rating}/>
           </span>
@@ -149,12 +145,15 @@ export default function SongPage({ params }) {
   }
 
   const list_cards = (list_array) => {
-    return (list_array && list_array.map((lists) =>
-          <ListCard 
-            username={username}
-            list_id={lists._id}
-            name={lists.title}
-            song_count={lists.songIds.length} />
+    return (list_array && list_array.map((list) =>
+      <ListCard 
+        key={list._id}
+        username={list.user.username}
+        list_id={list._id}
+        name={list.title}
+        song_count={list.songIds.length}
+        show_username={true} 
+      />
     ))
   }
 
@@ -162,10 +161,6 @@ export default function SongPage({ params }) {
     <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
       <div className="flex flex-col grow shrink gap-6 w-2/3">
         {render_header()}
-        {/* <section className="flex flex-col gap-3">
-          <h3>From Your Following</h3>
-          {following_review_cards}
-        </section> */}
         <section className="flex flex-col gap-3">
           <h3>Popular Reviews</h3>
           {render_review_cards(reviews)}
@@ -196,13 +191,12 @@ export default function SongPage({ params }) {
             onListUpdate={handleListUpdate}
           />
         </section>
-        <section className="flex flex-col gap-3">
-          <h3>Saved In</h3>
-          <div>
-            <hr className="opacity-30"></hr>
-            {list_cards(lists)}
-          </div>
-        </section>
+        <section className="flex flex-col gap-2">
+            <h3>Saved In</h3>
+            <div className="border-t border-dark-light">
+              {list_cards(lists)}
+            </div>
+          </section>
       </div>
     </div>
   );

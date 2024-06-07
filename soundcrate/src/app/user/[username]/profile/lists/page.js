@@ -1,6 +1,5 @@
 'use client';
 
-// import { get_db, get_user_id, get_list_length } from '/utils';
 import { ListCard } from "@/components";
 import { useState, useEffect } from 'react';
 
@@ -30,12 +29,14 @@ export default function ListsPage({ params }) {
   }, [username]);
 
   const list_cards = (list_array) => {
-    return (list_array && list_array.map((lists) =>
-          <ListCard 
-            username={username}
-            list_id={lists._id}
-            name={lists.title}
-            song_count={lists.songIds.length} />
+    return (list_array && list_array.map((list) =>
+      <ListCard 
+        key={list._id}
+        username={list.user.username}
+        list_id={list._id}
+        name={list.title}
+        song_count={list.songIds.length} 
+      />
     ))
   }
     

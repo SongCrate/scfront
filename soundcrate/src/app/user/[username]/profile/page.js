@@ -136,12 +136,13 @@ export default function UserProfilePage({ params }) {
   }
 
   const list_cards = (list_array) => {
-  return (list_array && list_array.map((lists) =>
+  return (list_array && list_array.map((list) =>
       <ListCard 
-        username={username}
-        list_id={lists._id}
-        name={lists.title}
-        song_count={lists.songIds.length} />
+        key={list._id}
+        username={list.user.username}
+        list_id={list._id}
+        name={list.title}
+        song_count={list.songIds.length} />
       )
     )
   }
@@ -161,13 +162,14 @@ export default function UserProfilePage({ params }) {
           </div>
         </section>
       </div>
-      <section className="flex flex-col grow shrink min-w-52 w-1/3">
+      <section className="flex flex-col gap-2 grow shrink min-w-52 w-1/3">
         <div className="flex justify-between items-baseline">
           <Link href="profile/lists"><h3>Lists</h3></Link>
-          <CreateListModal />
+          <CreateListModal username={username} />
         </div>
-        <hr className="opacity-30"></hr>
-        {list_cards(lists.slice(0, 5))}
+        <div className="border-t border-dark-light">
+          {list_cards(lists.slice(0, 5))}
+        </div>
       </section>
     </div>
   );

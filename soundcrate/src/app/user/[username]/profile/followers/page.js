@@ -1,45 +1,58 @@
-import { 
-  get_user,
-  get_followers,
-  get_album_ids,
-  get_username,
-  get_reviews
-} from '/utils';
+'use client';
+
 import { FollowUserCard } from '@/components';
+import { useState, useEffect } from 'react';
 
-export default function UserFollowersPage({ params }) {
+export default function UserFollowerPage({ params }) {
   const { username } = params;
-  
-  const follower_ids = get_followers(username);
-  const follower_data = follower_ids.map((user_id) => {
-    var username = get_username(user_id);
-    return (
-      {
-        username: username,
-        profile_img: get_user(username).image_url,
-        review_count: get_reviews(username).length,
-        album_count: get_album_ids(username).length,
-      }
-    )
-  });
+  const [ followerData, setFollowerData ] = useState([]);
+  const [ isLoading, setIsLoading ] = useState(true);
 
-  const follow_user_cards = follower_data.map((user, i) =>
-    <FollowUserCard
-      key={`follow-user-card-${i}`} 
-      username={user.username}
-      profile_img={user.profile_img}
-      review_count={user.review_count}
-      album_count={user.album_count} />
-  );
+  useEffect(() => {
+    if (!username) return;
+
+    async function fetchData() {
+      try {
+        const response = await fetch(`/api/user/getFollowers/${username}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          setFollowerData(data.followers);
+        } else {
+          console.error('Failed to fetch followers:', data.error);
+        }
+      } catch (error) {
+        console.error('Failed to fetch followers:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [username]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <main className="flex flex-col gap-4">
       <h2>Followers</h2>
       <div className="box-container flex flex-col gap-4">
-        {follow_user_cards.length > 0 
-          ? follow_user_cards
-          : <p className="opacity-40 p-2">Nothing to see here!</p>
-        }
+        {followerData?.length > 0 ? (
+          followerData.map((user, i) => (
+            <FollowUserCard
+              key={`follow-user-card-${i}`}
+              username={user.username}
+              user_id={user._id}
+              profile_img={user.imageUrl}
+              review_count={user.reviewCount}
+              user_is_following={user.userIsFollowing}
+            />
+          ))
+        ) : (
+          <p className="opacity-40 p-2">Nothing to see here!</p>
+        )}
       </div>
     </main>
   );

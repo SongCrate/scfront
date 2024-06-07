@@ -1,21 +1,19 @@
 'use client';
 
 import Link from 'next/link';
+import { FollowBtn } from '@/components';
 import { useState, useEffect } from 'react';
 import {useSession} from "next-auth/react";
 
 export default function UserProfileLayout({ children, params }) {
   const { username } = params;
   const { data: session } = useSession();
-  const [ user, setUser ] = useState({});
 
-  // useEffect(()=>{
-  //   if (username === session?.user?.username){
-  //     user?.user?.imageUrl = session?.user?.imageUrl;
-  //   }
-  // },[session, user]);
+  const [ user, setUser ] = useState({});
+  const user_id = session?.user?._id;
 
   useEffect(() => {
+
     // fetch user data
     async function fetchUser() {
       try {
@@ -38,6 +36,7 @@ export default function UserProfileLayout({ children, params }) {
 
   // user data packaged up in one place
   const userData = {
+    id: user?.user?._id,
     profile_img: user?.user?.imageUrl,
     review_count: user?.reviewCount,
     album_count: user?.albumCount,
@@ -73,9 +72,20 @@ export default function UserProfileLayout({ children, params }) {
         {/*/>*/}
 
         <div className="flex flex-col gap-1">
-          <Link href={`/user/${username}/profile`}>
-            <h1>{username}</h1>
-          </Link>
+
+          <div className="flex flex-row gap-3 items-center">
+            <Link href={`/user/${username}/profile`}>
+              <h1 className="leading-none">{username}</h1>
+            </Link>
+            {session?.status == "authenticated" && user?.user &&
+              <FollowBtn
+                userId={user.user._id}
+                user_is_following={user_id ? user.user.followers?.includes(user_id) : false}
+                compact={true}
+              />
+            }
+          </div>
+
           {/* stats container: reviews, albums, followers, following */}
           <div className="flex flex-nowrap gap-2 items-end">
             <UserProfileStatistic

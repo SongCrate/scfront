@@ -2,9 +2,19 @@ import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 function is_protected(path) {
-  if (path.startsWith('/api/review/likeReview')) 
+  if (path.startsWith('/api/user/followUser')) 
+    return true;
+  else if (path.startsWith('/api/review/likeReview')) 
     return true;
   else if (path.startsWith('/api/review/postReview')) 
+    return true;
+  else if (path.startsWith('/api/user/update'))
+    return true; 
+  else if (path.startsWith('/api/lists/createSongList')) 
+    return true;
+  else if (path.startsWith('/api/lists/getListsForModal')) 
+    return true;
+  else if (path.startsWith('/api/lists/updateSongList')) 
     return true;
   else 
     return false;

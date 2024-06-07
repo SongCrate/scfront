@@ -55,21 +55,21 @@ export default function NavBar() {
         <UpdateCredentialsModal modalId={update_credentials_modal_id}/>
 
         <button type="button" className="btn">
-            <Link href="/search">Search</Link>
+          <Link href="/search">Search</Link>
         </button>
 
         <div className="hs-dropdown relative inline-flex [--placement:bottom-right] z-[80]">
           <button id="hs-dropdown-with-header" type="button" className="hs-dropdown-toggle inline-flex items-center gap-x-2 text-sm font-medium">
               {session?.user?.imageUrl ?
-                  <img className="inline-block size-8 rounded-full" src={session?.user?.imageUrl} /> :
-                  <img className="inline-block size-8 rounded-full" src={"/images/default-user.png"} />
+                <img className="inline-block size-8 rounded-full" src={session?.user?.imageUrl} /> :
+                <img className="inline-block size-8 rounded-full" src={"/images/default-user.png"} />
               }
 
             <CaretDown size={18} weight="bold" />
           </button>
 
           <div className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-dark-dark rounded-lg p-2 mt-2" aria-labelledby="hs-dropdown-with-header">
-
+            
             {/* username header */}
             <div className="py-3 px-5 -m-2 bg-dark-light rounded-t-lg">
               <p className="text-sm text-gray">Signed in as</p>
@@ -82,16 +82,14 @@ export default function NavBar() {
                 <Star size={18} weight="bold" />
                 Profile
               </Link>
-              {/*<Link href={`/user/${session?.user?.username}/profile?modal=setings`} className={menu_nav_link_styling}>*/}
-                  <div onClick={handleMyAccountNav} className={menu_nav_link_styling + " hover:cursor-pointer"} >
-                      <User size={18} weight="bold" />
-                      My Account
-                  </div>
-              <div onClick={handleSettingsNav} className={menu_nav_link_styling + " hover:cursor-pointer"} >
-                    <Gear size={18} weight="bold" />
-                    Settings
+              <div onClick={handleMyAccountNav} className={menu_nav_link_styling + " hover:cursor-pointer"} >
+                <User size={18} weight="bold" />
+                My Account
               </div>
-              {/*</Link>*/}
+              <div onClick={handleSettingsNav} className={menu_nav_link_styling + " hover:cursor-pointer"} >
+                <Gear size={18} weight="bold" />
+                Settings
+              </div>
               <hr className="border-dark-light my-1"></hr>
               <Link href="/" className={menu_nav_link_styling} onClick={signOut}>
                 <SignOut size={18} weight="bold" />Logout

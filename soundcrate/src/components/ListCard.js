@@ -1,9 +1,4 @@
-'use client';
-
 import Link from 'next/link';
-import { AddToListButton } from '@/components';
-import { Plus, Check } from '@phosphor-icons/react';
-import { useState } from 'react';
 
 export default function ListCard({ 
   username,
@@ -12,17 +7,7 @@ export default function ListCard({
   song_count=0,
   show_username=false,
   is_link=true,
-  show_add_btn=false
  }) {
-
-  const [ isAdded, setIsAdded ] = useState(false);
-
-  const handleClick = (e) => {
-    setIsAdded(!isAdded);
-    e.stopPropagation();
-    e.preventDefault();
-  }
-
 
   return (
     <Link href={is_link ? `/user/${username}/list/${list_id}` : ''} className="w-full flex flex-row justify-between items-center">
@@ -36,14 +21,15 @@ export default function ListCard({
         </h4>
 
         {/* 1.2 song count */}
-        <p className="text-sm uppercase opacity-70">
+        <p className="text-sm uppercase opacity-70 tracking-wide">
           <span>
             {song_count} {song_count == 1 ? "song" : "songs"}
           </span>
           {show_username &&
-            <span className="ml-1">
-              ∙ by {username}
-            </span>
+            <>
+              <span className="ml-1">∙</span> 
+              <span className="ml-1">By {username}</span>
+            </>
           }
         </p>
       
