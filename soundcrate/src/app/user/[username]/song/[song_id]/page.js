@@ -147,6 +147,7 @@ export default function SongReviewPage({ params }) {
   const list_cards = (list_array) => {
     return (list_array && list_array.map((list) =>
     <ListCard 
+      key={list._id}
       username={list.user.username}
       list_id={list._id}
       name={list.title}

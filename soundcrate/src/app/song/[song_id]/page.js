@@ -111,13 +111,13 @@ export default function SongPage({ params }) {
         <div className="flex flex-col pb-1">
           <p className="uppercase opacity-50 text-xs mb-0.5">Song</p>
           <h1>{song_data.name}</h1>
-          <p className="text-med opacity-70 mb-1.5">
+          <div className="text-med opacity-70 mb-1.5">
             <span>{song_data.artist}</span>
             <span className="mx-2">∙</span>
             <Link href={`/album/${song_data.album_id}`}>
               <span className="hover:underline underline-offset-4 decoration-accent">{song_data.album} ({song_data.year})</span>
             </Link>
-          </p>
+          </div>
           <span>
             <Rating rating={song_data.average_rating}/>
           </span>
@@ -161,10 +161,6 @@ export default function SongPage({ params }) {
     <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
       <div className="flex flex-col grow shrink gap-6 w-2/3">
         {render_header()}
-        {/* <section className="flex flex-col gap-3">
-          <h3>From Your Following</h3>
-          {following_review_cards}
-        </section> */}
         <section className="flex flex-col gap-3">
           <h3>Popular Reviews</h3>
           {render_review_cards(reviews)}
