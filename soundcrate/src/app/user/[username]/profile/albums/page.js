@@ -1,7 +1,7 @@
 'use client';
 
 import { get_albums } from '@/lib/spotify';
-import { AlbumCard } from "@/components";
+import { AlbumCard, EmptyContentMessage } from "@/components";
 import { useState, useEffect } from 'react';
 
 export default function ListsPage({ params }) {
@@ -43,6 +43,9 @@ export default function ListsPage({ params }) {
   }, []);
 
   const render_album_cards = (album_array) => {
+    if (!album_array || album_array.length === 0) {
+      return <EmptyContentMessage message="No Albums" />;
+    }
     return (album_array && album_array.map((album) =>
       <AlbumCard 
         key={`album-card-${album.id}`} 

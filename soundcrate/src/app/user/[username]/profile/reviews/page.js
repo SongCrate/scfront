@@ -1,7 +1,7 @@
 'use client';
 
 import { get_songs } from '@/lib/spotify';
-import { SongReviewCard } from '@/components';
+import { SongReviewCard, EmptyContentMessage } from '@/components';
 import { useState, useEffect } from 'react';
 
 export default function ListsPage({ params }) {
@@ -51,6 +51,9 @@ export default function ListsPage({ params }) {
   }, []);
 
   const render_review_cards = (review_array) => {
+    if (!review_array || review_array.length === 0) {
+      return <EmptyContentMessage message="No Reviews" />;
+    }
     return (review_array && review_array.map((review) => {
       const song_obj = songData?.find((song) => song.id === review.songId);
       return (

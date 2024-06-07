@@ -2,8 +2,10 @@
 
 export default function EmptyContentMessage({ message }) {
   return (
-    <div className="text-center text-gray-500 py-4">
-      {message}
+    <div className="box-container flex flex-col gap-4">
+      <p className="opacity-40 p-2">
+        {message}
+      </p>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { ListCard } from "@/components";
+import { ListCard, EmptyContentMessage } from "@/components";
 import { useState, useEffect } from 'react';
 
 export default function ListsPage({ params }) {
@@ -29,6 +29,9 @@ export default function ListsPage({ params }) {
   }, [username]);
 
   const list_cards = (list_array) => {
+    if (!list_array || list_array.length === 0) {
+      return <EmptyContentMessage message="No Lists" />;
+    }
     return (list_array && list_array.map((list) =>
       <ListCard 
         key={list._id}
