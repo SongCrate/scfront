@@ -58,6 +58,7 @@ export default function ListsPage({ params }) {
     }
     return (list_array && list_array.map((list) =>
       <div key={list._id} className="flex items-center justify-between bg-dark-light p-4 rounded-md mb-4">
+        
         <div className="flex-grow">
           <ListCard 
             username={list.user.username}
