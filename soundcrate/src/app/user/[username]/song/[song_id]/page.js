@@ -100,7 +100,14 @@ export default function SongReviewPage({ params }) {
         />
         {/* song details */}
         <div className="flex flex-col pb-1">
-          <Link href={`/user/${username}/profile`} className="uppercase opacity-50 text-xs mb-0.5 hover:opacity-90">By {username}</Link>
+
+          {/* type and username */}
+          <div className="flex flex-row gap-1 uppercase text-xs mb-0.5 tracking-wide">
+            <p className="opacity-60">Song</p>
+            <p className="opacity-60">•</p>
+            <Link href={`/user/${username}/profile`}className="opacity-60 hover:opacity-90">By {username}</Link>
+          </div>  
+
           <Link href={`/song/${song_data.song_id}`}>
             <h1 className="hover:underline underline-offset-4 decoration-accent">{song_data.name}</h1>
           </Link>
