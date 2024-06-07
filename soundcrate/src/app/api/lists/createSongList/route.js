@@ -9,9 +9,9 @@ export async function POST(req) {
         const user_id = req.headers.get('user_id');
 
         // make sure that userId, title, and description are provided
-        if (!user_id || !title || !description) {
+        if (!user_id || !title ) {
             return NextResponse.json(
-                { message: "Retreived fields:" + user_id + ", " + title + ", " + description },
+                { message: "Retreived fields: user_id(" + user_id + "), title(" + title + ")" },
                 { status: 400 }
             );
         }
@@ -22,8 +22,11 @@ export async function POST(req) {
         var new_song_list = new SongList({
             user: user_id,
             title: title,
-            description: description,
         });
+
+        if (Boolean(description)) {
+            review['description'] = description;
+        }
 
         var res = null
 
