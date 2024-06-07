@@ -3,7 +3,6 @@
 import { ListCard } from '@/components';
 import { Playlist, Plus, X, Check } from '@phosphor-icons/react';
 import { useModalContext } from '@/app/ModalContextProvider/ModalContextProvider';
-import { HSOverlay } from 'preline/preline';
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from 'react';
 
@@ -47,7 +46,7 @@ export default function AddToListModal({
     if (session?.status != 'authenticated') {
       setMessage('Join SoundCrate to create and add to lists');
       setIsOpen(true);
-      HSOverlay.close("#"+modal_id);
+      HSOverlay?.close("#"+modal_id);
 
       e.preventDefault();
       e.stopPropagation();
