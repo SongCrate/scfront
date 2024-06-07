@@ -1,6 +1,7 @@
 import AddToListModal from './AddToListModal';
 import AlbumCard from './AlbumCard';
 import CreateListModal from './CreateListModal';
+import EditListModal from './EditListModal';
 import EmptyContentMessage from './EmptyContentMessage';
 import FollowBtn from './FollowBtn';
 import FollowUserCard from './FollowUserCard';
@@ -22,6 +23,7 @@ export {
   AddToListModal,
   AlbumCard,
   CreateListModal,
+  EditListModal,
   EmptyContentMessage,
   FollowBtn,
   FollowUserCard,

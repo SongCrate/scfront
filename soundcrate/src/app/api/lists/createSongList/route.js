@@ -25,7 +25,7 @@ export async function POST(req) {
         });
 
         if (Boolean(description)) {
-            review['description'] = description;
+            new_song_list['description'] = description;
         }
 
         var res = null

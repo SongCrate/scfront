@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { get_songs } from '@/lib/spotify';
 import { useState, useEffect } from 'react';
-import { SongCard, EmptyContentMessage } from '@/components';
+import { SongCard, EmptyContentMessage, EditListModal } from '@/components';
 import {useRouter} from "next/navigation";
 import {useSession} from "next-auth/react";
 
@@ -12,6 +12,8 @@ export default function ListPage({ params }) {
   const [songData, setSongData] = useState({});
   const [listData, setListData] = useState({});
   const [songIds, setSongIds] = useState([]);
+
+  const { data: session } = useSession();
 
   useEffect(() => {
     // fetch list data and song IDs
@@ -65,9 +67,36 @@ export default function ListPage({ params }) {
     }
   };
 
+  const handleSave = (updatedList) => {
+    setListData(updatedList);
+  };
+
+
+  // return (
+  //   <main className="flex flex-col gap-4">
+  //     {/* header */}
+  //     <section className="flex flex-col gap-1">
+  //       <h1>{listData.title}</h1>
+  //       <p className="opacity-80 text-sm">{listData.description}</p>
+
+  //       <div className="flex flex-row gap-1 text-sm uppercase tracking-wider">
+  //         <div className="opacity-40">{songIds.length} {songIds.length !== 1 ? 'songs' : 'song'}</div>
+  //         ∙
+  //         <Link href={`/user/${username}/profile`}className="opacity-40 hover:opacity-60">By {username}</Link>
+  //       </div>
+  //     </section>
+
+  //     {/* song cards */}
+  //     <section className="flex flex-col gap-2">
+  //       {render_song_cards()}
+  //     </section>
+
+  //   </main>
+  // );
+
+
   return (
     <main className="flex flex-col gap-4">
-      {/* header */}
       <section className="flex flex-col gap-1">
         <h1>{listData.title}</h1>
         <p className="opacity-80 text-sm">{listData.description}</p>
@@ -75,15 +104,22 @@ export default function ListPage({ params }) {
         <div className="flex flex-row gap-1 text-sm uppercase tracking-wider">
           <div className="opacity-40">{songIds.length} {songIds.length !== 1 ? 'songs' : 'song'}</div>
           ∙
-          <Link href={`/user/${username}/profile`}className="opacity-40 hover:opacity-60">By {username}</Link>
+          <Link href={`/user/${username}/profile`} className="opacity-40 hover:opacity-60">By {username}</Link>
         </div>
+        {session?.status === 'authenticated' && session?.user?.username === username && (
+          <EditListModal
+            username={username}
+            list_id={list_id}
+            initialTitle={listData.title}
+            initialDescription={listData.description}
+            onSave={handleSave}
+          />
+        )}
       </section>
 
-      {/* song cards */}
       <section className="flex flex-col gap-2">
         {render_song_cards()}
       </section>
-
     </main>
   );
 }

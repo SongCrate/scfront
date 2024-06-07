@@ -61,12 +61,12 @@ export default function CreateListModal({ username }) {
 
     e.preventDefault();
 
-    // get user id from session
-    if (!session || !session.user) {
-      console.log("User not authenticated");
-      return;
-    }
-    const user_id = session.user._id;
+    // // get user id from session
+    // if (!session || !session.user) {
+    //   console.log("User not authenticated");
+    //   return;
+    // }
+    // const user_id = session.user._id;
 
     // create body to send to the API
     const new_list = {
