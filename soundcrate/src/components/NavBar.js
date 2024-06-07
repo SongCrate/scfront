@@ -34,9 +34,6 @@ export default function NavBar() {
     return (
       <>
         <button type="button" className="btn">
-          <Link href="/search">Explore</Link>
-        </button>
-        <button type="button" className="btn">
           <Link href="/search">Search</Link>
         </button>
 
