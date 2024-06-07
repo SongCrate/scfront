@@ -8,8 +8,6 @@ function is_protected(path) {
     return true;
   else if (path.startsWith('/api/lists/createSongList')) 
     return true;
-  else if (path.startsWith('/api/lists/getListsBySong')) 
-    return true;
   else if (path.startsWith('/api/lists/getListsForModal')) 
     return true;
   else if (path.startsWith('/api/lists/updateSongList')) 
