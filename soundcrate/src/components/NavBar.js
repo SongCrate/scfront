@@ -1,12 +1,11 @@
 'use client';
 import Link from 'next/link';
 import {
-    CaretDown,
-    Gear, MagnifyingGlass,
-    SignOut,
-    User
+  CaretDown,
+  Gear,
+  SignOut,
+  User
 } from '@phosphor-icons/react';
-import {useEffect, useState} from "react";
 import { signOut, useSession } from "next-auth/react";
 
 export default function NavBar() {
@@ -34,9 +33,6 @@ export default function NavBar() {
 
     return (
       <>
-        <button type="button" className="btn">
-          <Link href="/search">Explore</Link>
-        </button>
         <button type="button" className="btn">
           <Link href="/search">Search</Link>
         </button>

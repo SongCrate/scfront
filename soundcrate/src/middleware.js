@@ -6,6 +6,12 @@ function is_protected(path) {
     return true;
   else if (path.startsWith('/api/review/postReview')) 
     return true;
+  else if (path.startsWith('/api/lists/createSongList')) 
+    return true;
+  else if (path.startsWith('/api/lists/getListsForModal')) 
+    return true;
+  else if (path.startsWith('/api/lists/updateSongList')) 
+    return true;
   else 
     return false;
 }

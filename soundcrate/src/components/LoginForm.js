@@ -43,29 +43,35 @@ export default function LoginForm() {
             setError("An unexpected error occurred.");
             return;
         }
-
     };
 
     return (
-        <main className="auth-container p-10 min-w-[400px] w-[30vw] max-w-[1300px] mx-auto bg-dark-light flex items-center justify-center border-2 border-dark-dark mb-10">
-            <form className="login-form" onSubmit={handleSubmit}>
-                <h2 className={"text-3xl flex items-center justify-center"}>Login</h2>
-                <p className={"mt-7"} >Email</p>
-                <input onChange={e => setEmail(e.target.value)} type="text" name="email" className={"bg-light  h-12 mt-1 text-dark-dark"}/>
-                <p className={"mt-6"}>Password</p>
-                <input onChange={e => setPassword(e.target.value)} type="password" name="password" className={"bg-light  h-12 mt-1 text-dark-dark"}/>
-                <button className={"bg-dark-dark h-12 w-80 mt-4 rounded-md font-bold"}>Login</button>
+        <main className="box-container p-10 min-w-[400px] w-[25vw] max-w-[1300px] mx-auto bg-dark-light flex flex-col items-center justify-center gap-8">
+            <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
+                <h2 className={"text-2xl font-semibold flex items-center justify-center mb-4"}>
+                    Welcome Back!
+                </h2>
+                <label htmlFor="email-input" className="block text-sm font-medium text-light">
+                    Email
+                </label>
+                <input id="email-input" onChange={e => setEmail(e.target.value)} type="text" name="email"/>
+                <label htmlFor="password-input" className="block text-sm font-medium text-light">
+                    Password
+                </label>
+                <input id="password-input" onChange={e => setPassword(e.target.value)} type="password" name="password"/>
+                
+                <button type="submit" className={"bg-accent hover:bg-opacity-80 h-12 w-80 mt-4 rounded-md font-semibold"}>Login</button>
 
                 { error && (
                     <div className={"text-red text- pt-4"}>
                         {error}
                     </div>)
                 }
-
-                <div className="register flex items-center justify-center mt-14">Not with us yet?
-                    <Link href="/register" className={"underline ml-1"}>Register</Link>
-                </div>
             </form>
+            <div className="register flex items-center justify-center opacity-80">
+                Not with us yet?
+                <Link href="/register" className={"text-light underline underline-offset-4 decoration-accent ml-1"}>Create an Account</Link>
+            </div>
         </main>
     );
 }

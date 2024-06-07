@@ -149,12 +149,15 @@ export default function SongPage({ params }) {
   }
 
   const list_cards = (list_array) => {
-    return (list_array && list_array.map((lists) =>
-          <ListCard 
-            username={username}
-            list_id={lists._id}
-            name={lists.title}
-            song_count={lists.songIds.length} />
+    return (list_array && list_array.map((list) =>
+      <ListCard 
+        key={list._id}
+        username={list.user.username}
+        list_id={list._id}
+        name={list.title}
+        song_count={list.songIds.length}
+        show_username={true} 
+      />
     ))
   }
 
@@ -196,13 +199,12 @@ export default function SongPage({ params }) {
             onListUpdate={handleListUpdate}
           />
         </section>
-        <section className="flex flex-col gap-3">
-          <h3>Saved In</h3>
-          <div>
-            <hr className="opacity-30"></hr>
-            {list_cards(lists)}
-          </div>
-        </section>
+        <section className="flex flex-col gap-2">
+            <h3>Saved In</h3>
+            <div className="border-t border-dark-light">
+              {list_cards(lists)}
+            </div>
+          </section>
       </div>
     </div>
   );
