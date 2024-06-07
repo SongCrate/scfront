@@ -199,13 +199,12 @@ export default function SongPage({ params }) {
             onListUpdate={handleListUpdate}
           />
         </section>
-        <section className="flex flex-col gap-3">
-          <h3>Saved In</h3>
-          <div>
-            <hr className="opacity-30"></hr>
-            {list_cards(lists)}
-          </div>
-        </section>
+        <section className="flex flex-col gap-2">
+            <h3>Saved In</h3>
+            <div className="border-t border-dark-light">
+              {list_cards(lists)}
+            </div>
+          </section>
       </div>
     </div>
   );

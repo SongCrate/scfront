@@ -186,11 +186,10 @@ export default function SongReviewPage({ params }) {
           }
 
         </div>
-        <div className="flex flex-col grow shrink min-w-52 w-1/3 gap-6">
-          <section className="flex flex-col gap-3">
+        <div className="flex flex-col grow shrink min-w-52 w-1/3">
+          <section className="flex flex-col gap-2">
             <h3>Saved In</h3>
-            <div>
-              <hr className="opacity-30"></hr>
+            <div className="border-t border-dark-light">
               {list_cards(lists)}
             </div>
           </section>
