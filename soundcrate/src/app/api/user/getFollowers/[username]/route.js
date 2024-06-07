@@ -1,14 +1,14 @@
 import { connectMongoDB } from '@/lib/mongodb';
 import User from '@/lib/models/user';
-import mongoose, { ObjectId } from 'mongoose';
 import { NextResponse } from 'next/server';
+const mongoose = require('mongoose');
 
 export async function GET(req, { params }) {
 
   try {
     const username = params.username;
     const user_id = req.headers.get('user_id');
-    const user_id_obj = new mongoose.ObjectId(user_id);
+    const user_id_obj = new mongoose.Types.ObjectId(user_id);
 
     await connectMongoDB();
     const user = await User.findOne({ username });

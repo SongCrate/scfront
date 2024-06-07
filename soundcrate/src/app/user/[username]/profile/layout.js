@@ -63,7 +63,7 @@ export default function UserProfileLayout({ children, params }) {
             <Link href={`/user/${username}/profile`}>
               <h1 className="leading-none">{username}</h1>
             </Link>
-            {user?.user &&
+            {session?.status == "authenticated" && user?.user &&
               <FollowBtn 
                 userId={user.user._id} 
                 user_is_following={user_id ? user.user.followers?.includes(user_id) : false}
