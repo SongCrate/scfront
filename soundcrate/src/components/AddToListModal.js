@@ -90,7 +90,7 @@ export default function AddToListModal({
 
   const render_list_cards = () => {
     return (
-      listData.map((list) => 
+      listData?.map((list) => 
         <div key={`list-card-${list._id}`} className="flex flex-row justify-between items-center">
           <ListCard
             username={session?.user?.name}
