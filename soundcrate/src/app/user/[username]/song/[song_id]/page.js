@@ -9,15 +9,13 @@ import {
 } from '@/components';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import {useRouter} from "next/navigation";
-import {useSession} from "next-auth/react";
 
 export default function SongReviewPage({ params }) {
   const { username, song_id } = params;
 
   const [ songData, setSongData ] = useState(null);
   const [ reviews, setReviews ] = useState([]);
-  const [lists, setLists] = useState([]);
+  const [ lists, setLists ] = useState([]);
 
   const latest_review = reviews[0];
   const older_reviews = reviews.slice(1);
@@ -30,6 +28,29 @@ export default function SongReviewPage({ params }) {
     };
 
     get_song_data();
+  }, []);
+
+  // fetch all reviews for this songId
+  useEffect(() => {
+    async function fetchReviews(song_id, username) {
+      try {
+        const response = await fetch(
+          `/api/review/getReviews?songId=${song_id}&username=${username}&sortBy=date`, 
+          { method: 'GET' }
+        );
+
+        const responseData = await response.json();
+        if (responseData?.body) {
+          setReviews(responseData.body);
+        } else {
+          throw responseData.error;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchReviews(song_id, username);
   }, []);
 
   // Fetch lists that include this song : VIEWING A REVIEW
