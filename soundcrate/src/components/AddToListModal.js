@@ -3,7 +3,6 @@
 import { ListCard } from '@/components';
 import { Playlist, Plus, X, Check } from '@phosphor-icons/react';
 import { useModalContext } from '@/app/ModalContextProvider/ModalContextProvider';
-import { HSOverlay } from 'preline/preline';
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from 'react';
 
