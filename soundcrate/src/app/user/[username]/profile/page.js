@@ -5,10 +5,6 @@ import {
   get_songs 
 } from '@/lib/spotify';
 import {
-  get_lists, 
-  get_list_length, 
-} from '/utils';
-import {
   AlbumCard,
   CreateListModal,
   ListCard,
@@ -16,8 +12,6 @@ import {
 } from "@/components";
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import {useRouter, useSearchParams} from 'next/navigation'
-import {useSession} from "next-auth/react";
 
 export default function UserProfilePage({ params }) {
   const { username } = params;
@@ -25,24 +19,7 @@ export default function UserProfilePage({ params }) {
   const [ songData, setSongData ] = useState(null);
   const [ albums, setAlbums ] = useState([]);
   const [ reviews, setReviews ] = useState([]);
-  const [viewSettings, setViewSettings] = useState(false);
-  const searchParams = useSearchParams();
-
-  const router = useRouter();
-  const session = useSession();
-  useEffect(() => {
-    if (session?.status == "unauthenticated"){
-      router.replace("/");
-    }
-  }, [session, router]);
-
-  // checks if the user is in the profile section to view settings
-  useEffect(()=>{
-    const search = searchParams.get('modal')
-    if (search){
-      setViewSettings(true);
-    }
-  })
+  const [ lists, setLists ] = useState([]);
 
   // get song data from spotify api for review cards
   useEffect(() => {
@@ -102,47 +79,27 @@ export default function UserProfilePage({ params }) {
     get_album_data();
   }, [reviews]);
 
-  // ============ GETTING DATA FOR LISTS ============
-  var lists = get_lists(username);
-  var list_data = lists.map((_, i) => ( // add in list length
-    {...lists[i],
-      "song_count": get_list_length(lists[i].id)
-    } 
-  ))
-  const handleProfileSave = async (updatedData) => {
-    const response = await fetch('/api/update_user', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedData),
-    });
+  // fetch all songlists for this username
+  useEffect(() => {
+    async function fetchSongLists(username) {
+      try {
+        const response = await fetch(
+          `/api/lists/getSongLists?username=${username}`, 
+          { method: 'GET' }
+        );
+        const responseData = await response.json();
+        if (responseData?.body) {
+          setLists(responseData.body);
+        } else {
+          throw responseData.error;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchSongLists(username);
+  }, [username]);
 
-    // if (response.ok) {
-    //   const updatedUser = await response.json();
-    //   setUserData({ ...userData, username: updatedData.username, image_url: updatedData.image_url });
-    //   setIsProfileModalOpen(false);
-    // } else {
-    //   console.error('Failed to update user');
-    // }
-  };
-
-  const handleCredentialsSave = async (updatedData) => {
-    const response = await fetch('/api/update_credentials', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedData),
-    });
-
-    // if (response.ok) {
-    //   setUserData({ ...userData, password: updatedData.password });
-    //   setIsCredentialsModalOpen(false);
-    // } else {
-    //   console.error('Failed to update credentials');
-    // }
-  };
 
   const render_review_cards = (review_array) => {
     return (review_array && review_array.map((review) => {
@@ -178,16 +135,17 @@ export default function UserProfilePage({ params }) {
     )
   }
 
-  const list_cards = list_data.map((list) => 
-    <div key={`list-card-${list.id}`}>
+  const list_cards = (list_array) => {
+  return (list_array && list_array.map((lists) =>
       <ListCard 
         username={username}
-        list_id={list.id}
-        name={list.name}
-        song_count={list.song_count} />
-      <hr className="opacity-30"></hr>
-    </div >
-  )
+        list_id={lists._id}
+        name={lists.title}
+        song_count={lists.songIds.length} />
+      )
+    )
+  }
+
 
   return (
     <div className="flex flex-wrap md:flex-nowrap w-full gap-6">
@@ -209,13 +167,8 @@ export default function UserProfilePage({ params }) {
           <CreateListModal />
         </div>
         <hr className="opacity-30"></hr>
-        {list_cards}
-
+        {list_cards(lists.slice(0, 5))}
       </section>
-      {viewSettings && (
-          <SettingsModal/>
-      )}
-
     </div>
   );
 }

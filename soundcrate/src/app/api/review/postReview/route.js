@@ -4,8 +4,8 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req){
   try {
+    const user_id = req.headers.get('user_id');
     const { 
-      user_id, 
       song_id,
       album_id,
       rating, 
