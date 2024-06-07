@@ -8,7 +8,7 @@ export async function GET(req, { params }) {
   try {
     const username = params.username;
     const user_id = req.headers.get('user_id');
-    const user_id_obj = new mongoose.Types.ObjectId(user_id);
+    let user_id_obj = (user_id !== 'undefined') ? new mongoose.Types.ObjectId(user_id) : null;
 
     await connectMongoDB();
     const user = await User.findOne({ username });
