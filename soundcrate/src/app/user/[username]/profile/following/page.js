@@ -22,7 +22,7 @@ export default function UserFollowingPage({ params }) {
 
     async function fetchData() {
       try {
-        const response = await fetch(`/api/users/${username}/following`);
+        const response = await fetch(`/api/users/${username}/getFollowing`);
         const data = await response.json();
 
         if (response.ok) {
@@ -53,9 +53,8 @@ export default function UserFollowingPage({ params }) {
             <FollowUserCard
               key={`follow-user-card-${i}`}
               username={user.username}
-              profile_img={user.profile_img}
-              review_count={user.review_count}
-              album_count={user.album_count}
+              profile_img={user.imageUrl}
+              review_count={user.reviewCount}
             />
           ))
         ) : (

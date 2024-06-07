@@ -33,10 +33,9 @@ export default function FollowUserCard({
                 <h4>{username}</h4>
               </Link>
 
-              {/* review_count and album_count */}
+              {/* review_count */}
               <div className="flex gap-2 opacity-60 uppercase text-xs">
                 <Link href={profile_url+"/reviews"}>{review_count} Reviews</Link> 
-                <Link href={profile_url+"/albums"}>{album_count} Albums</Link>
               </div>
             </div>
 

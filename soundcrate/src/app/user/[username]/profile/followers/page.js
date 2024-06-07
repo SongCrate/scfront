@@ -5,7 +5,6 @@ import { FollowUserCard } from '@/components';
 import { useRouter } from 'next/navigation';
 
 export default function UserFollowersPage({ params }) {
-  const router = useRouter();
   const { username } = params;
   const [followerData, setfollowerData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +14,7 @@ export default function UserFollowersPage({ params }) {
 
     async function fetchData() {
       try {
-        const response = await fetch(`/api/users/${username}/followers`);
+        const response = await fetch(`/api/user/getFollowers/${username}`);
         const data = await response.json();
 
         if (response.ok) {

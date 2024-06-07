@@ -3,6 +3,7 @@ import User from '@/lib/models/user';
 import { NextResponse } from 'next/server';
 
 export async function GET(req, { params }) {
+
   try {
     const username = params.username;
 
@@ -15,21 +16,39 @@ export async function GET(req, { params }) {
         { status: 404 }
       );
     } else {
-      // Assuming the User model has a followers field which is an array of user IDs
+
       const followerIds = user.followers;
-
-      const followers = await User.find({ _id: { $in: followerIds } });
-
-      const followerData = followers.map(follower => ({
-        username: follower.username,
-        profile_img: follower.image_url,
-        review_count: follower.reviews.length, // Adjust this according to your schema
-        album_count: follower.albums.length, // Adjust this according to your schema
-        list_count: follower.lists.length // Adjust this according to your schema
-      }));
+      const followers = await User.aggregate([
+        {
+          $match: {
+            _id: { $in: followerIds }
+          }
+        },
+        {
+          $lookup: {
+            from: 'reviews',
+            localField: '_id',
+            foreignField: 'user',
+            as: 'userReviews'
+          }
+        },
+        {
+          $addFields: {
+            reviewCount: { $size: { "$ifNull": [ "$userReviews", [] ] } }
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            username: 1,
+            imageUrl: 1,
+            reviewCount: 1
+          }
+        }
+      ]).exec();
 
       return NextResponse.json(
-        { followers: followerData },
+        { followers: followers },
         { status: 200 }
       );
     }
