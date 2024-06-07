@@ -4,12 +4,9 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req) {
     try {
-        // get user ID, title, and description from CreateListModal.js
-        const { 
-            user_id, 
-            title, 
-            description
-        } = await req.json();
+        // get title, and description from CreateListModal.js
+        const { title, description } = await req.json();
+        const user_id = req.headers.get('user_id');
 
         // make sure that userId, title, and description are provided
         if (!user_id || !title || !description) {
@@ -22,17 +19,16 @@ export async function POST(req) {
         await connectMongoDB();
 
         // create document
-        var songlist = new SongList({
+        var new_song_list = new SongList({
             user: user_id,
             title: title,
             description: description,
-            songIds: [],
         });
 
         var res = null
 
         // save the new song list to the database
-        await SongList.create(songlist)
+        await SongList.create(new_song_list)
             .then((doc) => {
                 res = NextResponse.json(
                     { body: doc },

@@ -22,6 +22,7 @@ export async function GET(req) {
             // get all songlists of such user
             const song_lists = await SongList
                 .find({ user: user._id })
+                .populate('user')
                 .exec();
             
             // return the songlists

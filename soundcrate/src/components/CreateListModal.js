@@ -1,17 +1,31 @@
 'use client';
+
+import { useModalContext } from '@/app/ModalContextProvider/ModalContextProvider';
 import { useState } from 'react';
 import { Plus, X } from '@phosphor-icons/react';
 import { useSession } from "next-auth/react";
 
-export default function CreateListModal() {
+export default function CreateListModal({ username }) {
 
   const { data: session } = useSession();
+  const { setIsOpen, setMessage } = useModalContext();
 
   const modal_id = "create-modal-id";
   const [ title, setName ] = useState("");
   const [ description, setDescription ] = useState("");
   const description_char_limit = 150;
   const title_char_limit = 30;
+
+  const handleClick = (e) => {
+    if (session?.status != 'authenticated') {
+      setMessage('Join SoundCrate to create song lists');
+      setIsOpen(true);
+      HSOverlay.close("#"+modal_id);
+
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
 
   const handleCancel = () => {
     setName("");
@@ -31,6 +45,11 @@ export default function CreateListModal() {
         const response_data = await response.json();
         if (response_data?.status == 200) {
           console.log(response_data.body)
+        } else if (response_data?.status == 401) {
+          // display unauthorized modal
+          HSOverlay.close("#"+modal_id);
+          setMessage('Join SoundCrate to create song lists');
+          setIsOpen(true);
         } else {
           console.log(response_data.error)
         }
@@ -51,7 +70,6 @@ export default function CreateListModal() {
 
     // create body to send to the API
     const new_list = {
-      user_id: user_id,
       title: title,
       description: description,
     }
@@ -132,9 +150,9 @@ export default function CreateListModal() {
     )
   }
 
-  return (
+  return (session?.status == "authenticated" && session?.user?.username == username &&
     <>
-      <button type="button" className="btn p-2 bg-dark-light text-white rounded-md hover:bg-blue" data-hs-overlay={"#"+modal_id}>
+      <button onClick={handleClick} type="button" className="btn p-2 bg-dark-light text-white rounded-md hover:bg-blue" data-hs-overlay={"#"+modal_id}>
         <Plus weight="bold" className="mr-1" /> New
       </button>
 

@@ -15,7 +15,7 @@ export default function SongReviewPage({ params }) {
 
   const [ songData, setSongData ] = useState(null);
   const [ reviews, setReviews ] = useState([]);
-  const [lists, setLists] = useState([]);
+  const [ lists, setLists ] = useState([]);
 
   const latest_review = reviews[0];
   const older_reviews = reviews.slice(1);
@@ -28,6 +28,29 @@ export default function SongReviewPage({ params }) {
     };
 
     get_song_data();
+  }, []);
+
+  // fetch all reviews for this songId
+  useEffect(() => {
+    async function fetchReviews(song_id, username) {
+      try {
+        const response = await fetch(
+          `/api/review/getReviews?songId=${song_id}&username=${username}&sortBy=date`, 
+          { method: 'GET' }
+        );
+
+        const responseData = await response.json();
+        if (responseData?.body) {
+          setReviews(responseData.body);
+        } else {
+          throw responseData.error;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    fetchReviews(song_id, username);
   }, []);
 
   // Fetch lists that include this song : VIEWING A REVIEW
@@ -77,7 +100,14 @@ export default function SongReviewPage({ params }) {
         />
         {/* song details */}
         <div className="flex flex-col pb-1">
-          <p className="uppercase opacity-50 text-xs mb-0.5">By {username}</p>
+
+          {/* type and username */}
+          <div className="flex flex-row gap-1 uppercase text-xs mb-0.5 tracking-wide">
+            <p className="opacity-60">Song</p>
+            <p className="opacity-60">•</p>
+            <Link href={`/user/${username}/profile`}className="opacity-60 hover:opacity-90">By {username}</Link>
+          </div>  
+
           <Link href={`/song/${song_data.song_id}`}>
             <h1 className="hover:underline underline-offset-4 decoration-accent">{song_data.name}</h1>
           </Link>
@@ -115,12 +145,13 @@ export default function SongReviewPage({ params }) {
   }
 
   const list_cards = (list_array) => {
-    return (list_array && list_array.map((lists) =>
-          <ListCard 
-            username={username}
-            list_id={lists._id}
-            name={lists.title}
-            song_count={lists.songIds.length} />
+    return (list_array && list_array.map((list) =>
+    <ListCard 
+      username={list.user.username}
+      list_id={list._id}
+      name={list.title}
+      song_count={list.songIds.length}
+      show_username={true} />
     ))
   }
 
@@ -147,7 +178,7 @@ export default function SongReviewPage({ params }) {
           </Link> */}
 
           {/* past reviews */}
-          {older_reviews &&
+          {older_reviews?.length != 0 &&
             <section className="flex flex-col gap-3">
               <h3>Past Reviews</h3>
               {render_review_cards(older_reviews)}
@@ -155,11 +186,10 @@ export default function SongReviewPage({ params }) {
           }
 
         </div>
-        <div className="flex flex-col grow shrink min-w-52 w-1/3 gap-6">
-          <section className="flex flex-col gap-3">
+        <div className="flex flex-col grow shrink min-w-52 w-1/3">
+          <section className="flex flex-col gap-2">
             <h3>Saved In</h3>
-            <div>
-              <hr className="opacity-30"></hr>
+            <div className="border-t border-dark-light">
               {list_cards(lists)}
             </div>
           </section>

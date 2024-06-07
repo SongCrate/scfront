@@ -130,7 +130,14 @@ export default function AlbumReviewPage({ params }) {
         />
         {/* album details */}
         <div className="flex flex-col pb-1">
-          <p className="uppercase opacity-50 text-xs mb-0.5">Album ∙ By {username}</p>
+          
+          {/* type and username */}
+          <div className="flex flex-row gap-1 uppercase text-xs mb-0.5 tracking-wide">
+            <p className="opacity-60">Album</p>
+            <p className="opacity-60">•</p>
+            <Link href={`/user/${username}/profile`}className="opacity-60 hover:opacity-90">By {username}</Link>
+          </div>  
+          
           <Link href={`/album/${album_data.album_id}`}>
             <h1 className="hover:underline underline-offset-4 decoration-accent">{album_data.name}</h1>
           </Link>
@@ -206,13 +213,6 @@ export default function AlbumReviewPage({ params }) {
 
         </div>
         <div className="flex flex-col grow shrink min-w-52 w-1/3 gap-6">
-          <section className="flex flex-col gap-3">
-            <h3>Saved In</h3>
-            <div>
-              <hr className="opacity-30"></hr>
-              {/* {list_cards} */}
-            </div>
-          </section>
           <section className="flex flex-col gap-3">
             <h3>More Albums</h3>
               <div className="flex flex-row no-wrap gap-3">
