@@ -54,13 +54,17 @@ export default function ListsPage({ params }) {
       )
     )
   }
+  // flex flex-row flex-wrap gap-3
     
   return (
     <main className="flex flex-col gap-4">
       <h2>Albums</h2>
-      <div className="flex flex-row flex-wrap gap-3">
-        {render_album_cards(albums)}
-      </div>
+      {albums
+        ? <div className="grid lg:grid-cols-5 grid-cols-4 gap-3">
+            {render_album_cards(albums)}
+          </div>
+        : <p>Loading...</p>
+      }
     </main>
   );
 }
