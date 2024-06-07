@@ -29,7 +29,7 @@ export default function UserFollowingPage({ params }) {
     }
 
     fetchData();
-  }, [username]);
+  }, []);
 
   if (isLoading) {
     return <p>Loading...</p>
@@ -40,14 +40,16 @@ export default function UserFollowingPage({ params }) {
       <h2>Following</h2>
       <div className="box-container flex flex-col gap-4">
         {followingData?.length > 0 ? (
-          followingData.map((user, i) => (
-            <FollowUserCard
+          followingData.map((user, i) => {console.log(user.userIsFollowing); return (
+            user && <FollowUserCard
               key={`follow-user-card-${i}`}
               username={user.username}
+              user_id={user._id}
               profile_img={user.imageUrl}
               review_count={user.reviewCount}
+              user_is_following={user.userIsFollowing}
             />
-          ))
+          )})
         ) : (
           <p className="opacity-40 p-2">Nothing to see here!</p>
         )}

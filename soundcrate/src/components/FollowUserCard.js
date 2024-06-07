@@ -5,8 +5,10 @@ import Link from 'next/link';
 
 export default function FollowUserCard({ 
   username,
+  user_id,
   profile_img=null,
-  review_count=0
+  review_count=0,
+  user_is_following
  }) {
   const profile_url = `/user/${username}/profile`
 
@@ -43,8 +45,11 @@ export default function FollowUserCard({
 
           </div>
 
-          <FollowBtn username={username} />
-          
+          <FollowBtn 
+            userId={user_id} 
+            user_is_following={user_is_following} 
+          />
+
         </div>
     </div>
   );

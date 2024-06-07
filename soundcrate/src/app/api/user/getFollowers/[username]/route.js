@@ -6,6 +6,7 @@ export async function GET(req, { params }) {
 
   try {
     const username = params.username;
+    const user_id = req.headers.get('user_id');
 
     await connectMongoDB();
     const user = await User.findOne({ username });
@@ -34,7 +35,8 @@ export async function GET(req, { params }) {
         },
         {
           $addFields: {
-            reviewCount: { $size: { "$ifNull": [ "$userReviews", [] ] } }
+            reviewCount: { $size: { "$ifNull": [ "$userReviews", [] ] } },
+            userIsFollowing: { $in: [user_id_obj , "$followers"] },
           }
         },
         {
@@ -42,7 +44,8 @@ export async function GET(req, { params }) {
             _id: 1,
             username: 1,
             imageUrl: 1,
-            reviewCount: 1
+            reviewCount: 1,
+            userIsFollowing: 1,
           }
         }
       ]).exec();

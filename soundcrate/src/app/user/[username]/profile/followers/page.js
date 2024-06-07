@@ -44,8 +44,10 @@ export default function UserFollowerPage({ params }) {
             <FollowUserCard
               key={`follow-user-card-${i}`}
               username={user.username}
+              user_id={user._id}
               profile_img={user.imageUrl}
               review_count={user.reviewCount}
+              user_is_following={user.userIsFollowing}
             />
           ))
         ) : (

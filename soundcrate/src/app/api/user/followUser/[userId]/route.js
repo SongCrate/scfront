@@ -18,13 +18,16 @@ export async function POST(req, { params }){
 
     var res = null;
 
-    let action_obj = {};
+    let action_obj_a = {}; 
+    let action_obj_b = {};
     switch(action) {
       case 'follow':
-        action_obj = { $addToSet: { following: target_user_id } };
+        action_obj_a = { $addToSet: { following: target_user_id } };
+        action_obj_b = { $addToSet: { followers: user_id } };
         break;
       case 'unfollow':
-        action_obj = { $pull: { following: target_user_id } };
+        action_obj_a = { $pull: { following: target_user_id } };
+        action_obj_b = { $pull: { followers: user_id } };
         break;
       default:
         return NextResponse.json(
@@ -36,8 +39,14 @@ export async function POST(req, { params }){
     await connectMongoDB();
 
     await User.findOneAndUpdate(
+      { _id: target_user_id },
+      { ...action_obj_b },
+      { new: true }
+    );
+
+    await User.findOneAndUpdate(
       { _id: user_id },
-      { ...action_obj },
+      { ...action_obj_a },
       { new: true }
     ).then((doc) => {
       res = NextResponse.json(
