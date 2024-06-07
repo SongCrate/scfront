@@ -46,7 +46,7 @@ export default function AddToListModal({
     if (session?.status != 'authenticated') {
       setMessage('Join SoundCrate to create and add to lists');
       setIsOpen(true);
-      HSOverlay.close("#"+modal_id);
+      HSOverlay?.close("#"+modal_id);
 
       e.preventDefault();
       e.stopPropagation();

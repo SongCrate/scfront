@@ -16,11 +16,11 @@ export default function NavBar() {
   const update_credentials_modal_id = "update-credentials-modal";
 
   const handleMyAccountNav = () => {
-    HSOverlay.open("#"+update_user_modal_id);
+    HSOverlay?.open("#"+update_user_modal_id);
   }
 
   const handleSettingsNav = () => {
-    HSOverlay.open("#"+update_credentials_modal_id);
+    HSOverlay?.open("#"+update_credentials_modal_id);
   }
 
   const renderPublicNav = () => {
