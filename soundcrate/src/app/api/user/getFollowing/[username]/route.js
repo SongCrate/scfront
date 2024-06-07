@@ -1,15 +1,13 @@
 import { connectMongoDB } from '@/lib/mongodb';
-import mongoose from 'mongoose';
+import mongoose, { ObjectId } from 'mongoose';
 import User from '@/lib/models/user';
 import { NextResponse } from 'next/server';
-
-var ObjectId = mongoose.Types.ObjectId;
 
 export async function GET(req, { params }) {
   try {
     const username = params.username;
     const user_id = req.headers.get('user_id');
-    const user_id_obj = new ObjectId(user_id);
+    const user_id_obj = new mongoose.ObjectId(user_id);
 
     await connectMongoDB();
     
