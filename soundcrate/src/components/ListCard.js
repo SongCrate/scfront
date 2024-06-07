@@ -1,8 +1,4 @@
-'use client';
-
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'
-
 
 export default function ListCard({ 
   username,
@@ -12,8 +8,6 @@ export default function ListCard({
   show_username=false,
   is_link=true,
  }) {
-
-  const router = useRouter();
 
   return (
     <Link href={is_link ? `/user/${username}/list/${list_id}` : ''} className="w-full flex flex-row justify-between items-center">
