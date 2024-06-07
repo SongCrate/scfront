@@ -138,6 +138,7 @@ export default function UserProfilePage({ params }) {
   const list_cards = (list_array) => {
   return (list_array && list_array.map((lists) =>
       <ListCard 
+        key={lists._id}
         username={username}
         list_id={lists._id}
         name={lists.title}

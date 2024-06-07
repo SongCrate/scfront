@@ -31,11 +31,13 @@ export default function ListsPage({ params }) {
 
   const list_cards = (list_array) => {
     return (list_array && list_array.map((lists) =>
-          <ListCard 
-            username={username}
-            list_id={lists._id}
-            name={lists.title}
-            song_count={lists.songIds.length} />
+      <ListCard 
+        key={lists._id}
+        username={username}
+        list_id={lists._id}
+        name={lists.title}
+        song_count={lists.songIds.length} 
+      />
     ))
   }
     
