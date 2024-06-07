@@ -101,6 +101,9 @@ export default function UserProfilePage({ params }) {
     fetchSongLists(username);
   }, [username]);
 
+  const handleNewList = (newList) => {
+    setLists([newList, ...lists]);
+  };
 
   const render_review_cards = (review_array) => {
     if (!review_array || review_array.length === 0) {
@@ -175,7 +178,7 @@ export default function UserProfilePage({ params }) {
       <section className="flex flex-col gap-2 grow shrink min-w-52 w-1/3">
         <div className="flex justify-between items-baseline">
           <Link href="profile/lists"><h3>Lists</h3></Link>
-          <CreateListModal username={username} />
+          <CreateListModal username={username} onCreate={handleNewList} />
         </div>
         <div className="border-t border-dark-light">
           {list_cards(lists.slice(0, 8))}
