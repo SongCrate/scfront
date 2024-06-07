@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Plus, X } from '@phosphor-icons/react';
 import { useSession } from "next-auth/react";
 
-export default function CreateListModal() {
+export default function CreateListModal({ username }) {
 
   const { data: session } = useSession();
   const { setIsOpen, setMessage } = useModalContext();
@@ -150,7 +150,7 @@ export default function CreateListModal() {
     )
   }
 
-  return (
+  return (session?.status == "authenticated" && session?.user?.username == username &&
     <>
       <button onClick={handleClick} type="button" className="btn p-2 bg-dark-light text-white rounded-md hover:bg-blue" data-hs-overlay={"#"+modal_id}>
         <Plus weight="bold" className="mr-1" /> New
