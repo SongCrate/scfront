@@ -8,29 +8,20 @@ export async function GET(req) {
         await connectMongoDB();
 
         // find songlists based on a user
-        const username = req.nextUrl.searchParams.get('username');
-        const user = await User.findOne({ username })
-  
-        // make sure the user exists in database
-        if (!user) {
-            return NextResponse.json(
-                { error: "Requested user does not exist" }, 
-                { status: 404 }
-            )
-        } else {
+        const user_id = req.headers.get('user_id');
 
-            // get all songlists of such user
-            const song_lists = await SongList
-                .find({ user: user._id })
-                .populate('user')
-                .exec();
-            
-            // return the songlists
-            return NextResponse.json(
-                { body: song_lists },
-                { status: 200 }
-            );
-        }
+        // get all songlists of such user
+        const song_lists = await SongList
+            .find({ user: user_id })
+            .populate('user')
+            .exec();
+        
+        // return the songlists
+        return NextResponse.json(
+            { body: song_lists },
+            { status: 200 }
+        );
+        
   
       } catch (error) {
             return NextResponse.json(

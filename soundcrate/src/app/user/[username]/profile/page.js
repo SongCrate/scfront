@@ -9,6 +9,7 @@ import {
   CreateListModal,
   ListCard,
   SongReviewCard,
+  EmptyContentMessage,
 } from "@/components";
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -102,6 +103,9 @@ export default function UserProfilePage({ params }) {
 
 
   const render_review_cards = (review_array) => {
+    if (!review_array || review_array.length === 0) {
+      return <EmptyContentMessage message="No Reviews" />;
+    }
     return (review_array && review_array.map((review) => {
       const song_obj = songData?.find((song) => song.id === review.songId);
       return (
@@ -123,6 +127,9 @@ export default function UserProfilePage({ params }) {
   }
 
   const render_album_cards = (album_array) => {
+    if (!album_array || album_array.length === 0) {
+      return <EmptyContentMessage message="No Albums" />;
+    }
     return (album_array && album_array.map((album) =>
       <AlbumCard 
         key={`album-card-${album.id}`} 
@@ -136,6 +143,9 @@ export default function UserProfilePage({ params }) {
   }
 
   const list_cards = (list_array) => {
+    if (!list_array || list_array.length === 0) {
+      return <EmptyContentMessage message="No Lists" />;
+    }
   return (list_array && list_array.map((list) =>
       <ListCard 
         key={list._id}
