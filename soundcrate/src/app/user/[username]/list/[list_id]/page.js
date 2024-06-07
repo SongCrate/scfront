@@ -49,50 +49,108 @@ export default function ListPage({ params }) {
     fetchSongs();
   }, [songIds]);
 
-  const render_song_cards = () => {
-    if (!songIds.length) {
-      return <EmptyContentMessage message="No songs yet" />;
-    }
-    if (songData?.tracks) {
-      return songIds
-        .map((song_id, i) =>
-          <SongCard 
-            key={`song-card-${song_id}`}
-            song_id={song_id}
-            song_name={songData?.tracks[i]?.name}
-            song_artist={songData?.tracks[i]?.artists[0]?.name}
-            album_art={songData?.tracks[i]?.album?.images[1]?.url}
-            track_number={i + 1} />
-        )
-    }
-  };
-
   const handleSave = (updatedList) => {
     setListData(updatedList);
   };
 
+  // const render_song_cards = () => {
+  //   if (!songIds.length) {
+  //     return <EmptyContentMessage message="No songs yet" />;
+  //   }
+  //   if (songData?.tracks) {
+  //     return songIds
+  //       .map((song_id, i) =>
+  //         <SongCard 
+  //           key={`song-card-${song_id}`}
+  //           song_id={song_id}
+  //           song_name={songData?.tracks[i]?.name}
+  //           song_artist={songData?.tracks[i]?.artists[0]?.name}
+  //           album_art={songData?.tracks[i]?.album?.images[1]?.url}
+  //           track_number={i + 1} />
+  //       )
+  //   }
+  // };
 
-  // return (
-  //   <main className="flex flex-col gap-4">
-  //     {/* header */}
-  //     <section className="flex flex-col gap-1">
-  //       <h1>{listData.title}</h1>
-  //       <p className="opacity-80 text-sm">{listData.description}</p>
+  const handleDeleteSong = async (song_id) => {
+    try {
+      const response = await fetch(`/api/lists/updateSongList`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'user_id': session.user._id // Include user_id in headers
+        },
+        body: JSON.stringify({ listId: list_id, songId: song_id, action: 'remove' })
+      });
 
-  //       <div className="flex flex-row gap-1 text-sm uppercase tracking-wider">
-  //         <div className="opacity-40">{songIds.length} {songIds.length !== 1 ? 'songs' : 'song'}</div>
-  //         ∙
-  //         <Link href={`/user/${username}/profile`}className="opacity-40 hover:opacity-60">By {username}</Link>
+      const responseData = await response.json();
+      if (response.ok) {
+        setSongIds((prevIds) => prevIds.filter((id) => id !== song_id));
+      } else {
+        console.error(responseData.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // const render_song_cards = () => {
+  //   if (!songIds.length) {
+  //     return <EmptyContentMessage message="No songs yet" />;
+  //   }
+  //   if (songData?.tracks) {
+  //     return songIds.map((song_id, i) => (
+  //       <div key={`song-card-${song_id}`} className="flex items-center justify-between">
+  //         <SongCard
+  //           song_id={song_id}
+  //           song_name={songData?.tracks[i]?.name}
+  //           song_artist={songData?.tracks[i]?.artists[0]?.name}
+  //           album_art={songData?.tracks[i]?.album?.images[1]?.url}
+  //           track_number={i + 1}
+  //         />
+  //         {session?.status === 'authenticated' && session?.user?.username === username && (
+  //           <button
+  //             className="btn p-2 bg-dark-light text-white rounded-md hover:bg-red"
+  //             onClick={() => handleDeleteSong(song_id)}
+  //           >
+  //             Delete
+  //           </button>
+  //         )}
   //       </div>
-  //     </section>
+  //     ));
+  //   }
+  // };
 
-  //     {/* song cards */}
-  //     <section className="flex flex-col gap-2">
-  //       {render_song_cards()}
-  //     </section>
+  const render_song_cards = () => {
+  if (!songIds.length) {
+    return <EmptyContentMessage message="No songs yet" />;
+  }
+  if (songData?.tracks) {
+    return songIds.map((song_id, i) => (
+      <div key={`song-card-${song_id}`} className="flex items-center justify-between bg-dark-light p-4 rounded-md mb-4">
 
-  //   </main>
-  // );
+        <div className="flex-grow">
+          <SongCard
+            song_id={song_id}
+            song_name={songData?.tracks[i]?.name}
+            song_artist={songData?.tracks[i]?.artists[0]?.name}
+            album_art={songData?.tracks[i]?.album?.images[1]?.url}
+            track_number={i + 1}
+          />
+        </div>
+
+        {session?.status === 'authenticated' && session?.user?.username === username && (
+          <button
+            className="btn p-2 bg-dark-light text-white rounded-md hover:bg-red"
+            onClick={() => handleDeleteSong(song_id)}
+          >
+            Delete
+          </button>
+        )}
+
+      </div>
+    ));
+  }
+};
 
 
   return (

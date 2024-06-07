@@ -57,13 +57,15 @@ export default function ListsPage({ params }) {
       return <EmptyContentMessage message="No Lists" />;
     }
     return (list_array && list_array.map((list) =>
-      <div key={list._id} className="flex justify-between items-center">
-        <ListCard 
-          username={list.user.username}
-          list_id={list._id}
-          name={list.title}
-          song_count={list.songIds.length} 
-        />
+      <div key={list._id} className="flex items-center justify-between bg-dark-light p-4 rounded-md mb-4">
+        <div className="flex-grow">
+          <ListCard 
+            username={list.user.username}
+            list_id={list._id}
+            name={list.title}
+            song_count={list.songIds.length} 
+          />
+        </div>
         {session?.status === 'authenticated' && session?.user?.username === username && (
           <button
             className="btn p-2 bg-dark-light text-white rounded-md hover:bg-red"
