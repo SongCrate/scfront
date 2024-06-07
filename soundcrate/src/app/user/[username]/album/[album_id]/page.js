@@ -207,13 +207,6 @@ export default function AlbumReviewPage({ params }) {
         </div>
         <div className="flex flex-col grow shrink min-w-52 w-1/3 gap-6">
           <section className="flex flex-col gap-3">
-            <h3>Saved In</h3>
-            <div>
-              <hr className="opacity-30"></hr>
-              {/* {list_cards} */}
-            </div>
-          </section>
-          <section className="flex flex-col gap-3">
             <h3>More Albums</h3>
               <div className="flex flex-row no-wrap gap-3">
                 {render_album_cards(albums?.slice(0, 3))}
