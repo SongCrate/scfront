@@ -20,7 +20,7 @@ export default function CreateListModal({ username }) {
     if (session?.status != 'authenticated') {
       setMessage('Join SoundCrate to create song lists');
       setIsOpen(true);
-      HSOverlay.close("#"+modal_id);
+      HSOverlay?.close("#"+modal_id);
 
       e.preventDefault();
       e.stopPropagation();
@@ -47,7 +47,7 @@ export default function CreateListModal({ username }) {
           console.log(response_data.body)
         } else if (response_data?.status == 401) {
           // display unauthorized modal
-          HSOverlay.close("#"+modal_id);
+          HSOverlay?.close("#"+modal_id);
           setMessage('Join SoundCrate to create song lists');
           setIsOpen(true);
         } else {

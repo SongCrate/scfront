@@ -1,7 +1,6 @@
 'use client';
 
 import { useModalContext } from '@/app/ModalContextProvider/ModalContextProvider';
-import { HSOverlay } from 'preline/preline';
 import { Fragment, useState } from 'react';
 import { useSession } from "next-auth/react";
 import { 
@@ -31,7 +30,7 @@ export default function WriteReviewModal({
     if (session?.status != 'authenticated') {
       setMessage('Join SoundCrate to rate and review songs');
       setIsOpen(true);
-      HSOverlay.close("#"+modal_id);
+      HSOverlay?.close("#"+modal_id);
 
       e.preventDefault();
       e.stopPropagation();
@@ -63,7 +62,7 @@ export default function WriteReviewModal({
           console.log(response_data.body)
         } else if (response_data?.status == 401) {
           // display unauthorized modal
-          HSOverlay.close("#"+modal_id);
+          HSOverlay?.close("#"+modal_id);
           setMessage('Join SoundCrate to rate and review songs');
           setIsOpen(true);
         } else {
@@ -88,7 +87,7 @@ export default function WriteReviewModal({
     postReview(new_review)
 
     // close and clear modal inputs
-    HSOverlay.close("#"+modal_id);
+    HSOverlay?.close("#"+modal_id);
     handleCancel();
   }
 

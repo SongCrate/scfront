@@ -46,7 +46,7 @@ export default function UpdateUserModal({ modalId }) {
 
         } else if (response_data?.status == 401) {
           // display unauthorized modal
-          HSOverlay.close("#"+modal_id);
+          HSOverlay?.close("#"+modal_id);
           setMessage('Unauthorized');
           setIsOpen(true);
         } else {
@@ -74,7 +74,7 @@ export default function UpdateUserModal({ modalId }) {
     }
 
     // close the modal
-    HSOverlay.close("#"+modal_id);
+    HSOverlay?.close("#"+modal_id);
   }
 
   const handlePreview = (e) => {
