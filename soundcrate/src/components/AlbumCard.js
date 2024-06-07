@@ -2,13 +2,11 @@ import { Rating } from '@/components';
 import Link from 'next/link';
 
 export default function AlbumCard({
-  username,
   href,
   album_id,
   name="Album",
   artist_name="Artist",
   album_art=null,
-  size=100,
   rating=null
  }) {
 
@@ -21,7 +19,7 @@ export default function AlbumCard({
         <img
           src={album_art ?? "/images/default-user.png"}
           alt={`${name} by ${artist_name}`}
-          className={`aspect-square rounded-md w-[${size}px] h-[${size}px]`}
+          className={"w-full aspect-square rounded-md"}
         />
         
         {/* 1.2 - rating, if provided */}
