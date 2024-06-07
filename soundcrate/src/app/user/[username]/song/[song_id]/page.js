@@ -171,7 +171,7 @@ export default function SongReviewPage({ params }) {
           </Link> */}
 
           {/* past reviews */}
-          {older_reviews &&
+          {older_reviews?.length != 0 &&
             <section className="flex flex-col gap-3">
               <h3>Past Reviews</h3>
               {render_review_cards(older_reviews)}
