@@ -1,121 +1,108 @@
 'use client';
+
 import { useState } from 'react';
-import {Plus, X} from "@phosphor-icons/react";
+import { X } from '@phosphor-icons/react';
+import { useSession } from 'next-auth/react';
 
-export default function UpdateCredentialsModal() {
-    // mock data, would be grabbing this from header
-    // const user_id = 1;
+export default function UpdateCredentialsModal({ modalId })  {
+    const { data: session } = useSession();
+    const modal_id = modalId ?? "update-credentials-modal";
 
-    const modal_id = "create-modal-id";
-    const [ name, setName ] = useState("");
-    const [ description, setDescription ] = useState("");
-    const description_char_limit = 150;
-    const name_char_limit = 30;
-
-    // const db = get_db();
+    const [ email, setEmail ] = useState(session?.user?.email);
+    const [ password, setPassword ] = useState('');
+    const [ passwordConfirmation, setPasswordConfirmation ] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // create new database object
-        // const last_id = db['list'].slice(-1)[0].id
-        // var new_db = db
-        // new_db['list'][last_id] = {
-        //     "id": last_id + 1,
-        //     "user_id": user_id,
-        //     "name": name.trim(),
-        //     "description": description.trim()
-        // }
-        //
-        // try {
-        //     console.log(new_db);
-        //     const response = await fetch('/api/update_db', {
-        //         method: 'POST',
-        //         body: JSON.stringify(new_db)
-        //     });
-        //
-        //     const response_data = await response.json();
-        //
-        //     if (response.status === 200) {
-        //         console.log('success');
-        //     } else {
-        //         console.log(response.status)
-        //     }
-        // } catch (error) {
-        //     console.log(error);
-        // }
-
+        console.log(email, password, passwordConfirmation);
     }
 
-    const renderForm = () => {
+    const handleCancel = () => {
+        setEmail(session?.user?.email);
+        setPassword('');
+        setPasswordConfirmation('');
+    }
+
+    const render_form = () => {
         return (
-            <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+            <form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit}>
 
-                {/* list name */}
+                {/* email */}
                 <div className="w-full">
-                    {/* <label htmlFor="list-name-input" className="block text-sm font-medium mb-1 text-light">Name</label> */}
 
-                    <div className="flex justify-between items-center">
-                        <label htmlFor="list-name-input" className="block text-sm font-medium mb-1 text-light">
-                            Name
-                        </label>
-                        <span className={`block mb-2 text-sm opacity-60" ${name.length < name_char_limit - 10 ? 'invisible' : 'visible'}`}>
-              {name.length} / {name_char_limit}
-            </span>
-                    </div>
+                    <label htmlFor="email-input" className="block text-sm font-medium mb-1 text-light">
+                        Email
+                    </label>
 
                     <input
-                        id="list-name-input"
-                        maxLength={name_char_limit}
-                        value={name}
-                        onChange={(e) => { setName(e.target.value) }}
+                        id="email-input"
+                        type="email"
+                        value={email}
+                        onChange={(e) => { setEmail(e.target.value) }}
                     />
+
                 </div>
 
-                {/* list description */}
+                {/* password */}
                 <div className="w-full">
-                    <div className="flex justify-between items-center">
-                        <label htmlFor="list-desc-textarea" className="block text-sm font-medium mb-1 text-light">
-                            Description <span className="opacity-60">(Optional)</span>
-                        </label>
-                        <span className={`block mb-2 text-sm opacity-60" ${description.length < description_char_limit - 25 ? 'invisible' : 'visible'}`}>
-              {description.length} / {description_char_limit}
-            </span>
+
+                    <label htmlFor="password-input" className="block text-sm font-medium mb-1 text-light">
+                        Password
+                    </label>
+
+                    <div className="flex flex-row">
+                        <input
+                            id="password-input"
+                            type="password"
+                            className="py-2 px-3 block w-full bg-gray-dark rounded-md text-sm focus:border-gray focus:ring-gray disabled:opacity-50 disabled:pointer-events-none"
+                            value={password}
+                            onChange={(e) => { setPassword(e.target.value) }}
+                        />
                     </div>
-                    <textarea
-                        id="list-desc-textarea"
-                        className="py-2 px-3 block w-full bg-gray-dark rounded-md text-sm focus:border-gray focus:ring-gray disabled:opacity-50 disabled:pointer-events-none"
-                        rows="3"
-                        maxLength={description_char_limit}
-                        value={description}
-                        onChange={(e) => { setDescription(e.target.value) }}
-                    >
-          </textarea>
+
+                </div>
+
+                {/* password confirmation */}
+                <div className="w-full">
+
+                    <label htmlFor="password-conf-input" className="block text-sm font-medium mb-1 text-light">
+                        Confirm Password
+                    </label>
+
+                    <div className="flex flex-row">
+                        <input
+                            id="password-conf-input"
+                            type="password"
+                            className="py-2 px-3 block w-full bg-gray-dark rounded-md text-sm focus:border-gray focus:ring-gray disabled:opacity-50 disabled:pointer-events-none"
+                            value={passwordConfirmation}
+                            onChange={(e) => { setPasswordConfirmation(e.target.value) }}
+                        />
+                    </div>
+
                 </div>
 
                 {/* cancel and action buttons */}
                 <div className="flex justify-end items-center gap-x-2 p-3">
-                    <button type="button" className="btn hs-dropup-toggle gap-x-2 text-sm font-medium rounded-md text-gray hover:bg-dark hover:bg-opacity-40" data-hs-overlay={"#"+modal_id}>
+                    <button
+                        type="button"
+                        className="btn hs-dropup-toggle gap-x-2 text-sm font-medium rounded-md text-gray hover:bg-dark hover:bg-opacity-40"
+                        data-hs-overlay={"#"+modal_id}
+                        onClick={handleCancel}>
                         Cancel
                     </button>
                     <button
-                        // type="submit"
-                        disabled={!name}
                         onClick={handleSubmit}
-                        className="btn gap-x-2 text-sm rounded-md bg-blue hover:bg-opacity-80 text-light disabled:opacity-50"
-                    >
-                        Create
+                        className="btn gap-x-2 text-sm rounded-md bg-blue hover:bg-opacity-80 text-light disabled:opacity-50">
+                        Save
                     </button>
                 </div>
 
             </form>
-        )
-    }
+        )}
 
     return (
         <>
-            <button type="button" className="btn p-2 bg-dark-dark w-full items-center justify-center p-3 text-white rounded-md hover:bg-blue" data-hs-overlay={"#"+modal_id}>
-                UPDATE
+            <button type="button" className="hover" data-hs-overlay={"#"+modal_id}>
             </button>
 
             <div id={modal_id} className="hs-overlay hs-overlay-backdrop-open:bg-dark-dark/80 hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none">
@@ -126,7 +113,7 @@ export default function UpdateCredentialsModal() {
 
                         {/* header and close button */}
                         <div className="flex justify-between items-center py-3 px-4">
-                            <h3 className="font-bold">Create New List</h3>
+                            <h3 className="font-bold">Settings</h3>
                             <button type="button" className="btn-round hs-dropup-toggle flex text-gray hover:bg-dark hover:bg-opacity-40" data-hs-overlay={"#"+modal_id}>
                                 <span className="sr-only">Close</span>
                                 <X size={18} />
@@ -135,7 +122,7 @@ export default function UpdateCredentialsModal() {
 
                         {/* modal body */}
                         <div className="px-4 py-1">
-                            {renderForm()}
+                            {render_form()}
                         </div>
 
                     </div>
@@ -143,4 +130,5 @@ export default function UpdateCredentialsModal() {
             </div>
         </>
     );
-}
+
+};

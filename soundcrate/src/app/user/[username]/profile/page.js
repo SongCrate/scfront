@@ -13,14 +13,11 @@ import {
   CreateListModal,
   ListCard,
   SongReviewCard,
-  UpdateCredentialsModal,
-  SettingsModal,
 } from "@/components";
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import {useRouter} from "next/navigation";
+import {useRouter, useSearchParams} from 'next/navigation'
 import {useSession} from "next-auth/react";
-import { useSearchParams } from 'next/navigation'
 
 export default function UserProfilePage({ params }) {
   const { username } = params;
@@ -28,12 +25,16 @@ export default function UserProfilePage({ params }) {
   const [ songData, setSongData ] = useState(null);
   const [ albums, setAlbums ] = useState([]);
   const [ reviews, setReviews ] = useState([]);
-  const [ isModalOpen, setIsModalOpen ] = useState(false);
-  const [ isCredentialsModalOpen, setIsCredentialsModalOpen ] = useState(false);
   const [viewSettings, setViewSettings] = useState(false);
   const searchParams = useSearchParams();
+
   const router = useRouter();
   const session = useSession();
+  useEffect(() => {
+    if (session?.status == "unauthenticated"){
+      router.replace("/");
+    }
+  }, [session, router]);
 
   // checks if the user is in the profile section to view settings
   useEffect(()=>{

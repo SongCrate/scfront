@@ -2,27 +2,37 @@
 import Link from 'next/link';
 import {
     CaretDown,
-    Gear, MagnifyingGlass,
+    Gear,
     SignOut,
-    User
+    User,
+    Star
 } from '@phosphor-icons/react';
-import {useEffect, useState} from "react";
 import { signOut, useSession } from "next-auth/react";
+import { UpdateUserModal, UpdateCredentialsModal } from '@/components';
 import {useRouter} from "next/navigation";
+// import {HSOverlay} from "preline";
 
 export default function NavBar() {
     const { data: session } = useSession();
-    const router = useRouter();
+    const update_user_modal_id = "update-user-modal";
+    const update_credentials_modal_id = "update-credentials-modal";
+    const router = useRouter()
 
-    const handleSettings = () => {
-        router.push(`/user/${session?.user?.username}/profile?settings=true`, );
+    const handleMyAccountNav = () => {
+        router.push(`/user/${session?.user?.username}/profile`)
+        HSOverlay.open("#"+update_user_modal_id);
+    }
+
+    const handleSettingsNav = () => {
+        router.push(`/user/${session?.user?.username}/profile`)
+        HSOverlay.open("#"+update_credentials_modal_id);
     }
 
       const renderPublicNav = () => {
         return (
           <>
             <button type="button" className="btn text-white">
-              <Link href="/search">Explore</Link>
+              <Link href="/search">Search</Link>
             </button>
             <button type="button" className="btn">
               <Link href="/register">Register</Link>
@@ -40,11 +50,12 @@ export default function NavBar() {
 
     return (
       <>
+
+        <UpdateUserModal modalId={update_user_modal_id}/>
+        <UpdateCredentialsModal modalId={update_credentials_modal_id}/>
+
         <button type="button" className="btn">
-          <Link href="/search">Explore</Link>
-        </button>
-        <button type="button" className="btn">
-          <Link href="/search">Search</Link>
+            <Link href="/search">Search</Link>
         </button>
 
         <div className="hs-dropdown relative inline-flex [--placement:bottom-right] z-[80]">
@@ -58,7 +69,7 @@ export default function NavBar() {
           </button>
 
           <div className="hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-60 bg-dark-dark rounded-lg p-2 mt-2" aria-labelledby="hs-dropdown-with-header">
-            
+
             {/* username header */}
             <div className="py-3 px-5 -m-2 bg-dark-light rounded-t-lg">
               <p className="text-sm text-gray">Signed in as</p>
@@ -68,13 +79,19 @@ export default function NavBar() {
             {/* nav links */}
             <div className="mt-2 py-2 first:pt-0 last:pb-0">
               <Link href={`/user/${session?.user?.username}/profile`} className={menu_nav_link_styling}>
-                <User size={18} weight="bold" />
+                <Star size={18} weight="bold" />
                 Profile
               </Link>
-              <Link href={`/user/${session?.user?.username}/profile?modal=setings`} className={menu_nav_link_styling}>
-                <Gear size={18} weight="bold" />
-                Settings
-              </Link>
+              {/*<Link href={`/user/${session?.user?.username}/profile?modal=setings`} className={menu_nav_link_styling}>*/}
+                  <div onClick={handleMyAccountNav} className={menu_nav_link_styling + " hover:cursor-pointer"} >
+                      <User size={18} weight="bold" />
+                      My Account
+                  </div>
+              <div onClick={handleSettingsNav} className={menu_nav_link_styling + " hover:cursor-pointer"} >
+                    <Gear size={18} weight="bold" />
+                    Settings
+              </div>
+              {/*</Link>*/}
               <hr className="border-dark-light my-1"></hr>
               <Link href="/" className={menu_nav_link_styling} onClick={signOut}>
                 <SignOut size={18} weight="bold" />Logout

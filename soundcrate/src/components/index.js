@@ -14,7 +14,7 @@ import SongReviewCard from './SongReviewCard';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import WriteReviewModal from './WriteReviewModal';
-import SettingsModal from "@/components/SettingsModal";
+import UpdateUserModal from "@/components/UpdateUserModal";
 import UpdateCredentialsModal from "@/components/UpdateCredentialsModal";
 
 export {
@@ -34,6 +34,6 @@ export {
   LoginForm,
   RegisterForm,
   WriteReviewModal,
-  SettingsModal,
+  UpdateUserModal,
   UpdateCredentialsModal,
 };
