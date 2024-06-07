@@ -2,14 +2,20 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import {useSession} from "next-auth/react";
 
 export default function UserProfileLayout({ children, params }) {
   const { username } = params;
+  const { data: session } = useSession();
   const [ user, setUser ] = useState({});
 
+  // useEffect(()=>{
+  //   if (username === session?.user?.username){
+  //     user?.user?.imageUrl = session?.user?.imageUrl;
+  //   }
+  // },[session, user]);
 
   useEffect(() => {
-
     // fetch user data
     async function fetchUser() {
       try {
@@ -46,11 +52,25 @@ export default function UserProfileLayout({ children, params }) {
       <section className="flex flex-end gap-5 items-end">
 
         {/* user profile picture */}
-        <img
-          src={userData.profile_img ?? "/images/default-user.png"} 
-          alt={username}
-          className="rounded-md object-cover w-[70px] h-[70px]"
-        />
+        {
+            username === session?.user?.username ?
+                <img
+                  src={session?.user?.imageUrl || "/images/default-user.png"}
+                  alt={username}
+                  className="rounded-md object-cover w-[70px] h-[70px]"
+                />
+                :
+                <img
+                  src={user?.user?.imageUrl || "/images/default-user.png"}
+                  alt={username}
+                  className="rounded-md object-cover w-[70px] h-[70px]"
+                />
+        }
+        {/*<img*/}
+        {/*  src={user?.user?.imageUrl || "/images/default-user.png"}*/}
+        {/*  alt={username}*/}
+        {/*  className="rounded-md object-cover w-[70px] h-[70px]"*/}
+        {/*/>*/}
 
         <div className="flex flex-col gap-1">
           <Link href={`/user/${username}/profile`}>

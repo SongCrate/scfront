@@ -8,10 +8,8 @@ export async function updateUser(req) {
 
         await connectMongoDB();
 
-        console.log(id, username, imageUrl);
-
         const user = await User.findById(id);
-        console.log(user);
+
         if (!user) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }

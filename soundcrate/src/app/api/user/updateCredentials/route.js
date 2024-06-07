@@ -1,32 +1,28 @@
 import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/lib/mongodb';
 import User from '@/lib/models/user';
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
+import {createServerOnlyClientOnlyAliases} from "next/dist/build/create-compiler-aliases";
 
-export async function updateUser(req) {
+export async function updateCredentials(req) {
     try {
-        const { id, username, imageUrl } = await req.json();
+        const { id, email, password } = await req.json();
 
         await connectMongoDB();
 
-        const user = await User.findOne(username);
+        const user = await User.findById(id);
+
         if (!user) {
             return NextResponse.json({ error: "User not found" }, { status: 404 });
         }
 
         const updatedData = {};
 
-        if (username) {
-            const existingUsername = await User.findOne({ username });
-            if (existingUsername && existingUsername._id.toString() !== id) {
-                return NextResponse.json({ error: "Username already in use" }, { status: 400 });
-            }
-            updatedData.username = username;
-        }
-
         if (email) {
             const existingEmail = await User.findOne({ email });
+            // console.log("test1");
             if (existingEmail && existingEmail._id.toString() !== id) {
+                // console.log("here");
                 return NextResponse.json({ error: "Email already in use" }, { status: 400 });
             }
             updatedData.email = email;
@@ -35,6 +31,8 @@ export async function updateUser(req) {
         if (password) {
             const encryptedPassword = await bcrypt.hash(password, 10);
             updatedData.password = encryptedPassword;
+        }else{
+            updatedData.password = password
         }
 
         await User.updateOne({ _id: id }, { $set: updatedData });
@@ -43,9 +41,10 @@ export async function updateUser(req) {
 
     } catch (error) {
         return NextResponse.json({ message: "An error occurred while updating the user." }, { status: 500 });
+        console.log(error)
     }
 }
 
-export async function POST(req) {
-    return updateUser(req);
+export async function PUT(req) {
+    return updateCredentials(req);
 }

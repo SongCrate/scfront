@@ -61,7 +61,7 @@ export default function RegisterForm() {
                     }),
                 });
 
-                if (res.ok ) {
+                if ( res.ok ) {
                     const form = e.target;
                     await signIn("credentials", {
                         redirect:false,

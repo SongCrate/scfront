@@ -3,18 +3,89 @@
 import { useState } from 'react';
 import { X } from '@phosphor-icons/react';
 import { useSession } from 'next-auth/react';
+import {useRouter} from "next/navigation";
 
 export default function UpdateCredentialsModal({ modalId })  {
-    const { data: session } = useSession();
+    const { data: session, update } = useSession();
     const modal_id = modalId ?? "update-credentials-modal";
+    const router = useRouter();
 
+    const [ error, setError ] = useState("");
     const [ email, setEmail ] = useState(session?.user?.email);
     const [ password, setPassword ] = useState('');
     const [ passwordConfirmation, setPasswordConfirmation ] = useState('');
 
+    const isValidEmail = (email) => {
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        return emailRegex.test(email);
+    }
+    const isValidPassword = (password) =>{
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        return regex.test(password);
+    }
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(email, password, passwordConfirmation);
+        if (!isValidEmail(email)){
+            setError("Email is invalid");
+            return;
+        }
+        if (password !== "" && !isValidPassword(password)){
+            setError("Password must include:\n" +
+                "8 characters or longer\n" +
+                "A minimum of 1 lower case letter\n" +
+                "A minimum of 1 upper case letter\n" +
+                "A minimum of 1 numeric character\n" +
+                "A minimum of 1 special character\n"
+            );
+            return;
+        }
+        if (password !== passwordConfirmation) {
+            setError("Passwords must be the same");
+            return;
+        }
+        if (!password){
+            setPassword(session?.user?.password);
+        }
+        console.log(password)
+        try{
+            const response = await fetch('/api/user/updateCredentials', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: session.user._id, // Assuming the user object has an 'id' field
+                    email: email,
+                    password: password,
+                }),
+            });
+            const responseData = await response.json();
+            if (response.ok) {
+                console.log("User updated successfully:", responseData);
+                // Update session data if necessary
+                await update({
+                    user: {
+                        ...session.user,
+                        email: email,
+                        password: password,
+                    },
+                });
+
+                router.push(`/user/${session?.user?.username}/profile`);
+
+            } else {
+                setError(responseData.error || "Failed to update user");
+                return;
+                // Handle error response
+            }
+        }catch (error){
+            console.error("Error updating user:", error);
+            setError("An unexpected error occurred.");
+            return;
+        }
+        HSOverlay.close("#" + modal_id);
+
+
     }
 
     const handleCancel = () => {
@@ -39,6 +110,7 @@ export default function UpdateCredentialsModal({ modalId })  {
                         type="email"
                         value={email}
                         onChange={(e) => { setEmail(e.target.value) }}
+                        onFocus={(e) => e.target.select()}
                     />
 
                 </div>
@@ -80,6 +152,11 @@ export default function UpdateCredentialsModal({ modalId })  {
                     </div>
 
                 </div>
+                { error && (
+                    <div className={"text-red text- pt-4"} style={{ whiteSpace: 'pre-line'}}>
+                        {error}
+                    </div>)
+                }
 
                 {/* cancel and action buttons */}
                 <div className="flex justify-end items-center gap-x-2 p-3">
@@ -124,6 +201,7 @@ export default function UpdateCredentialsModal({ modalId })  {
                         <div className="px-4 py-1">
                             {render_form()}
                         </div>
+
 
                     </div>
                 </div>

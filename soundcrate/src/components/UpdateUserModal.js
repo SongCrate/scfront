@@ -3,22 +3,37 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { X } from "@phosphor-icons/react";
+import {useRouter} from "next/navigation";
 
 export default function UpdateUserModal({ modalId }) {
 
     const { data: session, update } = useSession();
-
+    const router = useRouter();
     const username = session?.user?.username;
-    const imageUrl = session?.user?.imageUrl ?? '';
+    const imageUrl = session?.user?.imageUrl ?? "";
 
     const modal_id = modalId ?? "update-user-modal";
     const [ newUsername, setNewUsername ] = useState(username);
+    const [ error, setError ] = useState("");
     const [ newImageUrl, setNewImageUrl ] = useState(imageUrl);
     const [ previewImageUrl, setPreviewImageUrl ] = useState(imageUrl);
     const name_char_limit = 30;
 
+    function isValidURL(url) {
+        if (url){
+            const regex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+            return regex.test(url);
+        }
+        return true;
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!isValidURL(newImageUrl)){
+            setError("Image must be a valid URL");
+            return;
+        }
         try{
             const response = await fetch('/api/user/updateUser', {
                 method: 'PUT',
@@ -35,20 +50,26 @@ export default function UpdateUserModal({ modalId }) {
             if (response.ok) {
                 console.log("User updated successfully:", responseData);
                 // Update session data if necessary
-                update({
+                await update({
                     user: {
                         ...session.user,
                         username: newUsername,
                         imageUrl: newImageUrl,
                     },
                 });
-                window.location.reload();
+
+                setPreviewImageUrl(newImageUrl);
+                router.push(`/user/${newUsername}/profile`);
+
             } else {
-                console.error("Failed to update user:", responseData);
+                setError(responseData.error || "Failed to update user");
+                return;
                 // Handle error response
             }
         }catch (error){
             console.error("Error updating user:", error);
+            setError("An unexpected error occurred.");
+            return;
         }
         HSOverlay.close("#" + modal_id);
 
@@ -87,6 +108,7 @@ export default function UpdateUserModal({ modalId }) {
                         maxLength={name_char_limit}
                         value={newUsername}
                         onChange={(e) => { setNewUsername(e.target.value) }}
+                        onFocus={(e) => e.target.select()}
                     />
 
                 </div>
@@ -103,7 +125,8 @@ export default function UpdateUserModal({ modalId }) {
                             id="image-url-input"
                             className="py-2 px-3 block w-full bg-gray-dark rounded-md rounded-r-none text-sm focus:border-gray focus:ring-gray disabled:opacity-50 disabled:pointer-events-none"
                             value={newImageUrl}
-                            onChange={(e) => { setNewImageUrl(e.target.value) }}
+                            onChange={(e) => { setNewImageUrl(e.target.value) } }
+                            onFocus={(e) => e.target.select()}
                         />
                         <button
                             onClick={handlePreview}
@@ -114,6 +137,11 @@ export default function UpdateUserModal({ modalId }) {
                     </div>
 
                 </div>
+                { error && (
+                    <div className={"text-red text- pt-4"} style={{ whiteSpace: 'pre-line'}}>
+                        {error}
+                    </div>)
+                }
 
                 {/* cancel and action buttons */}
                 <div className="flex justify-end items-center gap-x-2 p-3">
