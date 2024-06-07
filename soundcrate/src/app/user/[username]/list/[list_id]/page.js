@@ -70,7 +70,7 @@ export default function ListPage({ params }) {
         <h1>{listData.title}</h1>
         <p className="opacity-80 text-sm">{listData.description}</p>
 
-        <div className="flex flex-row gap-1 text-sm uppercase">
+        <div className="flex flex-row gap-1 text-sm uppercase tracking-wider">
           <div className="opacity-40">{songIds.length} {songIds.length !== 1 ? 'songs' : 'song'}</div>
           ∙
           <Link href={`/user/${username}/profile`}className="opacity-40 hover:opacity-60">By {username}</Link>
