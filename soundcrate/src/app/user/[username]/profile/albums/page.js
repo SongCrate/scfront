@@ -59,7 +59,7 @@ export default function ListsPage({ params }) {
   return (
     <main className="flex flex-col gap-4">
       <h2>Albums</h2>
-      {albums
+      {albums && albums.length
         ? <div className="grid lg:grid-cols-5 grid-cols-4 gap-3">
             {render_album_cards(albums)}
           </div>
