@@ -5,7 +5,8 @@ import {
   ListCard,
   Rating,
   LikeButton,
-  SongReviewCard
+  SongReviewCard,
+  EmptyContentMessage
 } from '@/components';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -127,6 +128,9 @@ export default function SongReviewPage({ params }) {
   }
 
   const render_review_cards = (review_array) => {
+    if (!review_array || review_array.length === 0) {
+      return <EmptyContentMessage message="No Reviews" />;
+    }
     return (review_array && review_array.map((review) =>
       <SongReviewCard
         key={`review-card-${review._id}`}
@@ -145,6 +149,9 @@ export default function SongReviewPage({ params }) {
   }
 
   const list_cards = (list_array) => {
+    if (!list_array || list_array.length === 0) {
+      return <EmptyContentMessage message="No Lists" />;
+    }
     return (list_array && list_array.map((list) =>
     <ListCard 
       key={list._id}

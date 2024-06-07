@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { get_songs } from '@/lib/spotify';
 import { useState, useEffect } from 'react';
-import { SongCard } from '@/components';
+import { SongCard, EmptyContentMessage } from '@/components';
 import {useRouter} from "next/navigation";
 import {useSession} from "next-auth/react";
 
@@ -48,9 +48,11 @@ export default function ListPage({ params }) {
   }, [songIds]);
 
   const render_song_cards = () => {
+    if (!songIds.length) {
+      return <EmptyContentMessage message="No songs yet" />;
+    }
     if (songData?.tracks) {
       return songIds
-        // .slice(0, 4) // only return the top 4
         .map((song_id, i) =>
           <SongCard 
             key={`song-card-${song_id}`}

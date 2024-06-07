@@ -178,7 +178,14 @@ export default function UserProfilePage({ params }) {
           <CreateListModal username={username} />
         </div>
         <div className="border-t border-dark-light">
-          {list_cards(lists.slice(0, 5))}
+          {list_cards(lists.slice(0, 8))}
+          {lists.length > 8 && (
+            <Link href="profile/lists">
+              <button className="btn p-2 bg-dark-light text-white rounded-md hover:bg-blue">
+                View All Lists
+              </button>
+            </Link>
+          )}
         </div>
       </section>
     </div>
