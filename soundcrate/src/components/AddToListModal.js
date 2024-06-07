@@ -2,6 +2,8 @@
 
 import { ListCard } from '@/components';
 import { Playlist, Plus, X, Check } from '@phosphor-icons/react';
+import { useModalContext } from '@/app/ModalContextProvider/ModalContextProvider';
+import { HSOverlay } from 'preline/preline';
 import { useSession } from "next-auth/react";
 import { useState, useEffect } from 'react';
 
@@ -17,6 +19,8 @@ export default function AddToListModal({
 }) {
 
   const { data: session } = useSession();
+  const { setIsOpen, setMessage } = useModalContext();
+
   const [listData, setListData] = useState([]);
 
   const modal_id = "add-to-list-modal-id";
@@ -38,6 +42,17 @@ export default function AddToListModal({
     
     fetchUserLists();
   }, [session]);
+
+  const handleClick = (e) => {
+    if (session?.status != 'authenticated') {
+      setMessage('Join SoundCrate to create and add to lists');
+      setIsOpen(true);
+      HSOverlay.close("#"+modal_id);
+
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
 
   const handleAction = async (listId, action) => {
     try {
@@ -113,7 +128,7 @@ export default function AddToListModal({
 
   return (
     <>
-      <button type="button" className="btn bg-dark-dark text-white text-lg font-semibold rounded-md hover:bg-opacity-60 p-3 w-full" data-hs-overlay={"#"+modal_id}>
+      <button onClick={handleClick} type="button" className="btn bg-dark-dark text-white text-lg font-semibold rounded-md hover:bg-opacity-60 p-3 w-full" data-hs-overlay={"#"+modal_id}>
         <Playlist size={18} weight="fill" className="mr-2" /> Add to List
       </button>
 
@@ -146,6 +161,4 @@ export default function AddToListModal({
       </div>
     </>
   );
-
-
 }
