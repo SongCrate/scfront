@@ -4,12 +4,14 @@ import { get_songs } from '@/lib/spotify';
 import { SongReviewCard } from '@/components';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 export default function Feed() {
   const [ songData, setSongData ] = useState([]);
   const [ reviews, setReviews ] = useState();
   const router = useRouter();
+  const { data: session } = useSession();
 
   useEffect(() => {
     // get song data from spotify api for review cards
@@ -115,7 +117,7 @@ export default function Feed() {
       </div>
     )
     
-  return (
+  return ( session?.status == 'authenticated' &&
     <main className="flex flex-col items-center gap-8">
       <div className="flex flex-col gap-6 w-full items-center">
         {render_review_cards(reviews)}
