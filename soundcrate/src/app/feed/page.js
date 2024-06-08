@@ -4,12 +4,12 @@ import { get_songs } from '@/lib/spotify';
 import { SongReviewCard } from '@/components';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 export default function Feed() {
   const [ songData, setSongData ] = useState([]);
   const [ reviews, setReviews ] = useState();
+  const router = useRouter();
 
   useEffect(() => {
     // get song data from spotify api for review cards
@@ -40,6 +40,9 @@ export default function Feed() {
         const responseData = await response.json();
         if (responseData?.body) {
           setReviews(responseData.body);
+        } if (responseData?.status == 401) {
+          // redirect to home page if user is not authenticated
+          router.push('/');
         } else {
           throw responseData.error;
         }
