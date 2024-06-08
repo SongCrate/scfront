@@ -43,9 +43,9 @@ export default function UpdateCredentialsModal({ modalId })  {
             setError("Passwords must be the same");
             return;
         }
-        if (!password){
-            setPassword(session?.user?.password);
-        }
+        // if (!password){
+        //     setPassword(session?.user?.password);
+        // }
         console.log(password)
         try{
             const response = await fetch('/api/user/updateCredentials', {
@@ -56,7 +56,7 @@ export default function UpdateCredentialsModal({ modalId })  {
                 body: JSON.stringify({
                     id: session.user._id, // Assuming the user object has an 'id' field
                     email: email,
-                    password: password,
+                    password: password ? password : session?.user?.password,
                 }),
             });
             const responseData = await response.json();
@@ -67,7 +67,7 @@ export default function UpdateCredentialsModal({ modalId })  {
                     user: {
                         ...session.user,
                         email: email,
-                        password: password,
+                        password: password ? password : session?.user?.password,
                     },
                 });
 

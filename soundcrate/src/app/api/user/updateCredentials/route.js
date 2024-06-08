@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { connectMongoDB } from '@/lib/mongodb';
 import User from '@/lib/models/user';
 import bcrypt from "bcryptjs";
-import {createServerOnlyClientOnlyAliases} from "next/dist/build/create-compiler-aliases";
 
 export async function updateCredentials(req) {
     try {
