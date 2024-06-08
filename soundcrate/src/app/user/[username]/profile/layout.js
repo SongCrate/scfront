@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { FollowBtn } from '@/components';
 import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import {useSession} from "next-auth/react";
 
 export default function UserProfileLayout({ children, params }) {
   const { username } = params;
@@ -51,11 +51,25 @@ export default function UserProfileLayout({ children, params }) {
       <section className="flex flex-end gap-5 items-end">
 
         {/* user profile picture */}
-        <img
-          src={userData.profile_img ?? "/images/default-user.png"} 
-          alt={username}
-          className="rounded-md object-cover w-[70px] h-[70px]"
-        />
+        {
+            username === session?.user?.username ?
+                <img
+                  src={session?.user?.imageUrl || "/images/default-user.png"}
+                  alt={username}
+                  className="rounded-md object-cover w-[70px] h-[70px]"
+                />
+                :
+                <img
+                  src={user?.user?.imageUrl || "/images/default-user.png"}
+                  alt={username}
+                  className="rounded-md object-cover w-[70px] h-[70px]"
+                />
+        }
+        {/*<img*/}
+        {/*  src={user?.user?.imageUrl || "/images/default-user.png"}*/}
+        {/*  alt={username}*/}
+        {/*  className="rounded-md object-cover w-[70px] h-[70px]"*/}
+        {/*/>*/}
 
         <div className="flex flex-col gap-1">
 
@@ -64,10 +78,10 @@ export default function UserProfileLayout({ children, params }) {
               <h1 className="leading-none">{username}</h1>
             </Link>
             {session?.status == "authenticated" && user?.user &&
-              <FollowBtn 
-                userId={user.user._id} 
+              <FollowBtn
+                userId={user.user._id}
                 user_is_following={user_id ? user.user.followers?.includes(user_id) : false}
-                compact={true} 
+                compact={true}
               />
             }
           </div>

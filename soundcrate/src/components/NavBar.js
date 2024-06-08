@@ -1,43 +1,48 @@
 'use client';
 import Link from 'next/link';
 import {
-  CaretDown,
-  Gear,
-  SignOut,
-  User,
-  Star
-  } from '@phosphor-icons/react';
-import { signOut, useSession } from 'next-auth/react';
+    CaretDown,
+    Gear,
+    SignOut,
+    User,
+    Star
+} from '@phosphor-icons/react';
+import { signOut, useSession } from "next-auth/react";
 import { UpdateUserModal, UpdateCredentialsModal } from '@/components';
+import {useRouter} from "next/navigation";
+// import {HSOverlay} from "preline";
 
 export default function NavBar() {
-  const { data: session } = useSession();
-  const update_user_modal_id = "update-user-modal";
-  const update_credentials_modal_id = "update-credentials-modal";
+    const { data: session } = useSession();
+    const update_user_modal_id = "update-user-modal";
+    const update_credentials_modal_id = "update-credentials-modal";
+    const router = useRouter()
 
-  const handleMyAccountNav = () => {
-    HSOverlay?.open("#"+update_user_modal_id);
-  }
+    const handleMyAccountNav = () => {
+        router.push(`/user/${session?.user?.username}/profile`)
+        HSOverlay.open("#"+update_user_modal_id);
+    }
 
-  const handleSettingsNav = () => {
-    HSOverlay?.open("#"+update_credentials_modal_id);
-  }
+    const handleSettingsNav = () => {
+        router.push(`/user/${session?.user?.username}/profile`)
+        HSOverlay.open("#"+update_credentials_modal_id);
+    }
 
-  const renderPublicNav = () => {
-    return (
-      <>
-        <button type="button" className="btn text-white">
-          <Link href="/search">Search</Link>
-        </button>
-        <button type="button" className="btn">
-          <Link href="/register">Register</Link>
-        </button>
-        <button type="button" className="btn">
-          <Link href="/login">Login</Link>
-        </button>
-      </>
-    )
-  }
+      const renderPublicNav = () => {
+        return (
+          <>
+            <button type="button" className="btn text-white">
+              <Link href="/search">Search</Link>
+            </button>
+            <button type="button" className="btn">
+              <Link href="/register">Register</Link>
+            </button>
+            <button type="button" className="btn">
+              <Link href="/login">Login</Link>
+            </button>
+          </>
+        )
+      }
 
   const renderUserNav = () => {
 
@@ -45,13 +50,9 @@ export default function NavBar() {
 
     return (
       <>
-        {/* INITIALLY HIDDEN MODALS */}
+
         <UpdateUserModal modalId={update_user_modal_id}/>
         <UpdateCredentialsModal modalId={update_credentials_modal_id}/>
-
-        <button type="button" className="btn">
-          <Link href="/feed">My Feed</Link>
-        </button>
 
         <button type="button" className="btn">
           <Link href="/search">Search</Link>
@@ -63,6 +64,7 @@ export default function NavBar() {
                 <img className="inline-block size-8 rounded-full" src={session?.user?.imageUrl} /> :
                 <img className="inline-block size-8 rounded-full" src={"/images/default-user.png"} />
               }
+
             <CaretDown size={18} weight="bold" />
           </button>
 
