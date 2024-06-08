@@ -130,11 +130,11 @@ export default function SearchPage() {
       return (users_array).map((user) => 
         <FollowUserCard
           key={`follow-user-card-${user._id}`}
+          href={`/user/${user.username}/profile`}
           username={user.username}
           user_id={user._id}
           profile_img={user.imageUrl}
-          review_count={user.reviewCount}
-          user_is_following={user.userIsFollowing} />
+          review_count={user.reviewCount} />
       );
     }
     return null;
@@ -146,7 +146,7 @@ export default function SearchPage() {
       <h1 className="sr-only">Search</h1>
       {render_searchbar()}
 
-      <CardGridSection title={"Users"} styling="flex flex-col gap-4">
+      <CardGridSection title={"Users"} styling="flex flex-col mt-1 gap-4">
         {render_user_cards()}
       </CardGridSection>
 
