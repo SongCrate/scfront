@@ -146,8 +146,6 @@ export default function SearchPage() {
       <h1 className="sr-only">Search</h1>
       {render_searchbar()}
 
-      {JSON.stringify(searchResults?.users)}
-
       <CardGridSection title={"Users"} styling="flex flex-col gap-4">
         {render_user_cards()}
       </CardGridSection>
