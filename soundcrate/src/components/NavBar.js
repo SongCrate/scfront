@@ -49,6 +49,9 @@ export default function NavBar() {
         <UpdateUserModal modalId={update_user_modal_id}/>
         <UpdateCredentialsModal modalId={update_credentials_modal_id}/>
 
+        <button type="button" className="btn">
+          <Link href="/feed">My Feed</Link>
+        </button>
 
         <button type="button" className="btn">
           <Link href="/search">Search</Link>
