@@ -170,7 +170,7 @@ export default function UserProfilePage({ params }) {
         </section>
         <section>
           <Link href="profile/albums"><h3 className="mb-3">Albums</h3></Link>
-          <div className="gap-3 grid grid-cols-4">
+          <div className={albums?.length > 0 ? "gap-3 grid grid-cols-4" : "w-full"}>
             {render_album_cards(albums?.slice(0, 8))}
           </div>
         </section>
