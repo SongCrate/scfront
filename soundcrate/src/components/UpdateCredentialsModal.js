@@ -43,9 +43,6 @@ export default function UpdateCredentialsModal({ modalId })  {
             setError("Passwords must be the same");
             return;
         }
-        // if (!password){
-        //     setPassword(session?.user?.password);
-        // }
         console.log(password)
         try{
             const response = await fetch('/api/user/updateCredentials', {
@@ -93,7 +90,6 @@ export default function UpdateCredentialsModal({ modalId })  {
         setPassword('');
         setPasswordConfirmation('');
     }
-
     const render_form = () => {
         return (
             <form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit}>
@@ -201,11 +197,10 @@ export default function UpdateCredentialsModal({ modalId })  {
                         <div className="px-4 py-1">
                             {render_form()}
                         </div>
-
-
                     </div>
                 </div>
             </div>
+
         </>
     );
 
