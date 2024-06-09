@@ -31,7 +31,7 @@ export default function FollowBtn({ userId, user_is_following, compact=false }) 
         const responseData = await response.json();
         if (responseData?.body) {
           setIsFollowing(responseData.body?.is_following);
-          window.location.reload();
+          // window.location.reload();
         } else if (responseData.status == 401) {
           // open modal is response is unauthorized
           setMessage('Join SoundCrate to follow users');

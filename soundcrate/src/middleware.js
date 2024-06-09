@@ -4,6 +4,8 @@ import { getToken } from 'next-auth/jwt';
 function is_protected(path) {
   if (path.startsWith('/api/user/followUser')) 
     return true;
+  else if (path.startsWith('/api/review/getFollowingReviews')) 
+    return true;
   else if (path.startsWith('/api/review/likeReview')) 
     return true;
   else if (path.startsWith('/api/review/postReview')) 

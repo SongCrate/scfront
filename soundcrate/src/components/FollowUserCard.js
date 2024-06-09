@@ -44,11 +44,13 @@ export default function FollowUserCard({
             </div>
 
           </div>
-
-          <FollowBtn 
-            userId={user_id} 
-            user_is_following={user_is_following} 
-          />
+          
+          {user_is_following &&
+            <FollowBtn 
+              userId={user_id} 
+              user_is_following={user_is_following} 
+            />
+          }
 
         </div>
     </div>
