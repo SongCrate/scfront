@@ -96,7 +96,7 @@ npm install mongoose
 npm install mongodb
 ```
 4. Set up the environment variables:
-Create a `.env.local` file in your root directory and add these environment variables.
+Create a `.env.local` file in your `soundcrate` project directory and add these environment variables.
 ```bash
 NEXT_PUBLIC_SPOTIFY_CLIENT_ID=b8ecb6f67ea242adb2bd536ecad37a4b
 NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET=d7a26e998c864e42933837cb3f5c96f6
