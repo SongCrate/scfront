@@ -44,7 +44,7 @@ export default function CreateListModal({ username, onCreate }) {
 
         const response_data = await response.json();
         if (response.ok) {
-          onCreate(response_data.body);
+          onCreate({ ...response_data.body, user: { username } });
           handleCancel();
           HSOverlay?.close("#" + modal_id);
         } else if (response_data?.status === 401) {

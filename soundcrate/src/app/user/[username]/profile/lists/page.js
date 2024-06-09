@@ -32,8 +32,9 @@ export default function ListsPage({ params }) {
 
   // auto updates
   const handleNewList = (newList) => {
-    setLists([newList, ...lists]);
+    setLists([ ...lists, { user: { username }, ...newList }]);
   };
+
 
   // deleting a list
   const handleDeleteList = async (list_id) => {
