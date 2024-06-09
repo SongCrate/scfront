@@ -2,7 +2,8 @@
 
 import { search_spotify } from '@/lib/spotify.js';
 import {
-  AlbumCard
+  AlbumCard,
+  FollowUserCard
 } from '@/components';
 import { useState, useEffect } from 'react';
 import { MagnifyingGlass } from '@phosphor-icons/react';
@@ -34,8 +35,29 @@ export default function SearchPage() {
 
     // perform spotify search using input query
     if (query && query != '') {
-      const response = await search_spotify(query);
-      setSearchResults(response);
+      const spotify_response = await search_spotify(query);
+      setSearchResults(spotify_response);
+
+      try {
+
+        const params = { q: query };
+        const query_string = new URLSearchParams(params).toString();
+
+        const res = await fetch(
+          `/api/user/searchByUsername?${query_string}`, 
+          { method: 'GET' }
+        );
+    
+        const responseData = await res.json();
+        if (responseData?.body) {
+          setSearchResults({...spotify_response, ...responseData.body});
+        } else {
+          throw responseData.error;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
       window.sessionStorage.setItem('search-results', searchResults);
     }
   }
@@ -102,26 +124,54 @@ export default function SearchPage() {
     return null;
   }
 
+  const render_user_cards = () => {
+    const users_array = (searchResults?.users)?.slice(0, 5)
+    if (users_array) {
+      return (users_array).map((user) => 
+        <FollowUserCard
+          key={`follow-user-card-${user._id}`}
+          href={`/user/${user.username}/profile`}
+          username={user.username}
+          user_id={user._id}
+          profile_img={user.imageUrl}
+          review_count={user.reviewCount} />
+      );
+    }
+    return null;
+  }
+
+
   return (
     <main className="flex flex-col gap-6 mb-12">
       <h1 className="sr-only">Search</h1>
       {render_searchbar()}
-      <CardGridSection title={"Songs"} body={render_song_cards()} styling={"grid-cols-6"} />
-      <CardGridSection title={"Albums"} body={render_album_cards()} styling={"grid-cols-5"}/>
+
+      <CardGridSection title={"Users"} styling="flex flex-col mt-1 gap-4">
+        {render_user_cards()}
+      </CardGridSection>
+
+      <CardGridSection title={"Songs"} styling={"gap-x-4 gap-y-6 grid grid-cols-6"}>
+        {render_song_cards()}
+      </CardGridSection>
+
+      <CardGridSection title={"Albums"} styling={"gap-x-4 gap-y-6 grid grid-cols-6"}>
+        {render_album_cards()}
+      </CardGridSection>
+
     </main>
   );
 }
 
-function CardGridSection({ title, body, styling }) {
-  if (!body) {
+function CardGridSection({ title, children, styling }) {
+  if (!children || children?.length == 0) {
     return null;
   }
 
   return (
     <section className="flex flex-col gap-3 mb-6">
       <h2>{title}</h2>
-      <div className={"gap-x-4 gap-y-6 grid " + styling}>
-        {body}
+      <div className={styling}>
+        {children}
       </div>
     </section>
   )
