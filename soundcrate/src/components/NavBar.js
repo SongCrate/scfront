@@ -24,6 +24,10 @@ export default function NavBar({ modalId }) {
     const [error, setError] = useState("");
     const modal_id = modalId ?? "delete-user-modal";
 
+    const handleLogout = () =>{
+        signOut({ callbackUrl: "/" });
+    }
+
     const handleDeleteSubmit = async (e) =>{
         e.preventDefault();
         try{
@@ -139,7 +143,7 @@ export default function NavBar({ modalId }) {
                 Settings
               </div>
               <hr className="border-dark-light my-1"></hr>
-              <Link href="/" className={menu_nav_link_styling} onClick={signOut}>
+              <Link href="/" className={menu_nav_link_styling} onClick={handleLogout}>
                 <SignOut size={18} weight="bold" />
                   Logout
               </Link>
