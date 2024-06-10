@@ -65,6 +65,11 @@ export const authOptions ={
             return session;
         },
     },
+    events: {
+        signOut: async ({ token }) => {
+            token.user = null;
+        },
+    },
 }
 
 export const handler = NextAuth(authOptions);

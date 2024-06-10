@@ -24,9 +24,13 @@ export default function NavBar({ modalId }) {
     const [error, setError] = useState("");
     const modal_id = modalId ?? "delete-user-modal";
 
-    const handleLogout = () =>{
-        signOut({ callbackUrl: "/" });
-    }
+    console.log(session);
+
+    const handleLogout = async () => {
+        await signOut({
+            callbackUrl: "/" // URL to navigate to after sign-out
+        });
+    };
 
     const handleDeleteSubmit = async (e) =>{
         e.preventDefault();

@@ -16,7 +16,6 @@ export async function deleteUser(req) {
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
-        console.log(isPasswordValid);
         if (!isPasswordValid) {
             return NextResponse.json({ error: "Incorrect password" }, { status: 404 });
         }
