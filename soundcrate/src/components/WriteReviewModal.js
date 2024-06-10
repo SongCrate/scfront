@@ -58,8 +58,8 @@ export default function WriteReviewModal({
         });
 
         const response_data = await response.json();
-        if (response_data?.status == 200) {
-          console.log(response_data.body)
+        if (response.ok) {
+          window.location.reload();
         } else if (response_data?.status == 401) {
           // display unauthorized modal
           HSOverlay?.close("#"+modal_id);
