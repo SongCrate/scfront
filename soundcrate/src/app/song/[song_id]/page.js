@@ -11,6 +11,7 @@ import {
 } from '@/components';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 
 export default function SongPage({ params }) {
   const { song_id } = params;
@@ -18,6 +19,9 @@ export default function SongPage({ params }) {
   const [ songData, setSongData ] = useState(null);
   const [ reviews, setReviews ] = useState([]);
   const [lists, setLists] = useState([]);
+
+  const { data: session } = useSession();
+  const username = session?.user?.username;
 
   // get song data from spotify api
   useEffect(() => {
@@ -80,7 +84,7 @@ export default function SongPage({ params }) {
       if (index >= 0) {
         return prevLists.map(list => list._id === updatedList._id ? updatedList : list);
       } else {
-        return [...prevLists, updatedList];
+        return [...prevLists, {...updatedList, user: { username } }];
       }
     });
   };

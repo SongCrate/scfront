@@ -1,7 +1,7 @@
 'use client';
 
 import { get_album } from '@/lib/spotify';
-import { SongCard, SongReviewCard } from '@/components';
+import { SongCard, SongReviewCard, EmptyContentMessage } from '@/components';
 import { useState, useEffect } from 'react';
 
 export default function AlbumPage({ params }) {
@@ -110,20 +110,23 @@ export default function AlbumPage({ params }) {
       <section className="flex flex-col gap-3">
         <h3>Top Reviews</h3>
         <div className="flex flex-col gap-2">
-          {reviews.map((review) =>
-            <SongReviewCard
-              key={`review-card-${review._id}`}
-              username={review.user.username}
-              review_id={review._id}
-              song_id={review.songId}
-              rating={review.rating}
-              review_text={review.text}
-              song_name={album_songs?.find((song) => song.song_id === review.songId)?.name}
-              song_artist={album_songs?.find((song) => song.song_id === review.songId)?.artist}
-              image={review.user.imageUrl}
-              detail_type={'album'}
-            />
-          )}
+          {!reviews || reviews.length === 0
+            ? <EmptyContentMessage message="No Reviews" />
+            : reviews.map((review) =>
+              <SongReviewCard
+                key={`review-card-${review._id}`}
+                username={review.user.username}
+                review_id={review._id}
+                song_id={review.songId}
+                rating={review.rating}
+                review_text={review.text}
+                song_name={album_songs?.find((song) => song.song_id === review.songId)?.name}
+                song_artist={album_songs?.find((song) => song.song_id === review.songId)?.artist}
+                image={review.user.imageUrl}
+                detail_type={'album'}
+              />
+            )
+          }
         </div>
       </section>
     )

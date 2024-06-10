@@ -58,7 +58,7 @@ export default function ListsPage({ params }) {
       return <EmptyContentMessage message="No Lists" />;
     }
     return (list_array && list_array.map((list) =>
-      <div key={list._id} className="flex items-center justify-between bg-dark-light p-4 rounded-md mb-4">
+      <div key={list._id} className="flex items-center justify-between bg-dark-light px-4 py-2 rounded-md">
         
         <div className="flex-grow">
           <ListCard 
@@ -86,7 +86,7 @@ export default function ListsPage({ params }) {
       {session?.status === "authenticated" && session?.user?.username === username && (
           <CreateListModal username={username} onCreate={handleNewList} />
         )}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         {list_cards(lists)}
       </div>
     </main>

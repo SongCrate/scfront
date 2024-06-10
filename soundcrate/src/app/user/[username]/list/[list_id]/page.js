@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { get_songs } from '@/lib/spotify';
 import { useState, useEffect } from 'react';
 import { SongCard, EmptyContentMessage, EditListModal } from '@/components';
-import {useRouter} from "next/navigation";
 import {useSession} from "next-auth/react";
 
 export default function ListPage({ params }) {
@@ -53,31 +52,13 @@ export default function ListPage({ params }) {
     setListData(updatedList);
   };
 
-  // const render_song_cards = () => {
-  //   if (!songIds.length) {
-  //     return <EmptyContentMessage message="No songs yet" />;
-  //   }
-  //   if (songData?.tracks) {
-  //     return songIds
-  //       .map((song_id, i) =>
-  //         <SongCard 
-  //           key={`song-card-${song_id}`}
-  //           song_id={song_id}
-  //           song_name={songData?.tracks[i]?.name}
-  //           song_artist={songData?.tracks[i]?.artists[0]?.name}
-  //           album_art={songData?.tracks[i]?.album?.images[1]?.url}
-  //           track_number={i + 1} />
-  //       )
-  //   }
-  // };
-
   const handleDeleteSong = async (song_id) => {
     try {
       const response = await fetch(`/api/lists/updateSongList`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'user_id': session.user._id // Include user_id in headers
+          'user_id': session.user._id
         },
         body: JSON.stringify({ listId: list_id, songId: song_id, action: 'remove' })
       });
@@ -93,32 +74,6 @@ export default function ListPage({ params }) {
     }
   };
 
-  // const render_song_cards = () => {
-  //   if (!songIds.length) {
-  //     return <EmptyContentMessage message="No songs yet" />;
-  //   }
-  //   if (songData?.tracks) {
-  //     return songIds.map((song_id, i) => (
-  //       <div key={`song-card-${song_id}`} className="flex items-center justify-between">
-  //         <SongCard
-  //           song_id={song_id}
-  //           song_name={songData?.tracks[i]?.name}
-  //           song_artist={songData?.tracks[i]?.artists[0]?.name}
-  //           album_art={songData?.tracks[i]?.album?.images[1]?.url}
-  //           track_number={i + 1}
-  //         />
-  //         {session?.status === 'authenticated' && session?.user?.username === username && (
-  //           <button
-  //             className="btn p-2 bg-dark-light text-white rounded-md hover:bg-red"
-  //             onClick={() => handleDeleteSong(song_id)}
-  //           >
-  //             Delete
-  //           </button>
-  //         )}
-  //       </div>
-  //     ));
-  //   }
-  // };
 
   const render_song_cards = () => {
   if (!songIds.length) {
@@ -126,7 +81,7 @@ export default function ListPage({ params }) {
   }
   if (songData?.tracks) {
     return songIds.map((song_id, i) => (
-      <div key={`song-card-${song_id}`} className="flex items-center justify-between bg-dark-light p-4 rounded-md mb-4">
+      <div key={`song-card-${song_id}`} className="flex items-center justify-between bg-dark-light rounded-md">
 
         <div className="flex-grow">
           <SongCard
@@ -140,7 +95,7 @@ export default function ListPage({ params }) {
 
         {session?.status === 'authenticated' && session?.user?.username === username && (
           <button
-            className="btn p-2 bg-dark-light text-white rounded-md hover:bg-red"
+            className="btn p-2 mr-4 bg-dark-light text-white rounded-md hover:bg-red"
             onClick={() => handleDeleteSong(song_id)}
           >
             Delete
@@ -175,7 +130,7 @@ export default function ListPage({ params }) {
         )}
       </section>
 
-      <section className="flex flex-col gap-2">
+      <section className="flex flex-col gap-3">
         {render_song_cards()}
       </section>
     </main>
