@@ -63,7 +63,7 @@ export default function NavBar({ modalId }) {
 
     const handleDeleteCancel = () =>{
         setDeletePassword('');
-        setDeleteError('');
+        // setDeleteError('');
     }
 
     const handleMyAccountNav = () => {
