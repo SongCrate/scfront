@@ -9,6 +9,7 @@ import {
   CreateListModal,
   ListCard,
   SongReviewCard,
+  EmptyContentMessage,
 } from "@/components";
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -100,8 +101,14 @@ export default function UserProfilePage({ params }) {
     fetchSongLists(username);
   }, [username]);
 
+  const handleNewList = (newList) => {
+    setLists([newList, ...lists]);
+  };
 
   const render_review_cards = (review_array) => {
+    if (!review_array || review_array.length === 0) {
+      return <EmptyContentMessage message="No Reviews" />;
+    }
     return (review_array && review_array.map((review) => {
       const song_obj = songData?.find((song) => song.id === review.songId);
       return (
@@ -123,6 +130,9 @@ export default function UserProfilePage({ params }) {
   }
 
   const render_album_cards = (album_array) => {
+    if (!album_array || album_array.length === 0) {
+      return <EmptyContentMessage message="No Albums" />;
+    }
     return (album_array && album_array.map((album) =>
       <AlbumCard 
         key={`album-card-${album.id}`} 
@@ -136,6 +146,9 @@ export default function UserProfilePage({ params }) {
   }
 
   const list_cards = (list_array) => {
+    if (!list_array || list_array.length === 0) {
+      return <EmptyContentMessage message="No Lists" />;
+    }
   return (list_array && list_array.map((list) =>
       <ListCard 
         key={list._id}
@@ -157,7 +170,7 @@ export default function UserProfilePage({ params }) {
         </section>
         <section>
           <Link href="profile/albums"><h3 className="mb-3">Albums</h3></Link>
-          <div className="gap-3 grid grid-cols-4">
+          <div className={albums?.length > 0 ? "gap-3 grid grid-cols-4" : "w-full"}>
             {render_album_cards(albums?.slice(0, 8))}
           </div>
         </section>
@@ -165,10 +178,17 @@ export default function UserProfilePage({ params }) {
       <section className="flex flex-col gap-2 grow shrink min-w-52 w-1/3">
         <div className="flex justify-between items-baseline">
           <Link href="profile/lists"><h3>Lists</h3></Link>
-          <CreateListModal username={username} />
+          <CreateListModal username={username} onCreate={handleNewList} />
         </div>
         <div className="border-t border-dark-light">
-          {list_cards(lists.slice(0, 5))}
+          {list_cards(lists.slice(0, 8))}
+          {lists.length > 8 && (
+            <Link href="profile/lists">
+              <button className="btn p-2 bg-dark-light text-white rounded-md hover:bg-blue">
+                View All Lists
+              </button>
+            </Link>
+          )}
         </div>
       </section>
     </div>
