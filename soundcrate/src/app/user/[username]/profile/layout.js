@@ -65,11 +65,6 @@ export default function UserProfileLayout({ children, params }) {
                   className="rounded-md object-cover w-[70px] h-[70px]"
                 />
         }
-        {/*<img*/}
-        {/*  src={user?.user?.imageUrl || "/images/default-user.png"}*/}
-        {/*  alt={username}*/}
-        {/*  className="rounded-md object-cover w-[70px] h-[70px]"*/}
-        {/*/>*/}
 
         <div className="flex flex-col gap-1">
 

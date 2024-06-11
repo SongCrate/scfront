@@ -14,7 +14,6 @@ export async function register(req){
         const existingUsername = await User.findOne({username});
 
         if (existingEmail) {
-            console.log(existingEmail)
             return NextResponse.json({ error: "Email already in use" }, { status: 400 });
         }
 

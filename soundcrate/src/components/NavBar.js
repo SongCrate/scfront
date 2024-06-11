@@ -114,7 +114,7 @@ export default function NavBar({ modalId }) {
           <Link href="/search">Search</Link>
         </button>
 
-        <div className="hs-dropdown relative inline-flex [--placement:bottom-right] z-[80]">
+        <div className="hs-dropdown relative inline-flex [--placement:bottom] z-[80]">
           <button id="hs-dropdown-with-header" type="button" className="hs-dropdown-toggle inline-flex items-center gap-x-2 text-sm font-medium">
               {session?.user?.imageUrl ?
                 <img className="inline-block size-8 rounded-full" src={session?.user?.imageUrl} /> :
